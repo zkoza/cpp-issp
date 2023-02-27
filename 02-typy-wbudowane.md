@@ -1,3 +1,5 @@
+# Typy wbudowane
+
 Pierwszy komputer, [ENIAC](https://en.wikipedia.org/wiki/ENIAC), zajmował 170 metrów kwadratowych, zawierał m.in. 18 000 lamp elektronowych, był programowany za pomocą ręcznie wpinanych wtyków kablowych i, jak głosi anegdota, pobierał tyle prądu, że gdy go włączano, to w Filadelfii przygasały światła. Dzisiejsze komputery budowane są w technice półprzewodnikowej, a ich sercem są procesory, które zamiast lamp posiadają miliardy tranzystorów sterujących stanem maleńkich kondensatorów. W tych kondensatorach zapisywane są programy i dane. Oczywiście nie programujemy ich poprzez wtyki kablowe i nie interesuje nas, który kondensator jest naładowany, a który rozładowany. Zamiast tego posługujemy się abstrakcyjnym modelem komputera, w którym stanowi kondensatora odpowiada liczba zero lub jeden. Na tym poziomie abstrakcji programy wyglądają tak:
 
 ```
@@ -97,3 +99,25 @@ Liczby zmiennopozycyjne obejmują 3 specjalne kombinacje bitów, które nie odpo
 NAN to np. wartość zwracana przez `sqrt(-1.0)`. Wartością każdej operacji na NAN jest NAN. 
 
 Właściwości typu `long double` zależą od platformy sprzętowej i kompilatora. W komputerach z procesorami klasy x86 kompilator gcc używa tu reprezentacji 80-bitowej, ale samą liczbę przechowuje na 128 bitach, natomiast MSVC używa reprezentacji 64-bitowej.  
+
+### Typy logiczne
+
+Istnieje tylko jeden typ logiczny: `bool` o wartości `true` lub `false`. Standard nie rozstrzyga, w jaki sposób zmienne tego typu są implementowane. Nie wiadomo, czy jest to jeden bit, jeden bajt czy nawet kilka bajtów. To świadomy wybór. Ponieważ zmienna musi być adresowalna, a najmniejszym adresowalnym fragmentem pamięci jest bajt, więc zmienna typu `bool` zajmuje co najmniej 1 bajt. Niemniej, tablice zmiennych typu `bool` mogą (i zwykle są) optymalizowane w ten sposób, by ich kolejnym elementom odpowiadał zaledwie 1 bit.
+
+### Typ void
+
+`void` jest bardzo specyficznym typem określanym jako typ niepełny. Nie wolno tworzyć zmiennych tego typu, nie istnieją też referencje do typu `void`.  Mogą istnieć funkcje zwracające `void`, co oznacza, że nie zwracają one żadnej wartości. Mogą istnieć wskaźniki do typu `void`; używa się ich do ominięcia systemu kontroli typów języka C++.        
+
+### Wskaźniki 
+
+O tym gdzie indziej.  
+
+------
+
+
+## Literatura
+
+- [Fundamental types](https://en.cppreference.com/w/cpp/language/types)
+- [Floating point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic)
+- [IEEE-754 Floating Point Converter](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
+- [IEEE 754 Calculator](http://weitz.de/ieee/) (dobry do badania zjawiska znoszenia się składników)
