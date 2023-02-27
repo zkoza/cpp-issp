@@ -12,7 +12,7 @@ Programy działają na danych. Dane zapisane są w półprzewodnikowej pamięci 
 ...001001010100010011110101001001010100101010001010... (miliony cyfr) ... 0100111110...
 ```
 
-Aby tak zaprojektowany system działał szybko i był możliwie łatwy w projektowaniu, bitów nie przetwarza się pojedynczo, lecz w grupach o stałej długości. Naturalną długością słowa we współczesnych komputerach i smartfonach jest 64 bity.  Jest to tzw. **[słowo](https://en.wikipedia.org/wiki/Word_(computer_architecture))**. Procesory potrafią też operować na grupach bitów zajmujących ułamek długości słowa, ale współcześnie raczej nie mniejszych niż 8-bitowych. 8 bitów to (współcześnie) **[bajt](https://en.wikipedia.org/wiki/Byte)**. Procesory 64-bitowe potrafią też działać na grupach 16-bitowych i 32-bitowych. 
+Aby tak zaprojektowany system działał szybko i był możliwie łatwy w projektowaniu, bitów nie przetwarza się pojedynczo, lecz w grupach o stałej długości. Naturalną długością słowa we współczesnych komputerach i smartfonach są 64 bity. Jest to tzw. **[słowo](https://en.wikipedia.org/wiki/Word_(computer_architecture))** (choć pojęcie to ma wiele znaczeń zwyczajowych, np. w procesorach x86 "słowo" oznaczało pierwotnie 16 bitów i tak już zostało). Procesory potrafią też operować na grupach bitów zajmujących ułamek długości słowa, ale współcześnie raczej nie mniejszych niż 8-bitowych. 8 bitów to (współcześnie) **[bajt](https://en.wikipedia.org/wiki/Byte)** używany głównie do zapisywania liter (tekstu).  Procesory 64-bitowe potrafią też działać na grupach 16-bitowych i 32-bitowych. 
 
 ### Reprezentacje liczb całkowitych 
 
@@ -82,13 +82,13 @@ Baza (*b*) nie jest nigdzie zapisywana. Znak (*z*) zapisany jest w najbardziej z
 
 Graficznie znak, wykładnik i mantysę dla liczb 64-bitowych (czyli double) można przedstawić następująco:
 
-![https://en.wikipedia.org/wiki/Double-precision_floating-point_format](./double.png)
+![https://en.wikipedia.org/wiki/Double-precision_floating-point_format](./img/double.png)
 
 
 
 Liczby w reprezentacji zmiennopozycyjnej obejmują bardzo szeroki zestaw liczb, np. liczby typu double obejmują zakres od ok. $10^{-324}$ do ok. $10^{308}$. Trzeba jednak pamiętać, że im dalej od zera, tym zagęszczenie liczb reprezentowanych dokładnie jest mniejsze: między 1 i 2 jest tyle samo liczb, co między 2 i 4, między 4 i 8 etc. Por. rysunek:
 
-​       ![https://en.wikipedia.org/wiki/Floating-point_arithmetic](FloatingPointPrecisionAugmented.png)
+​       ![https://en.wikipedia.org/wiki/Floating-point_arithmetic](./img/FloatingPointPrecisionAugmented.png)
 
 Liczby zmiennopozycyjne obejmują 3 specjalne kombinacje bitów, które nie odpowiadają żadnej liczbie. Są to:
 
@@ -98,7 +98,15 @@ Liczby zmiennopozycyjne obejmują 3 specjalne kombinacje bitów, które nie odpo
 
 NAN to np. wartość zwracana przez `sqrt(-1.0)`. Wartością każdej operacji na NAN jest NAN. 
 
-Właściwości typu `long double` zależą od platformy sprzętowej i kompilatora. W komputerach z procesorami klasy x86 kompilator gcc używa tu reprezentacji 80-bitowej, ale samą liczbę przechowuje na 128 bitach, natomiast MSVC używa reprezentacji 64-bitowej.  
+Właściwości zmiennych typu `long double` zależą od platformy sprzętowej i kompilatora. W komputerach z procesorami klasy x86 kompilator gcc używa tu reprezentacji 80-bitowej, ale samą liczbę przechowuje na 128 bitach, natomiast MSVC używa reprezentacji 64-bitowej.  
+
+Na koniec uwaga o tym, skąd nazwa "liczba zmiennopozycyjna". Na pewno każdy widział kalkulator dla księgowych, w którym wszystkie obliczenia zaokrąglane są do 2 miejsc po przecinku. Mamy więc wyświetlacz, powiedzmy, 10-cyfrowy, z czego 8 cyfr to część całkowita ("złotówki") i dwie to część dziesiętna ("grosze"). To jest reprezentacja stałoprzecinkowa. Z kolei reprezentacja zmiennopozycyjna to taka, w której pozycja przecinka dziesiętnego nie jest ustalona (jest "zmienna"). Kalkulator z dwiema cyframi po przecinku wykorzystuje ten sam wzór, co kalkulator z reprezentacją zmiennopozycyjną
+
+
+$$
+x = z \cdot m \cdot b^w,
+$$
+jednak wykładnik *w* ma w nim ustaloną wartość -2  (i oczywiście dla księgowych $b = 10$):    $x = z \cdot m \cdot 10^{-2}$. W pewnym więc sensie reprezentacja zmiennopozycyjna to w rzeczywistości reprezentacja "stałowykładnikowa", a reprezentacja zmiennopozycyjna to reprezentacja "zmiennowykładnikowa". Dlaczego dziś już nie używa się liczb stałopozycyjnych? Bo ich zakres jest bardzo ograniczony. Gdyby liczbę rzeczywistą zapisać na 32 bitach w formacie stałopozycyjnym z bitem znaku, 15 bitami na część całkowitą i 16 bitami na część ułamkową, to największa liczba w takim systemie miałaby wartość ok. 65000,  a najmniejsza dodatnia - ok. 0,00001.  
 
 ### Typy logiczne
 
@@ -106,18 +114,92 @@ Istnieje tylko jeden typ logiczny: `bool` o wartości `true` lub `false`. Standa
 
 ### Typ void
 
-`void` jest bardzo specyficznym typem określanym jako typ niepełny. Nie wolno tworzyć zmiennych tego typu, nie istnieją też referencje do typu `void`.  Mogą istnieć funkcje zwracające `void`, co oznacza, że nie zwracają one żadnej wartości. Mogą istnieć wskaźniki do typu `void`; używa się ich do ominięcia systemu kontroli typów języka C++.        
+Słowo kluczowe `void` definiuje  bardzo specyficzny typem będący tzw.  typem niepełnym. Nie wolno tworzyć zmiennych tego typu, nie istnieją też referencje do typu `void`.  Mogą istnieć funkcje zwracające `void`, co oznacza, że nie zwracają one żadnej wartości. Mogą istnieć wskaźniki do typu `void`; używa się ich do ominięcia systemu kontroli typów języka C++.        
 
 ### Wskaźniki 
 
-O tym gdzie indziej.  
+Szerzej o tym gdzie indziej. Tu nadmienię jedynie, że wskaźniki to też liczby. W latach 70. XX w. w języku C powszechną praktyką było zapisywanie wartości zmiennych wskaźnikowych w zmiennych całkowitych (`int`) i odwrotnie. Prowadziło to jednak do tak wielu bardzo trudnych w diagnostyce błędów, że zaniechano tej praktyki.     
 
-------
+### Literały
 
+Literały to wyrażenia, których wartości są znane wprost z tekstu programu i nie wymagają przechowywania w zmiennych. Problem z nimi jest następujący: jak zapisać literał tak, by jego reprezentacja maszynowa była jednoznaczna. Kwestię tę wyjaśnią przykłady:
+
+```C++
+auto i = 1;     // i jest typu int
+auto j = 5'000'000'000; // j jest typu int64_t, bo 5 miliardów nie mieści się na 32 bitach 
+auto u = 1u;            // u jest typu unsigned int
+auto v = 5'000'000'000; // v jest typu uint64_t, bo 5 miliardów nie mieści się na 32 bitowej zmiennej typu unsigned int
+auto c = 'c';   // c jest typu char
+auto m = 1L;    // m jest typu long int
+auto n = 1ULL;  // n jest typu unsigned long long
+auto d = 1.0;   // d jest typu double
+auto f = 1.0f;  // f jest typu float
+auto x = 1.0L; // x jest typu long double
+auto b = true;  // b jest typu bool 
+```
+
+  Dodatkowo liczby całkowite można zapisywać w systemie dziesiętnym, dwójkowym, ósemkowym i szesnastkowym:
+
+```C++
+int i = 10; // liczba w zapisie dziesiętnym
+int j = 012; // liczba 10 zapisana w systemie ósemkowym - zapis zaczyna się o 0, po którym następuje cyfra ósemkowa (0..7)
+int k = 0xa; // liczba 10 zapisana w systemie szesnastkowym - zapis zaczyna się od 0x, cyfry 0..9,a,..e
+int m = 0b1010; // liczba 10 zapisana w systemie dwójkowym - zapis zaczyna się od 0b, cyfry 0, 1
+```
+
+Z kolei liczby zmiennopozycyjne można zapisywać w notacji inżynierskiej:
+
+```c++
+double x = 1e-3;   // 10 do potęgi -3
+double y = 1.2e7;  // 1.2 razy 10 do potęgi 7
+float z = 1.3e-3f; // 1.3 razy 10 do potęgi -3 
+```
+
+### Operator sizeof
+
+ Jeżeli chcesz sprawdzić, ile bajtów w twoim systemie zajmuje zmienna (lub wartość wyrażenia) dowolnego typu, to możesz zastosować operator `sizeof`:
+
+```C++
+std::cout << sizeof(unsigned long long int) << " " << sizeof(void*) << " " << sizeof('a' + 1) << "\n";
+```
+
+### Silna statyczna kontrola typów 
+
+Język C++ jest językiem z [silną statyczną kontrolą danych](https://en.wikipedia.org/wiki/Strong_and_weak_typing). Kompilator musi wiedzieć, jaki typ reprezentuje każda zmienna lub obiekt programu, żeby  mógł  stwierdzić, jakie ma stosować operacje na nich. 
+
+Na przykład jeśli kompilator posiada informację, że zmienna `x` zajmuje 32 bajty, to zależnie od tego, czy zdefiniowano ją jako `float`, `int` czy `unsigned int`, tę samą instrukcję może zinterpretować inaczej. Na przykład jeśli bitowa reprezentacja `x` to `10111111110000000000000000000000`, to instrukcja
+
+```C++
+std::cout << x;
+```
+
+może wyświetlić wartość 
+
+- `-1077936128`, jeżeli `x` jest typu `int` 
+-  `-1.5`, jeżeli typem `x` jest `float` 
+-  `3217031168`, jeżeli  `x` zdefiniowano jako `unsigned`
+
+### Podsumowanie
+
+Po lekturze tego rozdziału powinno się kojarzyć: 
+
+- typ całkowitoliczbowe:
+  - `bool`;
+  - `char`, `short`, `int`, `long`, `long long`;
+  - `unsigned char`, `unsigned short`, `unsigned int`, `unsigned long`, `unsigned long long`; 
+  - `int8_t`, `int16_t`, `int32_t`, `int64_t`;
+  -  `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`, `uint128_t`;
+- typy zmiennopozycyjne:
+  - `float`, `double`, `long double`
+- zapis literałów (np. `1u`,  `0X00FF`, `3.14e-9`, `'a'`)
+- operator `sizeof`
 
 ## Literatura
 
+- [Binarne kodowanie liczb](https://eduinf.waw.pl/inf/alg/006_bin/0018.php) (brawa dla nauczyciela, który włożył tyle pracy w ten serwis)
+- [Standard IEEE 754](https://eduinf.waw.pl/inf/alg/006_bin/0022.php) (ten sam autor)
 - [Fundamental types](https://en.cppreference.com/w/cpp/language/types)
 - [Floating point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic)
+- [Double-precision floating-point format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
 - [IEEE-754 Floating Point Converter](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
 - [IEEE 754 Calculator](http://weitz.de/ieee/) (dobry do badania zjawiska znoszenia się składników)
