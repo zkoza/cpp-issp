@@ -4,3 +4,4 @@
 
 - [**Wstęp**](./00-wstęp.md)
 - [**Narzędzia**](./01-narzędzia.md)
+- [**Typy wbudowane**](./02-typy-wbudowane.md)
