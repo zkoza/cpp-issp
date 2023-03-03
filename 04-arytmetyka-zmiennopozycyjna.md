@@ -9,26 +9,38 @@ Jak już wiemy, z reguły liczby rzeczywiste są zapisywane w zmiennych zmiennop
 ![](./img/02/0.2.png)
 
 Liczba 0.2 jest zapisywana w zmiennych typu `float` jako swoje przybliżenie o wartości dziesiętnej $0.20000000298023223876953125$. Komputer zapisuje więc $0.2$ jako [liczbę wymierną](https://www.wolframalpha.com/input?i=0.20000000298023223876953125+as+rational+number++) $13421773 \over 67108864$, czyli 
+
+
 $$
 \mbox{float}(0.2) = 2^{-3}\cdot\frac{13421773}{2^{23}}
 $$
+
+
 gdzie wyciągnąłem przed ułamek wyrażenie wykładnicze $2^{-3}$, które na powyższym rysunku figuruje w sekcji "Exponent". Mantysa na tym rysunku, po zinterpretowaniu jako liczby całkowitej zapisanej w układzie dwójkowym, ma wartość 5 033 165, nie zapominajmy jednak, że pierwszy bit części ułamkowej jest zawsze ukryty. Odpowiada on wartości $2^{23} = 8 388 608$. Po dodaniu jej do 5033165 otrzymujemy, zgodnie z powyższym wzorem, 13421773. Oczywiście nieprzypadkowo wykładnik w mianowniku równy jest liczbie bitów mantysy (tu: 23).
 
 #### Epsilon maszynowy
 
 Z powyższego wynika, że każdej liczbie zmiennopozycyjnej odpowiada cały przedział liczb rzeczywistych, które ta liczba reprezentuje. Szerokość tego przedziału wzrasta dla dużych liczb i maleje dla małych. Jego względna szerokość jest jednak mniej więcej stała - oznaczamy ją grecką literą *ε*. Ma ona duże znaczenie, gdyż błąd zaokrąglenia nie przekracza *ε/2*:  
+
+
 $$
-   x - (\epsilon/2) x \le \textrm{floating-point-representation}(x) \le x + (\epsilon/2) x
+x - (\epsilon/2) x \le \textrm{floating-point-representation}(x) \le x + (\epsilon/2) x
 $$
+
+
 
 Wartość epsilona maszynowego równa jest $2^{-B}$, gdzie B to liczba cyfr dwójkowych mantysy. Łatwo się o tym przekonać, rozważając reprezentację bitową liczby `1.0f`. 
 $$
    \mbox{float}(1) = 2^{0}\cdot\frac{8~388~608}{8~388~608} = 2^{0}\cdot\frac{2^{23}}{2^{23}}
 $$
 Kolejna liczba, jaką można reprezentować w typie `float`, to
+
+
 $$
 \mbox{float}(1 + \epsilon) = 2^{0}\cdot\frac{8~388~609}{8~388~608} = 2^{0}\cdot\frac{2^{23} + 1}{2^{23}}
 $$
+
+
 skąd ε = $1/2^{23} \approx 10^{-7}$. 
 
 | typ                           | ε         |
@@ -42,9 +54,13 @@ Wynika stąd, że liczby typu `float` mają ok. 7 cyfr znaczących, typ `double`
 #### Katastrofalne znoszenie się składników
 
 Powiedzmy, że chcemy obliczyć z zasad pierwszych pochodną funkcji $f(x) = x$ w punkcie $x = 0.39$. Wiemy, że wartość dokładna tej pochodnej to 1. Korzystamy ze wzoru 
+
+
 $$
-   f'(x) = \lim_{h\to 0} \frac{f(x + h) - f(x)}{h}.
+f'(x) = \lim_{h\to 0} \frac{f(x + h) - f(x)}{h}.
 $$
+
+
 Spróbujmy wyznaczyć wartość ilorazu po prawej stronie tej zależności dla jakiegoś "małego" *h*. Np. dla h = 0.000002. Problem w tym, że 
 
 - wartość 0.39 zostanie zaokrąglona do `0.38999998569488525390625` ,
