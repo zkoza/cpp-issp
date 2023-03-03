@@ -10,11 +10,9 @@ Jak już wiemy, z reguły liczby rzeczywiste są zapisywane w zmiennych zmiennop
 
 Liczba 0.2 jest zapisywana w zmiennych typu `float` jako swoje przybliżenie o wartości dziesiętnej $0.20000000298023223876953125$. Komputer zapisuje więc $0.2$ jako [liczbę wymierną](https://www.wolframalpha.com/input?i=0.20000000298023223876953125+as+rational+number++) $13421773 \over 67108864$, czyli 
 
-
 $$
 \mbox{float}(0.2) = 2^{-3}\cdot\frac{13421773}{2^{23}}
 $$
-
 
 gdzie wyciągnąłem przed ułamek wyrażenie wykładnicze $2^{-3}$, które na powyższym rysunku figuruje w sekcji "Exponent". Mantysa na tym rysunku, po zinterpretowaniu jako liczby całkowitej zapisanej w układzie dwójkowym, ma wartość 5 033 165, nie zapominajmy jednak, że pierwszy bit części ułamkowej jest zawsze ukryty. Odpowiada on wartości $2^{23} = 8 388 608$. Po dodaniu jej do 5033165 otrzymujemy, zgodnie z powyższym wzorem, 13421773. Oczywiście nieprzypadkowo wykładnik w mianowniku równy jest liczbie bitów mantysy (tu: 23).
 
@@ -22,24 +20,21 @@ gdzie wyciągnąłem przed ułamek wyrażenie wykładnicze $2^{-3}$, które na p
 
 Z powyższego wynika, że każdej liczbie zmiennopozycyjnej odpowiada cały przedział liczb rzeczywistych, które ta liczba reprezentuje. Szerokość tego przedziału wzrasta dla dużych liczb i maleje dla małych. Jego względna szerokość jest jednak mniej więcej stała - oznaczamy ją grecką literą *ε*. Ma ona duże znaczenie, gdyż błąd zaokrąglenia nie przekracza *ε/2*:  
 
-
 $$
 x - (\epsilon/2) x \le \textrm{floating-point-representation}(x) \le x + (\epsilon/2) x
 $$
 
-
-
 Wartość epsilona maszynowego równa jest $2^{-B}$, gdzie B to liczba cyfr dwójkowych mantysy. Łatwo się o tym przekonać, rozważając reprezentację bitową liczby `1.0f`. 
+
 $$
    \mbox{float}(1) = 2^{0}\cdot\frac{8~388~608}{8~388~608} = 2^{0}\cdot\frac{2^{23}}{2^{23}}
 $$
-Kolejna liczba, jaką można reprezentować w typie `float`, to
 
+Kolejna liczba, jaką można reprezentować w typie `float`, to
 
 $$
 \mbox{float}(1 + \epsilon) = 2^{0}\cdot\frac{8~388~609}{8~388~608} = 2^{0}\cdot\frac{2^{23} + 1}{2^{23}}
 $$
-
 
 skąd ε = $1/2^{23} \approx 10^{-7}$. 
 
@@ -55,11 +50,9 @@ Wynika stąd, że liczby typu `float` mają ok. 7 cyfr znaczących, typ `double`
 
 Powiedzmy, że chcemy obliczyć z zasad pierwszych pochodną funkcji $f(x) = x$ w punkcie $x = 0.39$. Wiemy, że wartość dokładna tej pochodnej to 1. Korzystamy ze wzoru 
 
-
 $$
 f'(x) = \lim_{h\to 0} \frac{f(x + h) - f(x)}{h}.
 $$
-
 
 Spróbujmy wyznaczyć wartość ilorazu po prawej stronie tej zależności dla jakiegoś "małego" *h*. Np. dla h = 0.000002. Problem w tym, że 
 
@@ -89,9 +82,9 @@ int main()
 }
 ```
 
-    Program ten wyświetla następujące wyniki:
+Program ten wyświetla następujące wyniki:
 
-   ```txt\
+```txt\
 h = 0.02	 => f'(x) = 1.000001
 h = 0.002	 => f'(x) = 1.000002
 h = 0.0002	 => f'(x) = 1.000017
@@ -101,11 +94,11 @@ h = 2e-07	 => f'(x) = 1.043081
 h = 2e-08	 => f'(x) = 1.490116
 h = 2e-09	 => f'(x) = 0
 h = 2e-10	 => f'(x) = 0
-   ```
+```
 
 Jak widzimy, zmniejszanie wartości `h` tylko zwiększa błąd, z jakim wyznaczamy wartość pochodnej (to nie jest regułą!) i błąd ten nigdy nie jest mniejszy niż ok. 7 cyfr znaczących. Co by się stało, gdybyśmy tak dobrali wartości `h`, by zminimalizować (lub wręcz wyeliminować) zaokrąglenia? 
 
-   ```c++
+```c++
 int main()
 {
     const float x = 0.39f;
@@ -120,11 +113,11 @@ int main()
         std::cout << "h = " << h << "\t => f'(x) = " << (fxh - fx) / h << "\n";
     }
 }
-   ```
+```
 
 Wynik:
 
-   ```txt
+```txt
 h = 0.03125	 => f'(x) = 1
 h = 0.00390625	 => f'(x) = 1
 h = 0.0004882812	 => f'(x) = 1
@@ -134,7 +127,7 @@ h = 9.536743e-07	 => f'(x) = 1
 h = 1.192093e-07	 => f'(x) = 1
 h = 1.490116e-08	 => f'(x) = 0
 h = 1.862645e-09	 => f'(x) = 0
-   ```
+```
 
 Katastrofalne znoszenie się składników można zilustrować też kolejnym przykładem. Załóżmy, że mamy kalkulator, który pracuje w układzie dziesiętnym i wyświetla jedną cyfrę przed i 4 po przecinku oraz 2 cyfry wykładnika dziesiętnego. Powiedzmy, że chcemy od 1/3 odjąć 0.33332. 1/3 w takim kalkulatorze zostanie zaokrąglona do 3.3333E-01, a druga liczba zostanie zapisana dokładnie jako 3.3332E-01. Kalkulator wyświetli ich różnicę w postaci 1.0000E-05, tymczasem wartość dokładna zaokrąglona do możliwości tego kalkulatora to 1.3333E-05. Zamiast pięciu cyfr znaczących mamy tylko jedną. Cztery pierwsze uległy "katastrofalnemu zniesieniu się", na ich miejsce kalkulator wprowadził po prostu zera. Jeżeli takie zniesienie składników wystąpi w programie wielokrotnie, to otrzymane wyniki mogą nie mieć nic wspólnego z rzeczywistością. 
 
