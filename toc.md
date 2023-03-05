@@ -12,4 +12,6 @@
 
 - [Arytmetyka liczb zmiennopozycyjnych](./04-arytmetyka-zmiennopozycyjna.md)
 
+- [Tablice](05-tablice.md)
+
   
