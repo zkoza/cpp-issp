@@ -26,7 +26,7 @@ int g(int num)
 }
 ```
 
-Mamy tu dwie funkcje, przy czym w pierwszej posłużono się referencją, a w drugiej - wskaźnikiem. Obie jednak robią dokładnie to samo. Jak obie funkcje skompiluje kompilator? Na przykład tak (kod assemblera zaczerpnięty z [Compiler Explorer](https://godbolt.org/) dla kompilatora gcc 12.2:
+Mamy tu dwie funkcje, przy czym w pierwszej posłużono się referencją, a w drugiej - wskaźnikiem. Obie jednak robią dokładnie to samo. Jak obie funkcje skompiluje kompilator? Na przykład tak (kod assemblera zaczerpnięty z [Compiler Explorer](https://godbolt.org/) dla kompilatora gcc 12.2):
 
 ```assembly
 (int):
@@ -84,7 +84,7 @@ m = 1;                  // Błąd: m jest stałą referencją do k
 
 Mimo że dla kompilatora referencja to "ukryty wskaźnik", dla programisty jest to inna nazwa istniejącego obiektu. 
 
-```
+```c++
 char c = 'a';
 char & n = c;
 std::cout << sizeof(n) << "\n";  // wyświetli 1, czyli sizeof(k), czyli rozmiar c a nie rozmiar n
