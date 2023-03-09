@@ -29,7 +29,7 @@ int g(int num)
 Mamy tu dwie funkcje, przy czym w pierwszej posłużono się referencją, a w drugiej - wskaźnikiem. Obie jednak robią dokładnie to samo. Jak obie funkcje skompiluje kompilator? Na przykład tak (kod assemblera zaczerpnięty z [Compiler Explorer](https://godbolt.org/) dla kompilatora gcc 12.2):
 
 ```assembly
-(int):
+f(int):
         push    rbp
         mov     rbp, rsp
         mov     DWORD PTR [rbp-20], edi
