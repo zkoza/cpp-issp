@@ -2,6 +2,8 @@
 
 ## Spis treści
 
+### Preliminaria
+
 - [Wstęp](./00-wstep.md)
 - [Narzędzia](./01-narzędzia.md)
 
@@ -15,6 +17,9 @@
 - [Arytmetyka liczb zmiennopozycyjnych](./04-arytmetyka-zmiennopozycyjna.md)
 
 - [Tablice](05-tablice.md)
+- [Wskaźniki](./06-wskazniki.md)
+  - [`qsort` w akcji](06a-qsort.md)
+
 - Struktury
 - [Referencje](./08-referencje.md)
 - Funkcje
