@@ -20,7 +20,7 @@
 - [Wskaźniki](./06-wskazniki.md)
   - [`qsort` w akcji](06a-qsort.md)
 
-- Struktury
+- [Struktury](./07-struktury.md)
 - [Referencje](./08-referencje.md)
 - Funkcje
 
