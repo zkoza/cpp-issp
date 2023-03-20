@@ -16,3 +16,9 @@ int suma(int n, int m);
 ```
 
 Przed użyciem dowolnej funkcji, kompilator musi znać jej deklarację. 
+
+Czasami w deklaracjach funkcji usuwa się nazwy ich parametrów. Dlatego powyższą funkcje można też zadeklarować jako
+
+```c++
+int suma(int, int);
+```
