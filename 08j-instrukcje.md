@@ -18,7 +18,7 @@ int main()
 
 Standard języka C++ wyróżnia następujące typy instrukcji
 
-- *declaration statements*  (instrukcje deklaratywne)
+- **Instrukcje deklaratywne** *(declaration statements*)
 
   Obejmują deklaracje i definicje zmiennych, typów, funkcji, szablonów, przestrzeni nazw. Temat-rzeka, gdyż C++ jest językiem z silną statyczną kontrolą typów. Kilka przykładów:
 
@@ -32,9 +32,9 @@ Standard języka C++ wyróżnia następujące typy instrukcji
   using Real = double;           // Real jest aliasem typu double
   ```
 
-- *expression statements* (instrukcje - wyrażenia)
+- **Instrukcje-wyrażenia** (*expression statements*)
 
-  Jest to dowolne wyrażenie arytmetyczne zakończone średnikiem.  Przykłady:
+  Są to dowolne wyrażenia arytmetyczne zakończone średnikiem.  Przykłady:
   ```c++
   a = 9;          // operator przypisania
   x = sin(8.0);   // operator przypisania 
@@ -45,7 +45,7 @@ Standard języka C++ wyróżnia następujące typy instrukcji
   print(7);       // wywołanie funkcji
   ```
 
-- *compound statements* (instrukcje blokowe)
+- **Instrukcje blokowe** (*compound statements*)
 
   Instrukcja blokowa to po prostu ujęty w klamry blok obejmujący co najmniej jedną instrukcję
 
@@ -57,7 +57,7 @@ Standard języka C++ wyróżnia następujące typy instrukcji
   }                   // koniec instrukcji blokowej
   ```
 
-- *selection statements* (instrukcje wyboru)
+- **Instrukcje wyboru** (*selection statements*)
 
   Są to przede wszystkim instrukcje `if` i `switch`.  
 
@@ -78,6 +78,17 @@ Standard języka C++ wyróżnia następujące typy instrukcji
     else
         std::cout << "Ujemna lub zero\n";
     ```
+    ​	Wersja z zagnieżdoną instrukcją `if-else`:
+    
+    ```c++
+    if (m > 0)
+        std::cout << "Dodatnia\n";
+    else if (m < 0)
+        std::cout << "Ujemna\n";
+    else
+        std::cout << "Zero\n"; 
+    ```
+    
     - Wersja z inicjalizatorem:
     
     ```c++
@@ -89,11 +100,9 @@ Standard języka C++ wyróżnia następujące typy instrukcji
     std::cout << s << "\n"; // wyświetli "To jest Wrocław" 
     ```
     
-    Wersja z inicjalizatorem służy do wprowadzenia zmiennej (tu: `n`), której można użyć w warunku i w treści instrukcji sterowanych tą instrukcją `if`, ale która nie będzie widoczna poza instrukcją `if`.    
+    Wersja z inicjalizatorem służy do wprowadzenia zmiennej (tu: `n`), której można użyć w warunku i w treści instrukcji sterowanych daną instrukcją `if`, ale która nie będzie widoczna poza instrukcją `if`. Innymi słowy, w powyższym przykładzie zmiennej `n` można użyć w warunku wykonania instrukcji, `n != std::string::npos` oraz w instrukcji blokowej występującej tuż po tym warunku (w klamrach) i nigdzie indziej.
     
-  - Instrukcja `switch`
-
-    Przykład:
+  - Instrukcja `switch` używana jest, gdy chcemy wykonać różne operacje zależnie od wartości pewnej zmiennej całkowitoliczbowej. Przykład:
 
     ```c++
     #include <iostream>
@@ -102,7 +111,7 @@ Standard języka C++ wyróżnia następujące typy instrukcji
     {
         int i;
         std::cin >> i;
-        switch (i)
+        switch (i)  // zmienna sterująca musi być typu całkowitoliczbowego, np. int
         {
             case 1:
                 std::cout << "1";
@@ -134,12 +143,70 @@ Standard języka C++ wyróżnia następujące typy instrukcji
 
     i dopiero teraz wyszedł z instrukcji `switch`. Powtórzę: pominięcie instrukcji `break` w każdym (z wyjątkiem ostatniego) bloku obsługującym konkretny "case" niemal zawsze jest błędem.  
 
+    Można to zilustrować następująco. Instrukcja
+
+    ```c++
+    switch(i)
+        case 0: 
+            x++;
+    		break;
+    	case 1:
+            y++;
+            break;
+    	case 2:
+    		x += y;
+            break;
+        default:
+    		y = 0;
+    }
+    ```
+
+     jest równoważna instrukcji 
+
+    ```c++
+    if (i == 0)
+        x++;
+    else if (i == 1)
+        y++;
+    else if (i == 2)
+        x += y;
+    else
+        y = 0;
+    ```
+
+    Natomiast jeżeli usuniemy z niej instrukcje `break`,
+
+    ```c++
+    switch(i)
+        case 0: 
+            x++;
+    	case 1:
+            y++;
+    	case 2:
+    		x += y;
+        default:
+    		y = 0;
+    }
+    ```
+
+    to równoważny zestaw instrukcji może wyglądać następująco:
+
+    ```c++
+    if (i == 0)
+        x++;
+    if (i == 0 || i == 1)
+        y++;
+    if (i == 0 || i == 1 || i == 2)
+        x += y;
+    y = 0;  
+    ```
+
   - Instrukcje `if constexpr`, `if consteval`  - temat zaawansowany (tu pomijam) 
 
-- iteration statements
+- **Instrukcje iteracyjne** (*iteration statements*)
 
-- labeled statements
+- **Instrukcje etykietowane** (*labeled statements*)
 
-- jump statements
+- **Instrukcje skoku** (*jump statements*)
 
-- try blocks
+- **Bloki `try`** (*try blocks*)
