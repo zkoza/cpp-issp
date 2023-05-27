@@ -45,3 +45,34 @@
 
 ### Klasy i obiekty
 
+- Struktury
+- Klasy
+  - konstruktory, destruktor
+  - hermetyzacja danych
+  - składowe statyczne
+  - składowe typy danych
+- Dziedziczenie
+- [Funkcje wirtualne](./14-funkcje.wirtualne.md)
+  - [Statyczne i dynamiczne łączenie funkcji](14a-łączenie-funkcji.md)
+  - [Typowa implementacja wirtualnego wywołania funkcji w C++](14b-wywołanie-wirtualne.md)
+  - [Przykłady](14c-przykłady-wirtualne.md) 
+
+
+### Preprocesor
+
+- Podstawowe dyrektywy preprocesora
+- Makra
+- Kompilacja warunkowa
+- Preprocesor a inne elementy języka
+
+### Szablony
+
+- Szablony funkcji
+- Szablony klas
+
+### Obsługa błędów
+
+- Wyjątki
+- Asercje
+- Debuger
+

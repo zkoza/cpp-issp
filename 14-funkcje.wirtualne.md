@@ -1,0 +1,2 @@
+### Funkcje wirtualne
+
