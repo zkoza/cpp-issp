@@ -56,7 +56,7 @@ W powyższych poleceniach opcja `-g` umieszcza w plikach wynikowych informacje o
   inc.cpp  inc.h  inc.o  main.cpp  main.o
   ```
 
-Poleceniem `objdump` z opcjami `-dSC` możemy wyświetlić kod maszynowy oraz kod w asemblerze. Najpierw plik `inc.o`:
+Poleceniem `objdump` z opcjami `-dSC` możemy wyświetlić kod maszynowy oraz kod w asemblerze. Najpierw plik `inc.o` (nie ma potrzeby uważnie go śledzić, wystarcza komentarze poniżej):
 
 ```assembly
 > objdump inc.o -dSC
@@ -273,3 +273,34 @@ echo $?
 ```
 
 Wykorzystałem tu zmienną środowiskową `LD_LIBRARY_PATH`, w której można zapisać dodatkowe, niestandardowe katalogi z bibliotekami dynamicznymi, a poprawność wykonania programu sprawdziłem komendą `echo $?` zwracającą kod zakończenia poprzedniej komendy.  
+
+Jak teraz wygląda wywołanie funkcji `inc(int&)`?
+
+```bash
+> objdump  a.out -dSC
+...
+    1188:	e8 b3 fe ff ff       	call   1040 <inc(int&)@plt>
+...
+```
+
+Ha! Wygląda na to, że kompilator wstawił adres funkcji `inc(int&)`, czyli że łączenie wciąż jest statyczne. A jednak nie. Literki `plt` w nazwie  ` inc(int&)@plt` pochodzą od angielskiego *procedure linkage table*. Kompilator wstawił w miejscu wywołania funkcji `inc(int&)` adres funkcji ` inc(int&)@plt`, której zadaniem jest 
+
+- przy pierwszym wywołaniu:
+  - odnalezienie pliku z biblioteką dynamiczną `inc.so`
+  - załadowanie kodu funkcji `inc(int&)` do pamięci operacyjnej
+  - wywołanie tej funkcji
+- przy każdym następnym wywołaniu:
+  - wywołanie funkcji `inc(int&)`.
+
+Łączenie (*binding*) funkcji pobieranych z bubliotek dynamicznych występuje więc podczas uruchamiania programu. Nosi ono nazwę ***łączenia dynamicznego***, czyli wykonywanego już po kompilacji programu. 
+
+Powyższy mechanizm ma kilka zalet. Na aktualizacja systemu operacyjnego nie wymaga rekompilacji zainstalowanych w naszych komputerach programów, wystarczy niezauważalna dla użytkownika podmiana bibliotek dynamicznych. 
+
+Łączenie dynamiczne dzieli się, z grubsza, na dwa rodzaje:
+
+- wykonywane podczas ładowania programu do pamięci (ang. *load time*)
+- wykonywane podczas działania programu (ang. *runtime*). 
+
+Opisany powyżej mechanizm łączenia bibliotek dynamicznych to przykład łączenia wykonywanego podczas ładowania programu. Przykładem łączenia podczas wykonywania się programu jest mechanizm wywoływania funkcji wirtualnych.  
+
+Cały powyższy opis łączenia statycznego i dynamicznego służy wyłącznie lepszemu zrozumieniu funkcji wirtualnych w C++, o czym traktuje kolejny rozdział. 
