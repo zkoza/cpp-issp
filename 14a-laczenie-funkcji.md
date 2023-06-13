@@ -1,17 +1,17 @@
 ## Statyczne i dynamiczne łączenie funkcji
 
-Droga od kodu źródłowego w praktycznie dowolnym kompilowanym języku języku programowania jest skomplikowana. Chcielibyśmy, by programy były poprawne, by efektywnie wykorzystywały dostępne  zasoby komputera i by ich wykonywanie było bezpieczne - uwzględniając zarówno błędy nieświadome, jaki i próby zhakowania systemu. Na szczęście tak jak kierowca nie musi znać budowy silnika, by móc jeździć samochodem, tak programista nie musi znać wszystkich szczegółów, jakie dzielą kod źródłowy od gotowego programu załadowanego do pamięci operacyjnego i uruchomionego. Niemniej, kilka takich szczegółów technicznych warto znać. Jednym z nich jest łączenie (ang. *binding*).
+Droga od kodu źródłowego do kodu wykonywalnego jest skomplikowana. Chcielibyśmy, by programy były poprawne, by efektywnie wykorzystywały dostępne  zasoby komputera i by ich wykonywanie było bezpieczne - uwzględniając zarówno błędy nieświadome, jaki i próby zhakowania systemu. Na szczęście tak jak kierowca nie musi znać budowy silnika, by móc jeździć samochodem, tak programista nie musi znać wszystkich szczegółów, jakie dzielą kod źródłowy od gotowego programu załadowanego do pamięci operacyjnego. Niemniej, kilka takich szczegółów technicznych warto znać. Jednym z nich jest łączenie (ang. *binding*).
 
 Jak zapewne wiemy, język C++ jest przystosowany do tworzenia bibliotek, co przejawia się tym, że można w nim kompilować różne pliki źródłowe zupełnie niezależnie od siebie.   Rozpatrzmy trywialny przykład programiku składającego się z dwóch plików źródłowych (`inc.cpp` i `main.cpp`) oraz jednego pliku nagłówkowego (`inc.h`):
 
 ```c++
-// plik inc.h
+// plik inc.h    (= interfejs "biblioteki" zapisanej w "inc.cpp")
 #ifndef INC_H
 #define INC_H
 
 void inc(int & n); 
 
-#endif
+#endif   // INC_H
 ```
 
  ```C++
@@ -26,9 +26,9 @@ void inc(int & n);
 
 ```C++
 // plik main.cpp
-#include "inc.h"
+#include "inc.h"   // by móc używać funkcji inc(int &) 
 
-void dec(int & n)
+void dec(int & n)  // podobna funkcja zdefiniowana w bieżącej jednostce kompilacji
 {
    n--;
 }
@@ -42,21 +42,21 @@ int main()
 }
 ```
 
- W przykładzie tym funkcja `main` korzysta z dwóch prostych funkcji, `inc` i `dec`, z których pierwsza zapisana jest w osobnym pliku, a druga - w tym samym, co `main`. Każdy z plików źródłowych możemy skompilować niezależnie od siebie:
+W przykładzie tym funkcja `main` korzysta z dwóch prostych funkcji, `inc` i `dec`, z których pierwsza zapisana jest w osobnym pliku, a druga - w tym samym, co `main`. Czy kompilator traktuje je inaczej tylko z tego powodu, że zapisano je w innych plikach? Każdy z plików źródłowych możemy przecież skompilować niezależnie od siebie:
 
 ```bash
 > g++ main.cpp -g -c
 > g++ inc.cpp -g -c
 ```
 
-W powyższych poleceniach opcja `-g` umieszcza w plikach wynikowych informacje o kodzie źródłowym, a opcja  `-c` powoduje zatrzymanie kompilatora po pierwszej fazie kompilacji. Opcję tę stosuje się zawsze, gdy stosuje się taką rozłączną kompilację osobnych plików źródłowych. W efekcie powyższych poleceń otrzymujemy dwa pliki (tzw. pliki obiektowe) o rozszerzeniu `*.o`: 
+W powyższych poleceniach opcja `-g` umieszcza w plikach wynikowych informacje o kodzie źródłowym, a opcja  `-c` powoduje zatrzymanie kompilatora po pierwszej fazie kompilacji. Opcję tego rodzaju stosuje się zawsze, gdy stosuje się taką rozłączną kompilację osobnych plików źródłowych. W efekcie powyższych poleceń otrzymujemy dwa pliki binarne (tzw. pliki obiektowe) o rozszerzeniu `*.o`: 
 
   ```bash
   > ls 
   inc.cpp  inc.h  inc.o  main.cpp  main.o
   ```
 
-Poleceniem `objdump` z opcjami `-dSC` możemy wyświetlić kod maszynowy oraz kod w asemblerze. Najpierw plik `inc.o` (nie ma potrzeby uważnie go śledzić, wystarcza komentarze poniżej):
+Poleceniem `objdump` z opcjami `-dSC` możemy wydobyć z nich efekt kompilacji: kod maszynowy oraz odpowiadający mu, bardziej dla ludzi czytelny kod w asemblerze. Najpierw zawartość pliku `inc.o` (nie ma potrzeby uważnie go śledzić, wystarczy lektura komentarzy poniżej):
 
 ```assembly
 > objdump inc.o -dSC
@@ -76,7 +76,7 @@ Disassembly of section .text:
   19:	c3                   	ret
 ```
 
-a teraz plik `main.o`:
+A teraz plik `main.o`:
 
 ```assembly
 > objdump main.o -dSC
@@ -134,7 +134,7 @@ int main()
   68:	c3                   	ret
 ```
 
-Nie musimy znać assemblera, by zrozumieć kilka najważniejszych kwestii związanych z omawianym tu łączeniem.  Po pierwsze, pierwsza kolumna zawiera liczby zakończone dwukropkiem. Są to adresy kodu wykonywalnego. Co ciekawe, adresy te w obu przypadkach zaczynają się od wartości `0`, tak jak by funkcje `inc` i `dec` miały trafić  do tego samego obszaru pamięci operacyjnej. Tak jednak oczywiście nie jest. Te adresy są adresami względnymi, każdy z plików **.o* zawiera kod o adresach względnych względem pewnych   adresów, które zostaną ustalone *później*. Po drugie, wywołania funkcji  tłumaczone są na identyczny kod maszynowy
+Nie musimy znać assemblera, by zrozumieć kilka najważniejszych kwestii związanych z omawianym tu łączeniem.  Po pierwsze, pierwsza kolumna zawiera liczby zakończone dwukropkiem. Są to adresy kodu wykonywalnego. Co ciekawe, adresy te w obu przypadkach zaczynają się od wartości `0`, tak jak by funkcje `inc` i `dec` miały trafić  do tego samego obszaru pamięci operacyjnej. Tak jednak oczywiście nie jest. Te adresy są adresami względnymi, każdy z plików **.o* zawiera kod o adresach względnych względem pewnych adresów (początków segmentów), które zostaną ustalone *później*. Po drugie, wywołania funkcji  tłumaczone są na identyczny kod maszynowy
 
 ```assembly
 e8 00 00 00 00
@@ -142,7 +142,7 @@ e8 00 00 00 00
 
 któremu odpowiada instrukcja assemblera `call`. Problem w tym, że te 4 bajty zerowe, `00 00 00 00` występujące po rozkazie `e8` powinny zawierać adres funkcji, która ma być wywołana. Tego adresu jednak na tym etapie nie ma, gdyż nie wiadomo jeszcze, do jakich konkretnych fragmentów pamięci operacyjnej trafią poszczególne fragmenty naszego programu. 
 
-Połączmy teraz oba pliko obiektowe:
+Pliki obiektowe (`*.o`) co prawda zawierają zaledwie fragmenty kodu programu i samodzielnie nie mogą być wykonywane. Aby uzyskać program wykonywalny, należy je ze sobą połączyć:
 
 ```bash
 > g++ main.o inc.o
@@ -224,7 +224,7 @@ int main()
     11bb:	c3                   	ret
 ```
 
-Pierwsza kolumna, adres, mają już jednoznaczne wartości, noc się nie pokrywa. Co więcej, wszystkie funkcje asemblerowe `call` otrzymały poprawne wartości parametrów.  Np. instrukcja `dec(k);  została przetłumaczona jako 
+Pierwsza kolumna, adres, mają już jednoznaczne wartości, nic się w nic już nie pokrywa. Co więcej, wszystkie funkcje asemblerowe `call` otrzymały poprawne wartości parametrów.  Np. instrukcja `dec(k);`  została przetłumaczona w następujący sposób: 
 
 ```assembly
     117d:	48 8d 45 f4          	lea    -0xc(%rbp),%rax
@@ -232,11 +232,11 @@ Pierwsza kolumna, adres, mają już jednoznaczne wartości, noc się nie pokrywa
     1184:	e8 b0 ff ff ff       	call   1139 <dec(int&)>
 ```
 
-Widzimy tu odwołanie do "poprawnego" adresu funkcji `dec(int&)`, czyli `1139`. Na tym etapie wszystkie funkcje `call` otrzymały poprawne wartości funkcji, które mają w tym miejscu być wywołane niezależnie od tego, czy ich definicje były w tym samym, czy różnych plikach. 
+Widzimy tu odwołanie do "poprawnego" adresu funkcji `dec(int&)`, czyli `1139`. Na tym etapie wszystkie funkcje `call` otrzymały unikatowe wartości adresów funkcji, które mają w tym miejscu być wywołane niezależnie od tego, czy ich definicje były w tym samym, czy różnych plikach. Uwaga: wciąż nie są to adresy fizyczne, a jedynie adresy względne liczone względem początku odpowiedniego segmentu w pamięci operacyjnej.
 
-Pierwszą z powyżej opisanych faz translacji kodu źródłowego w C++ na kod maszynowy nazywa się **kompilacją**, (ang. *compilation*) a drugą - łączeniem (ang. *linking*), stąd też komunikaty diagnostyczne kompilatorów dzielą się na dwie podstawowe grupy: "*compiler errors/warnings*" i "*linker errors/warnings*". Ustalanie adresów wywoływanych funkcji w fazie łączenia plików obiektowych w plik wykonywalny to tzw.  łączenie (ang. *binding*). Łączenie obejmuje też m.in. ustalanie adresów obiektów globalnych, np. `std::cout` tak, by każdy fragment kodu odwoływał się do tych samych zmiennych. W powyższym przykładzie linker zakończył pracę: adresy wszystkich funkcji (względem pewnego adresu ustalającego początek segmentu zawierającego kod wykonywalny programu) są zapisane w pliku wykonywalnym. O takiej sytuacji mówi się, że ***łączenie*** zostało wykonane ***statycznie***, czyli w fazie kompilacji, a więc przed uruchomieniem programu. 
+Pierwszą z powyżej opisanych faz translacji kodu źródłowego w C++ na kod maszynowy nazywa się **kompilacją**, (ang. *compilation*) a drugą - łączeniem (ang. *linking*), stąd też komunikaty diagnostyczne kompilatorów języka C++ dzielą się na dwie podstawowe grupy: "*compiler errors/warnings*" i "*linker errors/warnings*". Ustalanie adresów wywoływanych funkcji w fazie łączenia plików obiektowych w plik wykonywalny to tzw.  łączenie (ang. *binding*). Łączenie obejmuje też m.in. ustalanie adresów obiektów globalnych, np. `std::cout` tak, by każdy fragment kodu odwoływał się do tych samych zmiennych. W powyższym przykładzie linker zakończył pracę: adresy wszystkich funkcji (względem pewnego adresu ustalającego początek segmentu zawierającego kod wykonywalny programu) są zapisane w pliku wykonywalnym. O takiej sytuacji mówi się, że ***łączenie*** zostało wykonane ***statycznie***, czyli w fazie kompilacji, a więc przed uruchomieniem programu.
 
-Łączenie statyczne (czyli wykonane podczas tworzenia pliku wykonywalnego) ma dużo zalet (np. prostotę), ale nie pozbawione jest wad. Jedną z najpoważniejszych jest duplikowanie kodu w systemach wielozadaniowych. Chodzi o to, że zwykle, posługując się komputerami (smartfonami itp.), mamy uruchomionych kilka, kilkanaście, kilkadziesiąt programów realizujących identyczne operacje, np. wyświetlanie domyślnej belki tytułowej programów. Czyż nie lepiej byłoby ładować do pamięci komputera jedną kopię takich często używanych funkcji, a potem udostępniać ją różnym programom "na żądanie"? Taka opcja istnieje i nazywa się ***łączeniem dynamicznym***, czyli takim, które wykonywane jest *po* załadowaniu programu z dysku do pamięci komputera.
+**Łączenie statyczne** (czyli wykonane podczas tworzenia pliku wykonywalnego) ma dużo zalet (np. prostotę), ale nie pozbawione jest wad. Jedną z najpoważniejszych jest duplikowanie kodu w systemach wielozadaniowych. Chodzi o to, że zwykle, posługując się komputerami (smartfonami itp.), mamy uruchomionych kilka, kilkanaście, kilkadziesiąt programów realizujących identyczne operacje, np. wyświetlanie domyślnej belki tytułowej programów. Czyż nie lepiej byłoby ładować do pamięci komputera jedną kopię takich często używanych funkcji, a potem udostępniać ją różnym programom "na żądanie"? Taka opcja istnieje i nazywa się ***łączeniem dynamicznym***, czyli takim, które wykonywane jest *po* załadowaniu programu z dysku do pamięci komputera.
 
 Wróćmy do naszego programu i skompilujmy go tak, by funkcja `inc(int&)` łączona była dynamicznie. W tym celu tworzymy plik z biblioteką dynamiczną (`inc.so`):
 
@@ -245,34 +245,37 @@ Wróćmy do naszego programu i skompilujmy go tak, by funkcja `inc(int&)` łącz
 > g++ -shared inc.o -o inc.so
 ```
 
-Pierwsza z powyższych instrukcji tworzy plik `inc.o`, druga przekształca go w bibliotekę dynamiczną `inc.so`
+Pierwsza z powyższych instrukcji mówi kompilatorowi, by utworzył plik obiektowy  `inc.o` jako plik z kodem niezależnym od pozycji (ang. *position-independent code*, *PIC*), co jest wymagane w bibliotekach współdzielonych. Kod skompilowany z opcją `-fpic` wszystkie adresy stałe uzyskuje za pośrednictwem globalnej tablicy offsetów (ang. *global offset table*, *GOT*).  Ich wartości są wyliczane przez osobny program zwany "dynamiczną ładowarką" (ang. *dynamic loader*) podczas uruchamiania programu korzystającego z bibliotek dynamicznych.
+
+Drugie z powyższych  poleceń, `g++ -shared inc.o -o inc.so`, tworzy bibliotekę dynamiczną `inc.so`:
 
 ```bash
+> ls
 inc.cpp  inc.h  inc.o  inc.so  main.cpp  main.o
 ```
 
-Rozszerzenie `so` pochodzi od angielskiego określenia *shared object*. W systemie Windows pliki te znane są jako "de-el-elki", czyli pliki `*.dll`. Mając taki plik, możemy utworzyć plki wykonywalny naszego programu:
+Rozszerzenie `so` pochodzi od angielskiego określenia *shared object*. W systemie Windows pliki te znane są jako "de-el-elki", czyli pliki `*.dll`. Mając taki plik, możemy utworzyć plik wykonywalny naszego programu:
 
 ```bash
 > g++ main.o inc.so
 ```
 
-Zwróćmy uwagę na to, że w tym podejściu łączymy obiekt statyczny (`*.o`) z biblioteką dynamiczną (`*.so`). Utworzony w ten sposób plik wykonywalny do uruchomienia potrzebuje dostępu do pliku `inc.so`. Stąd też zwykła próba uruchomienia tego programu kończy się fatalnie:
+Zwróćmy uwagę na to, że w tym podejściu łączymy obiekt statyczny (`*.o`) z biblioteką dynamiczną (`*.so`). Utworzony w ten sposób plik wykonywalny do uruchomienia potrzebuje dostępu do pliku `inc.so`. Stąd też zwykła próba uruchomienia tego programu kończy się padem programu:
 
 ```bash
 > ./a.out
 ./a.out: error while loading shared libraries: inc.so: cannot open shared object file: No such file or directory
 ```
 
- Dzieje się tak dlatego, że program uruchomieniowy posiada ściśle określony zestaw katalogów, w których poszukuje bibliotek dynamicznych, i naszego katalogu roboczego tam nie ma. Można to "naprawić" nastepująco:
+Dzieje się tak dlatego, że program uruchomieniowy posiada ściśle określony zestaw katalogów, w których poszukuje bibliotek dynamicznych, i naszego katalogu roboczego tam nie ma. Można to "naprawić" następująco (najprostsze rozwiązanie):
 
 ```bash
-> LD_LIBRARY_PATH=. ./a.out
+> LD_LIBRARY_PATH+=:. ./a.out
 echo $?
 0
 ```
 
-Wykorzystałem tu zmienną środowiskową `LD_LIBRARY_PATH`, w której można zapisać dodatkowe, niestandardowe katalogi z bibliotekami dynamicznymi, a poprawność wykonania programu sprawdziłem komendą `echo $?` zwracającą kod zakończenia poprzedniej komendy.  
+Wykorzystałem tu zmienną środowiskową `LD_LIBRARY_PATH`, w której można zapisać dodatkowe, niestandardowe katalogi z bibliotekami dynamicznymi (w interpreterze `bash` oddziela się je od siebie dwukropkami), a poprawność wykonania programu sprawdziłem komendą `echo $?` zwracającą kod zakończenia poprzedniej komendy.
 
 Jak teraz wygląda wywołanie funkcji `inc(int&)`?
 
@@ -283,7 +286,7 @@ Jak teraz wygląda wywołanie funkcji `inc(int&)`?
 ...
 ```
 
-Ha! Wygląda na to, że kompilator wstawił adres funkcji `inc(int&)`, czyli że łączenie wciąż jest statyczne. A jednak nie. Literki `plt` w nazwie  ` inc(int&)@plt` pochodzą od angielskiego *procedure linkage table*. Kompilator wstawił w miejscu wywołania funkcji `inc(int&)` adres funkcji ` inc(int&)@plt`, której zadaniem jest 
+Ha! Wygląda na to, że kompilator wstawił adres funkcji `inc(int&)`, czyli że łączenie wciąż jest statyczne. A jednak nie. Literki `plt` w nazwie  ` inc(int&)@plt` pochodzą od angielskiego *procedure linkage table*. Kompilator wstawił w miejscu wywołania funkcji `inc(int&)` adres funkcji ` inc(int&)@plt`, której zadaniem jest
 
 - przy pierwszym wywołaniu:
   - odnalezienie pliku z biblioteką dynamiczną `inc.so`
@@ -292,7 +295,7 @@ Ha! Wygląda na to, że kompilator wstawił adres funkcji `inc(int&)`, czyli że
 - przy każdym następnym wywołaniu:
   - wywołanie funkcji `inc(int&)`.
 
-Łączenie (*binding*) funkcji pobieranych z bubliotek dynamicznych występuje więc podczas uruchamiania programu. Nosi ono nazwę ***łączenia dynamicznego***, czyli wykonywanego już po kompilacji programu. 
+Łączenie (*binding*) funkcji pobieranych z bibliotek dynamicznych występuje więc podczas uruchamiania programu. Nosi ono nazwę ***łączenia dynamicznego***, czyli wykonywanego już po kompilacji programu. 
 
 Powyższy mechanizm ma kilka zalet. Na aktualizacja systemu operacyjnego nie wymaga rekompilacji zainstalowanych w naszych komputerach programów, wystarczy niezauważalna dla użytkownika podmiana bibliotek dynamicznych. 
 
@@ -301,6 +304,6 @@ Powyższy mechanizm ma kilka zalet. Na aktualizacja systemu operacyjnego nie wym
 - wykonywane podczas ładowania programu do pamięci (ang. *load time*)
 - wykonywane podczas działania programu (ang. *runtime*). 
 
-Opisany powyżej mechanizm łączenia bibliotek dynamicznych to przykład łączenia wykonywanego podczas ładowania programu. Przykładem łączenia podczas wykonywania się programu jest mechanizm wywoływania funkcji wirtualnych.  
+Opisany powyżej mechanizm łączenia bibliotek dynamicznych to przykład łączenia wykonywanego podczas ładowania programu. Przykładem łączenia podczas wykonywania się programu jest omawiany dalej mechanizm wywoływania funkcji wirtualnych.
 
-Cały powyższy opis łączenia statycznego i dynamicznego służy wyłącznie lepszemu zrozumieniu funkcji wirtualnych w C++, o czym traktuje kolejny rozdział. 
+Cały powyższy opis łączenia statycznego i dynamicznego służy wyłącznie lepszemu zrozumieniu funkcji wirtualnych w C++, o czym traktuje kolejny rozdział.
