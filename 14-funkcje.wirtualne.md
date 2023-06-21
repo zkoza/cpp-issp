@@ -313,4 +313,25 @@ Jak widać, wynik kompilacji w trybie "Release" drastycznie różni się od tego
 
   - wywołać tę funkcję w sposób wirtualny (tak jak powyżej w trybie Debug  - łatwo to sprawdzić na nieco bardziej złożonym kodzie; jest to domyślne zachowanie kompilatora)
   - wywołać ją jak zwykłą funkcję (o ile już w czasie kompilacji posiada informację o rzeczywistym typie obiektu - można dość łatwo sprawdzić to na nieco bardziej złożonym programie)  
-  - zoptymalizować to wywołanie metodą *inlining*, czyli w ogóle pominąć wywołanie funkcji i zastąpić je jej wartością (co ilustruje powyższy przykład).  op
+  - zoptymalizować to wywołanie metodą *inlining*, czyli w ogóle pominąć wywołanie funkcji i zastąpić je jej wartością (co ilustruje powyższy przykład).  
+
+# 6. Jak czytać kod zawierający wywołania funkcji wirtualnych?
+
+Przypomnijmy kod funkcji `shoot_all`:
+
+```C++
+void shoot_all(const std::vector<Spaceship *> p_ships)
+{
+    for (const auto &s : p_ships)
+    {
+        s->shoot(std::cout);
+    }
+}
+```
+
+Która funkcja zostanie wywołana w wyrażeniu `s-shoot`? Algorytm jest prosty i opera się na specyfikacji typu elementów przeglądanego kontenera, czyli `Spaceship*`.    
+
+- Jeżeli `Spaceship::shoot` nie jest zadeklarowana jako funkcja wirtualna, to kompilator zastosuje łączenie statyczne i silną kontrolę typów i to właśnie ona będzie wywołana dla każdego elementu tablicy `p_ships`. Zawsze. 
+- Jeżeli  `Spaceship::shoot` zadeklarowano jako funkcje wirtualną, to kompilator wygeneruje kod, w którym dla każdego wskaźnika `s` wywołana zostanie funkcja z rzeczywistej klasy wskazywanego przezeń obiektu, czyli `*s` (lub kod mający identyczny efekt, jeżeli kompilator stosuje agresywną optymalizację kodu). Ten rzeczywisty typ ustalany jest przez konstruktor obiektu. Konstruktor jako jedyna funkcja ma prawo modyfikowania (w tym konkretnym przypadku: inicjalizowania) składowej `vptr`. 
+
+Jak widać, w tym drugim przypadku informacja o wywoływanej funkcji zaszyta jest w obiekcie, a w przypadku pierwszym - wyłącznie w jego typie. Przypomnę, że takie dynamiczne łączenie funkcji jest fundamentem programowania obiektowego: obiekt niesie ze sobą komplet danych i operujących na nich funkcji.      
