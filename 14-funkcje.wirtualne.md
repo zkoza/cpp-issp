@@ -194,3 +194,123 @@ Z powyższego wynika kilka wniosków dotyczących funkcji wirtualnych
 - Funkcji wirtualnych nie można wywołać bez obiektu, na którym działają, i z którego odczytują adres `vtable`.
 - Stosowanie funkcji wirtualnych wymaga, by każdy obiekt, na którym są wywoływane, zawierał dodatkową składową ze wskaźnikiem (tzw. `vptr`). W praktyce rzadko kiedy ma to istotne znaczenie.
 - Tak naprawdę nie ma czegoś takiego, jak funkcja wirtualna. Każda funkcja kompilowana jest tak samo. To, co wyróżnia funkcje składowe opatrzone modyfikatorem `virtual`, to sposób ich wywoływania, który zawsze wiąże się z łączeniem dynamicznym wykonywanym w czasie działania programu (*runtime binding*, *dynamic binding*, *dynamic dispatch*). Jak pamiętamy, pozostałe (=niewirtualne) funkcje wywoływane są z zastosowaniem łączenia statycznego lub dynamicznego przeprowadzanego przed uruchomieniem programu.
+
+Przypomnijmy funkcje `main` z poprzedniego przykładu:
+
+```C++  
+int main()
+{
+    Spaceship millenium_falcon;
+    Dreadnought dread;
+    Sloop sloop[3];
+    std::vector<Spaceship *> ships = {&millenium_falcon, &sloop[0], &sloop[2], &dread, &sloop[1]};
+    shoot_all(ships);
+}
+```
+
+Graficznie sytuację z tego programu przedstawia poniższy schemat. Obiekt `ships` zawiera 5 wskaźników do obiektów klasy `SpaceShip`. W rzeczywistości zainicjalizowaliśmy go nie tylko wskaźnikiem do `SpaceShip`, ale i wskaźnikami do obiektów klas wyprowadzonych z tej klasy przez dziedziczenie: `Dreadnought` i `Sloop`. Obiekt klasy podstawowej, `millenium_falcon`, zawiera składową `mass` oraz dodana przez kompilator ukrytą składową umownie oznaczaną jako `vptr`. Obiekty klas pochodnych, `dread` i tablicy `sloop`, zawierają w sobie obiekt klasy bazowej, a więc mają składowe `vptr` oraz `mass`. Dodatkowo mają i inne składowe: `heavy_cannons` lub `light_sails`.    Funkcja `shootall` przegląda po kolei każdy element tablicy `ships` i wykonuje dla niego następujące operacje:
+
+- Przejdź do lokalizacji i odczytaj z niej wskaźnik `vptr` (pierwsza strzałka na schemacie)
+- Przejdź do lokalizacji wskazywanej przez `vptr` i odczytaj z niej adres pierwszej funkcji w tablicy adresów funkcji (w przykładzie poniższym w każdej klasie istnieje tylko jedna funkcja wirtualna, stąd może nie być dobrze widać, że te szare prostokąciki to tablice a nie pojedyncze zmienne)
+- Wywołaj funkcję spod wskazanego adresu z argumentem typu `std::ostream&)`.  
+
+![diagram](/home/zkoza/Pulpit/Dydaktyka/aaa_ProgCPP/github/cpp-issp/img/14/diagram-virt.png)
+
+
+
+# 5. Jak funkcje wirtualne są obsługiwane przez kompilator gcc?
+
+Rozpatrzmy bardzo prosty program, w którym pewna klasa `X` posiada dość trywialną funkcję wirtualną `f` i wykonującą identyczne zadanie niewirtualną funkcję `g`:
+
+  ![](./img/14/virt-prog.png)
+
+Korzystając z serwisu [Compiler explorer](https://godbolt.org/) sprawdźmy, co z powyższym kodem robi kompilator gcc (tu: w wersji 13.1, z opcją `-g`, czyli z wyłączoną optymalizacją i z włączonymi informacjami o kodzie źródłowym). Zacznijmy od obu funkcji, pamiętając, że Compiler Explorer tymi samymi kolorami zaznacza odpowiadające sobie wiersze w kodzie źródłowym i asemblerowym: 
+
+ ![kod w asemblerze](./img/14/asm-virt-1.png)
+
+To, co powinno od razu rzucić się w oczy, to fakt, że po skompilowaniu, funkcja wirtualna niczym nie różni się od funkcji niewirtualnej. W tym sensie termin "funkcja wirtualna" to pewne nadużycie językowe: poprawnie byłoby mówić o wywoływaniu funkcji "w sposób wirtualny". W tym miejscu warto też przypomnieć nieco składnię: zapis `X::f() const` oznacza, że mamy do czynienia z funkcją składową zdefiniowaną w przestrzeni nazw `X` i że ta funkcja nie modyfikuje obiektu, na którym jest wywoływana. 
+
+Przejdźmy do funkcji `fun`:
+
+​    ![kod w asemblerze funkcji fun](./img/14/virt-fun-asm.png)
+
+Nie musimy znać assemblera x86, by zauważyć że wywołania funkcji wirtualnych i niewirtualnych realizowane są inaczej. Wywołanie funkcji niewirtualnej (tu: `X::g() const`) realizowane jest instrukcją `call` z jawnie podanym argumentem, będącym adresem wywoływanej funkcji:
+
+```asm   
+  		call    X::g() const
+```
+
+Dodajmy, że poprzedzają ją dwie instrukcje, w których do rejestrów `rax` i `rdi` wpisywana jest wartość adresu obiektu, na którym ta funkcja jest wywoływana, czyli adres obiektu `x`.  Najwyraźniej w tej implementacji obiekt `x` znajduje się 24 bajty poniżej tzw. *frame pointer* przechowywanego w rejestrze `rbp` (por:  [call stack](https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers)).   
+
+```asm
+        mov     rax, QWORD PTR [rbp-24]
+        mov     rdi, rax
+```
+
+Wywołanie funkcji wirtualnej (tu: `X::f() const`) wygląda podobnie, jednak nie tak samo. Samo wywołanie ma postać
+
+```asm
+        call    rdx
+```
+
+czyli adres wywoływanej funkcji odczytywany jest z rejestru `rdx`. To jest ta fundamentalna cecha wirtualnego wywołania funkcji: jej adres jest wyliczany podczas wykonywania się programu. Samo przygotowanie wywołania tej funkcji wygląda podobnie do przygotowania zwyczajnego wywołania funkcji, tzn. kompilator w rejestrach `rdx` i `rdi` umieszcza adres obiektu `x`, na którym zostanie wywołana funkcja (por. kod źródłowy: `x.f()`, czyli `f()` jest wywoływana na `x`, czyli potrzebuje jego adresu).
+
+```asm
+        mov     rax, QWORD PTR [rbp-24]
+        mov     rdi, rax
+```
+
+Jednak przed tymi instrukcjami dostrzegamy jeszcze trzy, które służą umieszczeniu adresu wywoływaniej funkcji w rejestrze `rdx`: 
+
+```asm      
+; umieść adres obiektu x w rejestrze rax. 
+; QWORD oznacza "64 bity"
+; nawiasy kadratowe oznaczają adresowanie pośrednie (jak operator* dla wskaźników w C/C++)        
+        mov     rax, QWORD PTR [rbp-24]   
+; na początku obiektu x, czyli teraz w rejestrze rax, znajduje się wskaźnik (vptr) do tablicy (vtable) funkcji wirtualnych
+; zapisz w rejestrze rax wartość wskazywaną prze vptr, czyli adres vtable 
+        mov     rax, QWORD PTR [rax]         
+; zapisz w rejestrze rdx pierwszy z adresów wskazywanych przez vtable, czyli teraz przez rejestr rdx        
+        mov     rdx, QWORD PTR [rax]
+```
+
+Jeśli powyższego nie rozumiesz, to trudno. Na pewno jednak widzisz, że wywołanie funkcji jako funkcji wirtualnej jest nieco bardziej kosztowne od zwykłego wywołania funkcji i że adres wywoływanej funkcji jest *wyliczany* podczas wykonywania się programu. Jest to więc przykład łączenia dynamicznego realizowanego podczas działania programu (ang. *runtime dynamic binding*).  
+
+Jako ciekawostkę dodam, że jeżeli jakaś klasa zawiera choć jedną funkcję wirtualną, tak jak w naszym przykładzie  `X`, to kompilator wygeneruje dodatkowe dane niezbędne do wywoływania funkcji w sposób wirtualny i do implementacji tzw. [runtime type information](https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers):
+
+  ![fragment kodu w asemblerze](./img/14/typeinfo-asm.png)
+
+Jedyne, co warto z tego zapamiętać, to to, że te dane generowane są w jednym egzemplarzu na całą klasę i obejmują `vtable`, czyli tablicę adresów funkcji wirtualnych. 
+
+I jeszcze jedna ciekawostka. Oto jak wygląda cały kod w asemblerze po skompilowaniu programu z opcją `-O3`, co z grubsza odpowiada kompilacji w trybie Release:
+
+![fragment kodu w asemblerze](/home/zkoza/Pulpit/Dydaktyka/aaa_ProgCPP/github/cpp-issp/img/14/gcc-asm-O3.png)  
+
+Jak widać, wynik kompilacji w trybie "Release" drastycznie różni się od tego, co kompilator produkował w trybie "Debug":
+
+- Kod jest niezwykle zwarty, krótki
+
+- W ogóle nie ma kodu funkcji `X::g() const` - kompilator "zauważył", że ona zawsze zwraca wartość 1, więc zapewne każde jej użycie zastąpił wartością `1`.    Jest to przykład ilustrujący zasadę, ze kompilator C++ może przekształcić kod w dowolny sposób niezmieniający jego znaczenia.  Por. inlining. 
+
+- W funkcji `fun` zaimplementowano wyznaczenie adresu wywoływanej funkcji i umieszczenie jej w rejestrze `rdx`, po czym sprawdza się, czy ten adres to adres funkcji `X::f() const`. Jeśli tak, to się jej nie wywołuje, gdyż kompilator "wie", że jej wartość to 1, więc wartość funkcji `fun` to 2 i wartość tę zwraca się w wierszach 9 i 10. 
+
+- Kompilator "dostrzegł", że w powyższym programie w funkcji `main` instrukcja
+
+  ```C++ 
+  return fun(x);
+  ```
+
+  musi zwrócić wartość 2, dlatego nawet nie fatygował się wywoływać `x.f()` i `x.g())`. Cały program zredukował do 
+
+  ```C++ 
+  int main()
+  {
+      return 2;
+  }
+  ```
+
+- W szczególności oznacza to, że jeśli ze źródłowego kodu programu wynika, że jakaś funkcja jest wywoływana jako wirtualna, to optymalizator C++ może 
+
+  - wywołać tę funkcję w sposób wirtualny (tak jak powyżej w trybie Debug  - łatwo to sprawdzić na nieco bardziej złożonym kodzie; jest to domyślne zachowanie kompilatora)
+  - wywołać ją jak zwykłą funkcję (o ile już w czasie kompilacji posiada informację o rzeczywistym typie obiektu - można dość łatwo sprawdzić to na nieco bardziej złożonym programie)  
+  - zoptymalizować to wywołanie metodą *inlining*, czyli w ogóle pominąć wywołanie funkcji i zastąpić je jej wartością (co ilustruje powyższy przykład).  op
