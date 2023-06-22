@@ -1,5 +1,9 @@
 # Funkcje wirtualne
 
+## 0. Motywacja
+
+TBA
+
 ## 1. Co to są funkcje wirtualne?
 
 Najprostsza definicja obiektu brzmi: "obiekt jest to fragment pamięci operacyjnej". Nie jest to oczywiście definicja wyczerpująca. W szczególności, język C++ to język z silną statyczną kontrolą typów, dlatego z każdym obiektem związany jest jego typ. Na najbardziej podstawowym poziomie typ określony jest przez strukturę pamięci przypisanej obiektowi - obiekt z tej perspektywy jawi się jako zestaw składowych ("właściwości", ang. *properties*) o określonym, bardziej prostym typie, który z kolei informuje kompilator, jakie operacje na danej składowej są dopuszczalne. Na tym poziomie , obiekt jawi się jako struktura, np.:
@@ -75,18 +79,21 @@ Można by to wykorzystać następująco. Do klasy bazowej można dodać jakieś 
 #include <iostream>
 #include <vector>
 
+// klasa bazowa: dowolny wojskowy okręt kosmiczny 
 struct Spaceship
 {
     double mass = 1.0;
     virtual void shoot(std::ostream& out) { out << ". . . . .\n"; } /// <--- składowa wirtualna
 };
 
-struct Dreadnought : public Spaceship // krążownik
+// klasa pochodna Dreadnought (krążownik) wyprowadzona z Spaceship
+struct Dreadnought : public Spaceship  
 {
     int heavy_cannons = 10000;
     void shoot(std::ostream& out) override { out << "⬤⬤⬤⬤⬤⬤⬤⬤⬤⬤\n"; } /// <--- override
 };
 
+// klasa pochodna Sloop (korweta) wyprowadzona z Spaceship
 struct Sloop : public Spaceship // korweta
 {
     int light_sails = 2;
@@ -111,9 +118,9 @@ int main()
 }
 ```
 
-Widzimy tutaj te same klasy po lekkiej modyfikacji. W klasie podstawowej pojawiła się funkcja składowa `shoot`, której nadano atrybut **`virtual`**. Funkcje o identycznych sygnaturach (`void shoot(std::ostream& out)`) zdefiniowano też w obu klasach pochodnych, jednak każdej inaczej. W funkcji `main` utworzono 5 obiektów różnych klas (z czego 3 w tablicy `sloop`) a także wektor wskaźników do klasy podstawowej, czyli do `Spaceship`. Wektor ten zainicjalizowano adresami tych obiektów, a następnie wywołano na nim funkcję `shoot_all`, która na każdym obiekcie wskazywanym przez zmienne wskaźnikowe umieszczone w wektorze wywołuje ich składową `shoot`. Jest to bardzo uproszczony schemat tego, jak można by zorganizować "strzelanie" w grze komputerowej z różnymi rodzajami statków kosmicznych (postaci, pojazdów itp.). 
+Widzimy tutaj te same klasy po lekkiej modyfikacji. W klasie podstawowej pojawiła się funkcja składowa `shoot`, której nadano atrybut **`virtual`**. Funkcje o identycznych sygnaturach (`void shoot(std::ostream& out)`) zdefiniowano też w obu klasach pochodnych, jednak każdej inaczej. W funkcji `main` utworzono 5 obiektów różnych klas (z czego 3 w tablicy `sloop`) a także wektor wskaźników do klasy podstawowej, czyli do `Spaceship`. Wektor ten zainicjalizowano adresami tych obiektów, a następnie wywołano na nim funkcję `shoot_all`, która na każdym obiekcie wskazywanym przez zmienne wskaźnikowe umieszczone w wektorze wywołuje ich składową `shoot`. Jest to bardzo uproszczony schemat tego, jak można by zorganizować "strzelanie" w grze komputerowej z różnymi rodzajami statków kosmicznych (postaci, pojazdów itp.). Tutaj przyjąłem, że dowolny okręt wojenny strzela jakimś lekkimi granatami z piątego wymiaru (". . . "), krążownik solidnymi pociskami z antymaterią ("⬤⬤⬤"), a korweta pojedynczym działkiem laserowym ("- - -"), ale w wyobraźni widzimy solidną grafikę do każdego z tych typów strzałów. 
 
-W powyższym kodzie wykorzystujemy to, że dziedziczenie realizuje relację A jest B. W szczególności, każdy obiekt klasy `Dreadnought` jest jednocześnie obiektem klasy `Sopaceship`. Podobnie każdy obiekt klasy `Sloop` także jest jednocześnie obiektem klasy `Spaceship`. Dlatego w wektorze wskaźników do `Spaceship` można umieścić wskaźniki na każdą z tych klas - bez łamania zasady silnej statycznej kontroli typów. Kompilator podczas kompilacji funkcji `shoot_all` zakłada jednak, że nie zna całości programu - kompilując jakąś funkcję, nie zagląda do treści innych funkcji (z wyjątkiem funkcji `inline`). Dlatego skompilowany kod pętli 
+W powyższym kodzie wykorzystujemy to, że dziedziczenie realizuje relację A jest B. W szczególności, każdy obiekt klasy `Dreadnought` jest jednocześnie obiektem klasy `Sopaceship` (czyli: każdy kosmiczny krążownik jest kosmicznym okrętem wojennym). Podobnie każdy obiekt klasy `Sloop` także jest jednocześnie obiektem klasy `Spaceship` (czyli każda kosmiczna korweta jest kosmicznym okrętem wojennym). Dlatego w wektorze wskaźników do `Spaceship` można umieścić wskaźniki na każdą z tych klas - bez łamania zasady silnej statycznej kontroli typów. Kompilator podczas kompilacji funkcji `shoot_all` zakłada jednak, że nie zna całości programu - kompilując jakąś funkcję, nie zagląda do treści innych funkcji (z wyjątkiem funkcji `inline`). Dlatego skompilowany kod pętli 
 
 ```c++  
 	for (const auto &s : p_ships)
@@ -339,4 +346,8 @@ Która funkcja `shoot` zostanie wywołana w wyrażeniu `s->shoot`? Odpowiedź na
 - Jeżeli `Spaceship::shoot` nie jest zadeklarowana jako funkcja wirtualna, to kompilator zastosuje łączenie statyczne i silną kontrolę typów i to właśnie ona będzie wywołana dla każdego elementu tablicy `p_ships`. Zawsze. 
 - Jeżeli  `Spaceship::shoot` zadeklarowano jako funkcje wirtualną, to kompilator wygeneruje kod, w którym dla każdego wskaźnika `s` wywołana zostanie funkcja z rzeczywistej klasy wskazywanego przezeń obiektu, czyli `*s` (lub kod mający identyczny efekt, jeżeli kompilator stosuje agresywną optymalizację kodu). Ten rzeczywisty typ ustalany jest przez konstruktor obiektu i odczytywany podczas opracowywania wyrażenia `s->shoot`.  Konstruktor jako jedyna funkcja ma prawo modyfikowania (w tym konkretnym przypadku: inicjalizowania) składowej `vptr`.  Wartość tego wskaźnika używana jest wyłącznie podczas wywoływania funkcji składowych jako funkcji wirtualnych. 
 
-Jak widać, w tym drugim przypadku informacja o wywoływanej funkcji zaszyta jest częściowo w jego typie, a częściowo w obiekcie, natopiast w przypadku pierwszym - wyłącznie w jego typie. Przypomnę, że takie dynamiczne łączenie funkcji jest fundamentem programowania obiektowego: obiekt niesie ze sobą komplet danych i operujących na nich funkcji.      
+Jak widać, w tym drugim przypadku informacja o wywoływanej funkcji zaszyta jest częściowo w jego typie, a częściowo w obiekcie, natopiast w przypadku pierwszym - wyłącznie w jego typie. Przypomnę, że takie dynamiczne łączenie funkcji jest fundamentem programowania obiektowego: obiekt niesie ze sobą komplet danych i operujących na nich funkcji. 
+
+## 7. Podsumowanie
+
+TBA
