@@ -156,7 +156,7 @@ W kontekście funkcji wirtualnych w C++ stosuje się specjalne słownictwo.
 
 Jedną z najbardziej efektywnych metod uczenia się rozumienia programów jest obserwowanie reakcji na drobne modyfikacje kodu. Sprawdźmy kilka takich modyfikacji powyższego programu. 
 
-- Rezygnacja z funkcji wirtualnych. Jeżeli w deklaracji funkcji składowej `shoot` klasy bazowej (`Spaceship`) usuniemy słowo kluczowe `virtual`, to kompilator zasygnalizuje błędy w definicji tej funkcji w klasach pochodnych. Chodzi o to, że słowa kluczowego `override` można użyć wyłącznie jako modyfikatora funkcji wirtualnych zastępujących funkcje wirtualną zdefiniowaną w klasie bazowej. Nie ma obowiązku używania tego słowa kluczowego w definicji funkcji składowych w klasach pochodnych, jednak jego zastosowanie pozwala wyeliminować pewien trudny w diagnostyce błąd, który mógłby się pojawić, gdybyśmy zamiast zastępowania funkcji, mieli do czynienia z jej przeciążeniem. Czyli gdyby funkcja w klasie pochodnej nie miała identycznej sygnatury, jak zastępowana funkcja w klasie bazowej. Po usunięciu słowa `virtual` żadna z klas nie posiada funkcji wirtualnych. Kompilator skompiluje funkcję `shoot_all` w sposób tradycyjny, posługując się ścisłą statyczną kontrolą typów, czyli dla każdego obiektu wywoła funkcję `shoot` z jego klasy bazowej. Wynik programu przedstawiać się będzie następująco:
+- **Rezygnacja z funkcji wirtualnych.** Jeżeli w deklaracji funkcji składowej `shoot` klasy bazowej (`Spaceship`) usuniemy słowo kluczowe `virtual`, to kompilator zasygnalizuje błędy w definicji tej funkcji w klasach pochodnych. Chodzi o to, że słowa kluczowego `override` można użyć wyłącznie jako modyfikatora funkcji wirtualnych zastępujących funkcje wirtualną zdefiniowaną w klasie bazowej. Nie ma obowiązku używania tego słowa kluczowego w definicji funkcji składowych w klasach pochodnych, jednak jego zastosowanie pozwala wyeliminować pewien trudny w diagnostyce błąd, który mógłby się pojawić, gdybyśmy zamiast zastępowania funkcji, mieli do czynienia z jej przeciążeniem. Czyli gdyby funkcja w klasie pochodnej nie miała identycznej sygnatury, jak zastępowana funkcja w klasie bazowej. Po usunięciu słowa `virtual` żadna z klas nie posiada funkcji wirtualnych. Kompilator skompiluje funkcję `shoot_all` w sposób tradycyjny, posługując się ścisłą statyczną kontrolą typów, czyli dla każdego obiektu wywoła funkcję `shoot` z jego klasy bazowej. Wynik programu przedstawiać się będzie następująco:
 
   ```c++ 
   . . . . .
@@ -166,7 +166,7 @@ Jedną z najbardziej efektywnych metod uczenia się rozumienia programów jest o
   . . . . .
   ```
 
-- Brak zdefiniowania funkcji zastępującej funkcję wirtualną w klasie bazowej. Powiedzmy, że w powyższym programie nie definiujemy funkcji składowej `shoot` w klasie `Sloop`. Program się skompiluje bez problemu. Wszystkie obiekty klasy `Sloop` odziedziczą te składową z klasy bazowej, `Spaceship`. Stąd program wyświetli nasteupjący tekst: 
+- **Brak zdefiniowania funkcji zastępującej funkcję wirtualną w klasie bazowej.** Powiedzmy, że w powyższym programie nie definiujemy funkcji składowej `shoot` w klasie `Sloop`. Program się skompiluje bez problemu. Wszystkie obiekty klasy `Sloop` odziedziczą te składową z klasy bazowej, `Spaceship`. Stąd program wyświetli nasteupjący tekst: 
 
   ```c++ 
   . . . . .
@@ -208,13 +208,18 @@ int main()
 }
 ```
 
-Graficznie sytuację z tego programu przedstawia poniższy schemat. Obiekt `ships` zawiera 5 wskaźników do obiektów klasy `SpaceShip`. W rzeczywistości zainicjalizowaliśmy go nie tylko wskaźnikiem do `SpaceShip`, ale i wskaźnikami do obiektów klas wyprowadzonych z tej klasy przez dziedziczenie: `Dreadnought` i `Sloop`. Obiekt klasy podstawowej, `millenium_falcon`, zawiera składową `mass` oraz dodana przez kompilator ukrytą składową umownie oznaczaną jako `vptr`. Obiekty klas pochodnych, `dread` i tablicy `sloop`, zawierają w sobie obiekt klasy bazowej, a więc mają składowe `vptr` oraz `mass`. Dodatkowo mają i inne składowe: `heavy_cannons` lub `light_sails`.    Funkcja `shootall` przegląda po kolei każdy element tablicy `ships` i wykonuje dla niego następujące operacje:
+Graficznie sytuację z tego programu przedstawia poniższy schemat. Obiekt `ships` zawiera 5 wskaźników do obiektów klasy `SpaceShip`. W rzeczywistości zainicjalizowaliśmy go nie tylko wskaźnikiem do `SpaceShip`, ale i wskaźnikami do obiektów klas wyprowadzonych z tej klasy przez dziedziczenie: `Dreadnought` i `Sloop`. Obiekt klasy podstawowej, `millenium_falcon`, zawiera składową `mass` oraz dodana przez kompilator ukrytą składową umownie oznaczaną jako `vptr`. Obiekty klas pochodnych, `dread` i tablicy `sloop`, zawierają w sobie obiekt klasy bazowej, a więc mają składowe `vptr` oraz `mass`. Dodatkowo mają i inne składowe: `heavy_cannons` lub `light_sails`.    Funkcja `shootall` działa nastepująco:
 
-- Przejdź do lokalizacji i odczytaj z niej wskaźnik `vptr` (pierwsza strzałka na schemacie)
-- Przejdź do lokalizacji wskazywanej przez `vptr` i odczytaj z niej adres pierwszej funkcji w tablicy adresów funkcji (w przykładzie poniższym w każdej klasie istnieje tylko jedna funkcja wirtualna, stąd może nie być dobrze widać, że te szare prostokąciki to tablice a nie pojedyncze zmienne)
-- Wywołaj funkcję spod wskazanego adresu z argumentem typu `std::ostream&)`.  
+- dla każdego wskaźnika z tablicy `ships` wykonaj następujące operacje:
 
-![diagram](/home/zkoza/Pulpit/Dydaktyka/aaa_ProgCPP/github/cpp-issp/img/14/diagram-virt.png)
+  - Przejdź do lokalizacji wskazywanej przez ten wskaźnik i odczytaj z niej kolejny wskaźnik, `vptr` (pierwsza strzałka na schemacie)
+
+  - Przejdź do lokalizacji wskazywanej przez `vptr` i odczytaj z niej adres pierwszej funkcji w tablicy adresów funkcji (w przykładzie poniższym w każdej klasie istnieje tylko jedna funkcja wirtualna, stąd może nie być dobrze widać, że te szare prostokąciki to tablice a nie pojedyncze zmienne)
+
+  - Wywołaj funkcję spod wskazanego adresu z argumentem typu `std::ostream&)`.  
+
+
+![diagram](./img/14/diagram-virt.png)
 
 
 
