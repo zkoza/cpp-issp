@@ -230,7 +230,7 @@ Graficznie sytuację z tego programu przedstawia poniższy schemat. Obiekt `ship
 
 
 
-# 5. Jak funkcje wirtualne są obsługiwane przez kompilator gcc?
+## 5. Jak funkcje wirtualne są obsługiwane przez kompilator gcc?
 
 Rozpatrzmy bardzo prosty program, w którym pewna klasa `X` posiada dość trywialną funkcję wirtualną `f` i wykonującą identyczne zadanie niewirtualną funkcję `g`:
 
@@ -348,6 +348,10 @@ Która funkcja `shoot` zostanie wywołana w wyrażeniu `s->shoot`? Odpowiedź na
 
 Jak widać, w tym drugim przypadku informacja o wywoływanej funkcji zaszyta jest częściowo w jego typie, a częściowo w obiekcie, natomiast w przypadku pierwszym - wyłącznie w jego typie. Przypomnę, że takie dynamiczne łączenie funkcji jest fundamentem programowania obiektowego: obiekt niesie ze sobą komplet danych i operujących na nich funkcji. 
 
-## 7. Podsumowanie
+## 7. Klasy abstrakcyjne i interfejsy
+
+TBA
+
+## 8. Podsumowanie
 
 TBA
