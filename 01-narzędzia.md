@@ -13,7 +13,7 @@ Jeżeli na tym poprzestaniesz, to będziesz pracować narzędziami na poziomie l
 Jeżeli chcesz, by praca z C++ była w miarę komfortowa, potrzebujesz przede wszystkim tego:
 - zintegrowane środowisko programistyczne (ang. IDE)
 
-Cała bieda w tym, że nie istnieje jedno środowisko programistyczne dla języka C++. Język C++ nie należy do żadnej firmy, nie istnieje więc ani wiodący kompilator, ani wiodący edytor, ani wiodące zintegrowane środowisko programistyczne.
+Z punktu widzenia osób uczących się C++ cała bieda w tym, że nie istnieje jedno środowisko programistyczne dla języka C++. Język C++ nie należy do żadnej firmy, nie istnieje więc ani wiodący kompilator, ani wiodący edytor, ani wiodące zintegrowane środowisko programistyczne.
 
 Niektóre narzędzia są ograniczone do jednej platformy (np. tylko do Windows), niektóre są uniwersalne. Musisz wybrać jedno z nich i trzymać się go przez co najmniej semestr. Wikipedia podaje dość długą listę zintegrowanych środowisk programistycznych dla C++: https://en.wikipedia.org/wiki/Comparison_of_integrated_development_environments. Spośród cech pożądanych w IDE należy wyróżnić:
 
@@ -25,7 +25,7 @@ Niektóre narzędzia są ograniczone do jednej platformy (np. tylko do Windows),
 - zintegrowany zestaw narzędzi kompilatora
 - obsługa refaktoryzacji kodu
 
-Od lat nie używam Windows, dlatego nie mogę doradzić, czego używać w tym systemie. Podobno **Visual Studio** jest OK. Ja używam wieloplatformowego narzędzia **QtCreator**. Rozsądnie wyglądające alternatywy to **CodeLite**, **Clion** (z darmową licencją akademicką) i **Cevelop**.
+Od lat nie używam Windows, dlatego nie mogę doradzić, czego używać w tym systemie. Podobno **Visual Studio Code** jest OK. Ja używam wieloplatformowego narzędzia **QtCreator**. Rozsądnie wyglądające alternatywy to **Clion** (z darmową licencją akademicką), **CodeLite**, i **Cevelop**. W szczególności, QtCreator, Clion i Visual Studio Code są wykorzystywane w projektach komercyjnych. Wielu studentów zaczyna programować w C++ w wieloplatformowym środowisku Code::Blocks. Problem z nim jest taki, że łatwo w nim zacząć, ale trudno skończyć; inaczej: łatwo zaczyna się w nim pracę, ale trudno pisze zaawansowane projekty.   
 
 Kolejny problem polega na tym, że zintegrowane środowiska programistyczne to zaawansowane edytory tekstu połączone wieloma narzędziami zewnętrznymi. To oznacza, że zwykle wymagają konfiguracji. Innymi słowy, użytkownik może się zdziwić, że tuż po instalacji program nie działa, albo działa w sposób ograniczony. Dzieje się tak w sytuacji, gdy nie zainstalowaliśmy tych dodatkowych narzędzi (czasami instalowanymi jako programy zewnętrzne, czasami jako "wtyczki").
 
@@ -36,14 +36,14 @@ W przypadku QtCreatora warto sprawdzić, czy mamy zainstalowane:
 - `make` (lub `ninja`, lub inny system budowania programów)
 - `clangd`
 - `clang-format`
-- `Qt` (niestety, QtCreator wymaga instalacji biblioteki Qt nawet, jeżeli jej nie używamy)
+- `Qt` (QtCreator wymaga instalacji biblioteki Qt nawet, jeżeli jej nie używamy)
 
 ### Projekty
 
 Języka C++ nie stworzono z myślą o niewielkich programach, które zmieszczą się w jednym pliku. Poza programami szkolnymi i studenckimi, programy w C++ z reguły składają się z kilku, kilkunastu, kilkuset, a nawet tysięcy plików źródłowych. Projekty to sposób radzenia sobie z tą złożonością przez programistów i/lub zintegrowane środowiska programistyczne. Projekty zawierają informacje o tym, z jakich plików składa się program lub zestaw programów, z jakich bibliotek korzystają, jak mają być one kompilowane, gdzie i pod jakimi nazwami mają zostać zapisane wyniki kompilacji,
-gdzie kompilator ma przechowywać pliki pośrednie kompilacji itp. Niestety, nie ma tu żadnych standardów. Microsoft Visual Studio ma swój domyślny format projektów, świat Linuksa ma swoje (np. `Makefile`), poszczególne IDE mają swoje (np. `Code::Blocks` czy `CodeLite`), istnieją także rozwiązania uniwersalne. Należy do nich zdobywający bardzo dużą popularność CMake.
+gdzie kompilator ma przechowywać pliki pośrednie kompilacji itp. Niestety, nie ma tu żadnych standardów. Microsoft Visual Studio Code ma swój domyślny format projektów, świat Linuksa ma swoje (np. `Makefile`), poszczególne IDE mają swoje (np. `Code::Blocks` czy `CodeLite`), istnieją także rozwiązania uniwersalne. Należy do nich zdobywający bardzo dużą popularność system CMake.
 
-Początkujący programiści C++ boją się projektów. To błąd. Jeżeli jakieś zintegrowane środowisko programistyczne potrafi działać nawet bez projektów (podobno Dev-C++ tak potrafi), to z reguły wiąże się to z wyłączeniem większości udogodnień oferowanych przez IDE, a więc możliwości debugowania kodu czy też korzystania z autouzupełniania czy dynamicznej analizy kodu podczas jego pisania. Bez projektów środowiska programistyczne są w stanie dostrzec co najwyżej jeden plik. Nie tak działa C++.
+Początkujący programiści C++ boją się projektów. To błąd. Jeżeli jakieś zintegrowane środowisko programistyczne potrafi działać nawet bez projektów (podobno Dev-C++ tak potrafi), to z reguły wiąże się to z wyłączeniem większości udogodnień oferowanych przez współczesne IDE, a więc możliwości debugowania kodu czy też korzystania z autouzupełniania czy dynamicznej analizy kodu podczas jego pisania. Bez projektów środowiska programistyczne są w stanie dostrzec co najwyżej jeden plik. Nie tak działa C++.
 
 ### CMake
 CMake to uniwersalny system definiowania projektów w C++. Projekty zawsze definiujemy tu w pliku o nazwie `CMakeLists.txt`.
@@ -87,11 +87,11 @@ Oczywiście trzeba wcześniej zainstalować te programy (u mnie są one instalow
 
 ### Narzędzia dostępne w internecie
 
-Istnieje kilka "zintegrowanych środowisk programistycznych" napisanych jako aplikacje webowe i udostępnionych w Sieci. Posiadają one różne zakresy możliwości. Na przykład [OnlineGDB](https://www.onlinegdb.com/online_c++_compiler) umożliwia debugowanie programów (i obsługuje kilkadziesiąt języków programowania). Z kolei [Compiler Explorer](https://godbolt.org) to narzędzie umożliwiające równoległe wyświetlanie kodu źródłowego i odpowiadającego mu kodu w assemblerze. Na przykład, na poniższym obrazku możemy porównać, czym, z punktu widzenia kompilatora (i procesora) różni się dzielenie liczb typu `int` i `double`. Serwis ten także obsługuje kilkadziesiąt języków programowania, w tym tak ciekawe, jak Java, Kotlin czy Python, które są kompilowane do [kodu bajtowego](https://pl.wikipedia.org/wiki/Kod_bajtowy) (*bytecode*).
+Istnieje kilka "zintegrowanych środowisk programistycznych" napisanych jako aplikacje webowe i udostępnionych w Sieci. Posiadają one różne zakresy możliwości. Na przykład [OnlineGDB](https://www.onlinegdb.com/online_c++_compiler) umożliwia debugowanie programów (i obsługuje kilkadziesiąt języków programowania). Z kolei [Compiler Explorer](https://godbolt.org) to narzędzie umożliwiające równoległe wyświetlanie kodu źródłowego i odpowiadającego mu kodu w assemblerze. Na przykład, na poniższym obrazku możemy porównać, czym, z punktu widzenia kompilatora (i procesora) różni się dzielenie liczb typu `int` (okienko po lewej) i `double` (po prawej). Serwis ten także obsługuje kilkadziesiąt języków programowania, w tym tak ciekawe, jak Java, Kotlin czy Python, które są kompilowane do [kodu bajtowego](https://pl.wikipedia.org/wiki/Kod_bajtowy) (*bytecode*).
 
 ![Godbolt](./img/01/godbolt.png)
 
 ***
 
- Ostatnia zmiana: 3 marca 2023
+ Ostatnia zmiana: 18 lutego 2024
 
