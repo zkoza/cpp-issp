@@ -46,7 +46,7 @@ $$
 
 #### Typ int jest wyróżniony
 
-Spośród powyższych typów do operacji arytmetycznych (czyli `+`, `-`, `*`,  `/`) zaleca się używać typu `int`. Użycie każdego innego powinno mieć jakieś uzasadnienie, np. chęci oszczędzania pamięci, jeżeli mamy do czynienia z bardzo dużymi tablicami, w których wpisujemy stosunkowo małe liczby.
+Spośród powyższych typów do operacji arytmetycznych (czyli `+`, `-`, `*`,  `/`) zaleca się używać typu `int`. Użycie każdego innego powinno mieć jakieś uzasadnienie, np. chęć oszczędzania pamięci, jeżeli mamy do czynienia z bardzo dużymi tablicami, w których wpisujemy stosunkowo małe liczby.
 
 #### Typy nieujemne
 
@@ -128,7 +128,7 @@ Słowo kluczowe `void` definiuje  bardzo specyficzny typem będący tzw.  typem 
 
 ### Wskaźniki
 
-Szerzej o tym gdzie indziej. Tu nadmienię jedynie, że wskaźniki to ciągi bitów, a więc mogą być interpretowane jako liczby. W latach 70. XX w. w języku C dość powszechną praktyką było zapisywanie wartości zmiennych wskaźnikowych w zmiennych całkowitych (`int`) i odwrotnie. Prowadziło to jednak do tak wielu bardzo trudnych w diagnostyce błędów, że zaniechano tej praktyki.     
+Szerzej o tym gdzie indziej. Tu nadmienię jedynie, że w latach 70. XX w. w języku C dość powszechną praktyką było zapisywanie wartości zmiennych wskaźnikowych w zmiennych całkowitych (`int`) i odwrotnie. Prowadziło to jednak do tak wielu bardzo trudnych w diagnostyce błędów, że zaniechano tej praktyki.     
 
 ### Literały
 

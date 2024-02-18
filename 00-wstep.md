@@ -47,6 +47,8 @@ Inne materiały:
 
 - [Kurs C++0x](https://cpp0x.pl/kursy/Kurs-C++/1). Zaleta: po polsku, autor zwykle wie, o czym pisze, ale treść tego serwisu w ciągu 10 lat była chyba rzadko odświeżana, tymczasem od momentu jego powstania C++ zdążył się nieco rozrosnąć.  
 
+Bieżący "kurs" **nie jest** pełnym kursem C++. To raczej zwięzły materiał do powtórki przed zajęciami/egzaminem. Pomysł, by zastąpić tymi materiałami samodzielne rozwiązywanie zadań w laboratorium komputerowym bądź udział w wykładzie z pewnością nie jest dobry. 
+
 (*work in progress* :-)  )
 
 ### Warunki zaliczenia przedmiotu
