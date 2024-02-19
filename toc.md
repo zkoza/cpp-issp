@@ -53,9 +53,9 @@
   - składowe typy danych
 - Dziedziczenie
 - [Funkcje wirtualne](./14-funkcje.wirtualne.md)
-  - [Statyczne i dynamiczne łączenie funkcji](14a-łączenie-funkcji.md)
-  - [Typowa implementacja wirtualnego wywołania funkcji w C++](14b-wywołanie-wirtualne.md)
-  - [Przykłady](14c-przykłady-wirtualne.md) 
+  - [Statyczne i dynamiczne łączenie funkcji](14a-laczenie-funkcji.md)
+  - [Typowa implementacja wirtualnego wywołania funkcji w C++](14b-wywolanie-wirtualne.md)
+  - [Przykłady](14c-przyklady-wirtualne.md) 
 
 
 ### Preprocesor
