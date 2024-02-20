@@ -341,17 +341,21 @@ void shoot_all(const std::vector<Spaceship *> p_ships)
 }
 ```
 
-Która funkcja `shoot` zostanie wywołana w wyrażeniu `s->shoot`? Odpowiedź na to pytanie jest prosta i opera się na specyfikacji typu elementów przeglądanego kontenera, czyli `Spaceship*`.    
+Która funkcja `shoot` zostanie wywołana w wyrażeniu `s->shoot`? Odpowiedź na to pytanie jest prosta i opiera się na specyfikacji typu elementów przeglądanego kontenera, czyli `Spaceship*`.    
 
 - Jeżeli `Spaceship::shoot` nie jest zadeklarowana jako funkcja wirtualna, to kompilator zastosuje łączenie statyczne i silną kontrolę typów i to właśnie ona będzie wywołana dla każdego elementu tablicy `p_ships`. Zawsze. 
 - Jeżeli  `Spaceship::shoot` zadeklarowano jako funkcje wirtualną, to kompilator wygeneruje kod, w którym dla każdego wskaźnika `s` wywołana zostanie funkcja z rzeczywistej klasy wskazywanego przezeń obiektu, czyli `*s` (lub kod mający identyczny efekt, jeżeli kompilator stosuje agresywną optymalizację kodu). Ten rzeczywisty typ ustalany jest przez konstruktor obiektu i odczytywany podczas opracowywania wyrażenia `s->shoot`.  Konstruktor jako jedyna funkcja ma prawo modyfikowania (w tym konkretnym przypadku: inicjalizowania) składowej `vptr`.  Wartość tego wskaźnika używana jest wyłącznie podczas wywoływania funkcji składowych jako funkcji wirtualnych. 
 
 Jak widać, w tym drugim przypadku informacja o wywoływanej funkcji zaszyta jest częściowo w jego typie, a częściowo w obiekcie, natomiast w przypadku pierwszym - wyłącznie w jego typie. Przypomnę, że takie dynamiczne łączenie funkcji jest fundamentem programowania obiektowego: obiekt niesie ze sobą komplet danych i operujących na nich funkcji. 
 
-## 7. Klasy abstrakcyjne i interfejsy
+## 7. Przykład akademicki ## 
+
+Być może powyższe rozważania były zbyt abstrakcyjne.  
+
+## 8. Klasy abstrakcyjne i interfejsy
 
 TBA
 
-## 8. Podsumowanie
+## 9. Podsumowanie
 
 TBA
