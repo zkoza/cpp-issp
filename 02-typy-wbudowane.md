@@ -187,7 +187,7 @@ std::cout << sizeof(unsigned long long int) << " " << sizeof(void*) << " " << si
 
 Język C++ jest językiem z [silną statyczną kontrolą danych](https://en.wikipedia.org/wiki/Strong_and_weak_typing). Kompilator musi wiedzieć, jaki typ reprezentuje każda zmienna lub obiekt programu, żeby  mógł  stwierdzić, jakie ma stosować operacje na nich.
 
-Na przykład jeśli kompilator posiada informację, że zmienna `x` zajmuje 32 bajty, to zależnie od tego, czy zdefiniowano ją jako `float`, `int` czy `unsigned int`, tę samą instrukcję może zinterpretować inaczej. Na przykład jeśli bitowa reprezentacja `x` to `10111111110000000000000000000000`, to instrukcja
+Na przykład jeśli kompilator posiada informację, że zmienna `x` zajmuje 32 bity, to zależnie od tego, czy zdefiniowano ją jako `float`, `int` czy `unsigned int`, tę samą instrukcję może zinterpretować inaczej. Na przykład jeśli bitowa reprezentacja `x` to `10111111110000000000000000000000`, to instrukcja
 
 ```c++
 std::cout << x;
