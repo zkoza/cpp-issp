@@ -5,7 +5,7 @@
 ### Preliminaria
 
 - [Wstęp](./00-wstep.md)
-- [Narzędzia](./01-narzędzia.md)
+- [Narzędzia](./01-narzedzia.md)
 
 
 ### Nieobiektowe jądro języka
