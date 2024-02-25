@@ -6,6 +6,9 @@
 
 - [Wstęp](./00-wstep.md)
 - [Narzędzia](./01-narzędzia.md)
+  - bitbucket, github, gitlab 
+  - git
+
 
 
 ### Nieobiektowe jądro języka
@@ -60,6 +63,7 @@
 
 ### Preprocesor
 
+- Do czego służy preprocesor?
 - Podstawowe dyrektywy preprocesora
 - Makra
 - Kompilacja warunkowa
