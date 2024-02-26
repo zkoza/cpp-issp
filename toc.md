@@ -7,7 +7,7 @@
 - [Wstęp](./00-wstep.md)
 - [Narzędzia](./01-narzedzia.md)
   - bitbucket, github, gitlab 
-  - [git](./01a.md)
+  - [git](./01b-git.md)
 
 ### Nieobiektowe jądro języka
 
