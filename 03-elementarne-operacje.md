@@ -4,8 +4,6 @@ Skoro już wiemy, jak wewnętrznie reprezentowane są (czy też: mogą być) typ
 
 ![https://en.cppreference.com/w/cpp/language/operator_arithmetic](./img/03/common-operators.png)
 
-
-
 Najczęściej używane podzielono w niej na 7 grup: operatory przypisania, inkrementacji i dekrementacji, arytmetyczne, logiczne, porównawcze, dostępu do składowej i inne. Omówię je w nieco innej kolejności niż przedstawia je powyższa tabela.
 
 ### 1. Operatory arytmetyczne
@@ -20,7 +18,7 @@ std::cout << +'a' <<  "\n"; // Nie używaj tej sztuczki: preferuj zapis jawny, n
 
 nie wyświetla znaku `'a'`, lecz odpowiadającą mu liczbę typu `int` (tu: kod ASCII znaku `a`, czyli 97). Dla typu `bool` wartość `false` promowana jest do wartości 0, a `true` do wartości 1 (oczywiście w typie `int`).
 
-W przypadku operatorów dwuargumentowych dokonywane jest uzgodnieni ich typów tak, by typ "mniej ważny" został zamieniony na typ "bardziej ważny" bez zmiany wartości danego argumentu (o ile jest to możliwe), przy czym dla "krótkich" typów całkowitych najpierw wykonywana jest ich promocja do typu `int`. "Ważność" typów przedstawia się mniej więcej następująco: `long double` > `double`> `float`> `long long` > `long` > `int` > `short` > `signed char` > `bool`.   Jeżeli któryś z argumentów jest bez znaku (czyli posiada modyfikator `unsigned`), a drugi ma znak, to "zwycięża" typ argumentu o dłuższej reprezentacji, a jeżeli ich długości są sobie równe, to zwycięża typ bez znaku. Jeżeli oba są typami całkowitymi bez znaku o różnej długości reprezentacji bitowej, to "zwycięża" ten, który ma więcej bitów. Po uzgodnieniu typów obu argumentów wyznaczany jest wynik operacji, który ma taki sam typ, jak uzgodnione argumenty.
+W przypadku operatorów dwuargumentowych dokonywane jest uzgodnienie ich typów tak, by typ "mniej ważny" został zamieniony na typ "bardziej ważny" bez zmiany wartości danego argumentu (o ile jest to możliwe), przy czym dla "krótkich" typów całkowitych najpierw wykonywana jest ich promocja do typu `int`. "Ważność" typów przedstawia się mniej więcej następująco: `long double` > `double`> `float`> `long long` > `long` > `int` > `short` > `signed char` > `bool`.   Jeżeli któryś z argumentów jest bez znaku (czyli posiada modyfikator `unsigned`), a drugi ma znak, to "zwycięża" typ argumentu o dłuższej reprezentacji, a jeżeli ich długości są sobie równe, to zwycięża typ bez znaku. Jeżeli oba są typami całkowitymi bez znaku o różnej długości reprezentacji bitowej, to "zwycięża" ten, który ma więcej bitów. Po uzgodnieniu typów obu argumentów wyznaczany jest wynik operacji, który ma taki sam typ, jak uzgodnione argumenty.
 
 Przykłady:
 
@@ -33,7 +31,7 @@ Przykłady:
  double z = 1/2;    // z ma wartość 0, bo typem wyniku opertora dzielenia w wyrażeniu 1/2 jest int, a nie double
  ```
 
-Dlaczego to jest takie skomplikowane? Bo każdy z typów C++ ma dobre zastosowania, choć w w większości bardzo specjalistyczne. Typy te mają bezpośrednie odpowiedniki w instrukcjach i możliwościach większości procesorów i pozwalają na bardzo dokładną kontrolę sposobu wykorzystania pamięci operacyjnej. Istnieją dużo łatwiejsze w użyciu języki, np, Python, w którym istnieją tylko 4 podstawowe typy arytmetyczne: `bool`, `int`, `float` i  `complex`, które podlegają prostej, wręcz naturalnej regule konwersji: `complex` > `float` > `int` >`bool`. Nie ma tu aż 3 typów zmiennopozycyjnych, liczb całkowitych nie dzieli się na "ze znakiem" i "bez znaku", w każdej z tych grup nie ma 5  różnych typów.  Ale też w przeciwieństwie do C++, (czysty) Python nie jest używany do pisania kompilatorów czy tworzenia zaawansowanego oprogramowania inżynierskiego działającego na bardzo dużych zbiorach danych czy na nietypowym sprzęcie.
+Dlaczego to jest takie skomplikowane? Bo każdy z typów C++ ma dobre zastosowania, choć w większości bardzo specjalistyczne. Typy te mają bezpośrednie odpowiedniki w instrukcjach i możliwościach większości procesorów i pozwalają na bardzo dokładną kontrolę sposobu wykorzystania pamięci operacyjnej. Istnieją dużo łatwiejsze w użyciu języki, np, Python, w którym istnieją tylko 4 podstawowe typy arytmetyczne: `bool`, `int`, `float` i  `complex`, które podlegają prostej, wręcz naturalnej regule konwersji: `complex` > `float` > `int` >`bool`. Nie ma tu aż 3 typów zmiennopozycyjnych, liczb całkowitych nie dzieli się na "ze znakiem" i "bez znaku", w każdej z tych grup nie ma 5  różnych typów.  Ale też w przeciwieństwie do C++, (czysty) Python nie jest używany do pisania kompilatorów czy tworzenia zaawansowanego oprogramowania inżynierskiego działającego na bardzo dużych zbiorach danych czy na nietypowym sprzęcie.
 
 #### Operatory jednoargumentowe `+` i `-`
 
@@ -47,7 +45,7 @@ std::cout << +n << " " << -n << "\n"; // wyświetla 1 -1
 operatory `+`, `-`, `*`, `/` mają z grubsza takie znaczenie, jak w szkole: reprezentują dodawanie, odejmowanie, mnożenie i dzielenie liczb. Jest jednak jeden haczyk: one działają inaczej, jeżeli ich argumentami są liczby całkowite, a inaczej, gdy zmiennopozycyjne. Z tego punktu widzenia w C++ mamy po dwa operatory  `+`, `-`, `*`, `/`  w zależności od tego, czy działają na liczbach całkowitych czy zmiennopozycyjnych. Odpowiadają im inne instrukcje assemblera, mogą być wykonywane w zupełnie innych rejestrach procesora.
 
 -  Dla argumentów całkowitych:
-   - Wynik dzielenia jest liczbą całkowitą - z wyniku dokładnego "odrzuca się" część ułamkową. Dlatego np. `5/4` ma wartość `1`, a `3/-2` to `-1`.
+   - Wynik dzielenia jest liczbą całkowitą, przy czym z wyniku dokładnego "odrzuca się" część ułamkową. Dlatego np. `5/4` ma wartość `1`, a `3/-2` to `-1`.
    - Jeżeli podczas dzielenia w mianowniku (czyli jako dzielnik) pojawi się zero, to mamy *[undefined behavior](https://en.cppreference.com/w/cpp/language/ub)*, program zwykle pada.
    - Jeżeli dokładna wartość wyniku dodawania, odejmowania lub mnożenia nie mieści się w zmiennej o docelowym typie, to mamy do czynienia z tzw. ***przepełnieniem*** (*overflow*). Dla typów bez znaku wynik uzyskuje się w [arytmetyce modulo $2^B$](https://pl.wikipedia.org/wiki/Arytmetyka_modularna), gdzie B to liczba bitów, w jakich reprezentowany jest ten typ.  Dla typów ze znakiem (np. `int`) język nie określa sposobu wyznaczania wyniku - jest to kolejny przykład tzw. *undefined behavior*.
    
@@ -56,7 +54,7 @@ operatory `+`, `-`, `*`, `/` mają z grubsza takie znaczenie, jak w szkole: repr
      ```c++
      unsigned n = 0x10000; // dwójkowo: 1 i 16 zer, czyli 0b1'0000'0000'0000'0000
      std::cout << n << " * " << n << " = " << n * n << "\n";                     // zero
-     std::cout << n + 1 << " * " << n << " = " << (n + 1) * n << "\n"; // wynik mniejszy od każdego z czynnków
+     std::cout << n + 1 << " * " << n << " = " << (n + 1) * n << "\n";
      ```
      daje następujący wynik:
    
@@ -89,19 +87,19 @@ Operatory bitowe: `~`, `&`, `|`, `^`, `<<`, `>>` działają nie na liczbach, tyl
    int m = ~n;  // m = 0b11111111111111111111111111111101 = -3
    ```
 
-- Operator `&` wyznacza iloczyn bitowy swoich argumentów (*bitwise and*) - bit wyniku = 1, jeżeli oba odpowiadające mu bity argumentów są równe 1.
+- Operator `&` wyznacza iloczyn bitowy swoich argumentów (*bitwise and*). czyli bit wyniku = 1, jeżeli oba odpowiadające mu bity argumentów są równe 1.
    ```c++
    int n = 14;    // n = 0b00000000000000000000000000001110
    int m = 11;    // m = 0b00000000000000000000000000001011
    int k = n & m; // k = 0b00000000000000000000000000001010 = 12
    ```
--  Operator `|` wyznacza sumę bitową swoich argumentów (*bitwise or*) - bit wyniku = 1, jeżeli choć jeden z odpowiadających mu bitów argumentów jest  równy 1
+-  Operator `|` wyznacza sumę bitową swoich argumentów (*bitwise or*), czyli bit wyniku = 1, jeżeli choć jeden z odpowiadających mu bitów argumentów jest  równy 1
    ```c++
    int n = 14;    // n = 0b00000000000000000000000000001110
    int m = 11;    // m = 0b00000000000000000000000000001011
    int k = n | m; // k = 0b00000000000000000000000000001111 = 15
    ```
--  Operator `^` wyznacza różnicę symetryczną swoich argumentów (*bitwise xor*) - bit wyniku = 1, jeżeli odpowiadające mu bity argumentów mają różne wartości (tj. `0^0` = 0, `1^1` = 0, `0^1` = 1, `1^0` = 1)
+-  Operator `^` wyznacza różnicę symetryczną swoich argumentów (*bitwise xor*), czyli bit wyniku = 1, jeżeli odpowiadające mu bity argumentów mają różne wartości (tj. `0^0` = 0, `1^1` = 0, `0^1` = 1, `1^0` = 1)
 
    ```c++
    int n = 14;    // n = 0b00000000000000000000000000001110
@@ -146,7 +144,7 @@ bool is_set(unsigned n, unsigned k)
 
 ### 2.  Operatory przypisania
 
-Działanie najprostszego operatora jest dość proste: `a = b` przypisuje wartość zmiennej `b` do zmiennej `a`. Jeżeli typy tych zmiennych są różne, nastepuje konwersja typu `b` do typu `a`. Może to spowodować utratę dokładności. Na przykład:
+Działanie najprostszego operatora jest dość proste: `a = b` przypisuje wartość zmiennej `b` do zmiennej `a`. Jeżeli typy tych zmiennych są różne, najpierw wykonywana jest konwersja typu `b` do typu `a`. Może to spowodować utratę dokładności. Na przykład:
 
 ```C++
 int a = 3.14 // a = 3
@@ -158,13 +156,13 @@ Uwaga! Operatory przypisania mają wartość i mogą pojawić się w wyrażeniac
 a = b = c = 0; // równoważne ciągowi instrukcji:  c = 0; b = c; a = b; 
 ```
 
-Operatory przypisania są [prawostronnie łączne](https://pl.wikipedia.org/wiki/Operator_(programowanie)#%C5%81%C4%85czno%C5%9B%C4%87,_wi%C4%85zanie), więc kompilator zinterpretuje powyższą instrukcję tak, jak by programista wstawił nawiasy od prawej do lewej:
+Operatory przypisania są [prawostronnie łączne](https://pl.wikipedia.org/wiki/Operator_(programowanie)#%C5%81%C4%85czno%C5%9B%C4%87,_wi%C4%85zanie), więc kompilator zinterpretuje powyższą instrukcję tak, jakby programista wstawił nawiasy od prawej do lewej:
 
 ```c++
 a = (b = (c = 0)); // równoważne ciągowi instrukcji:  c = 0; b = c; a = b; 
 ```
 
- Słynny, legalny przykład zastosowania operatora przypisania w argumencie pętli `while` do kopiowania napisów w tradycyjnym stylu języka C:
+Słynny, legalny przykład zastosowania operatora przypisania w argumencie pętli `while` do kopiowania napisów w tradycyjnym stylu języka C:
 
   ```c++
   while (*p++ = *q++) continue;
@@ -203,7 +201,7 @@ n >>= 1; // n = n >> 1    = 3 >> 1    = 1
 
 ### 3.  Inkrementacja i dekrementacja
 
-Operator inkrementacji (zwiększenia), `++`, zwiększa wartość swojego argumentu o 1, a operator dekrementacji (zmniejszenia) zmniejsza tę wartość o 1. Niespodzianką jest zwykle to, że operator ten można zapisywać zarówno prze, jak i po zmiennej, na której działa i dokonanie tego wyboru może istotnie zmienić sens wyrażenia. Różnica między `i++` i `++i` dotyczy wartości tych wyrażeń: wartością `i++` jest "stara wartość `i`", czyli ta sprzed zwiększenia o 1, a wartością `++i` jest wartość nowa (zwiększona). Czyli zapis
+Operator inkrementacji (zwiększenia), `++`, zwiększa wartość swojego argumentu o 1, a operator dekrementacji (zmniejszenia) zmniejsza tę wartość o 1. Niespodzianką jest zwykle to, że operator ten można zapisywać zarówno przed, jak i po zmiennej, na której działa i dokonanie tego wyboru może istotnie zmienić sens wyrażenia. Różnica między `i++` i `++i` dotyczy wartości tych wyrażeń: wartością `i++` jest "stara wartość `i`", czyli ta sprzed zwiększenia o 1, a wartością `++i` jest wartość nowa (zwiększona). Czyli zapis
 
 ```c++
 int x = ++i;
@@ -235,7 +233,7 @@ Operatory te wprowadzono dawno, dawno temu, gdy kompilatory dość słabo optyma
 - zapisz wartość rejestru r w zmiennej `x` w pamięci RAM
 - wczytaj `i` do rejestru r
 - zwiększ `r` o jeden
-- zapisz wartość rejestru `r` w `i`   
+- zapisz wartość rejestru `r` w pamięci RAM odpowiadającej zmiennej `i`   
 
  Tu jest mnóstwo niepotrzebnej pracy (dwukrotne wczytywanie `i`). Zapis `int x = i++` mógł być interpretowany w bardziej efektywny sposób:
 
@@ -244,9 +242,9 @@ Operatory te wprowadzono dawno, dawno temu, gdy kompilatory dość słabo optyma
 - zwiększ wartość rejestru r o 1 
 - zapisz wartość rejestru r w zmiennej `i`
 
-Jedna (kosztowna!) instrukcja mniej. Podobne powody stały za wprowadzeniem złożonych operatorów przypisania, np. `+=`. Dziś to już jednak prehistoria. Kompilator doskonale poradzi sobie z niemal dowolnym zapisem kodu, on "widzi" znacznie większe fragmenty kodu niż pojedyncze funkcje, apekt optymalizacyjny nie ma już żadnego znaczenia.
+Jedna (kosztowna!) instrukcja mniej. Podobne powody stały za wprowadzeniem złożonych operatorów przypisania, np. `+=`. Dziś to już jednak prehistoria. Kompilator doskonale poradzi sobie z niemal dowolnym zapisem kodu, on "widzi" znacznie większe fragmenty kodu niż pojedyncze instrukcje, aspekt optymalizacyjny nie ma już żadnego znaczenia.
 
-Z operatorem `++` (i `---`) wiąże się kilka problemów, które prowadzą do nieszczęsnego *undefined behavior*.  Na przykład niech `f` będzie funkcją dwuargumentową, i rozpatrzmy 
+Z operatorami `++` i `--` wiąże się kilka problemów, które prowadzą do nieszczęsnego *undefined behavior*.  Na przykład niech `f` będzie funkcją dwuargumentową, i rozpatrzmy 
 
 ```c++
 int x = 0;
@@ -389,7 +387,7 @@ Operator przecinkowy pojawia się czasami w kilku niewinnie wyglądających kont
 ```c++
 tab[n, m] = 0; // wykona się: tab[m] = 0
 f((2, 3)) ;    // wykona się: f(3)
-f( 3,14 );     // wykona się f(14)
+x = 3,14;     // wykona się x = 3
 ```
 Natomiast w tej instrukcji nie ma operatora przecinkowego:
 ```c++
@@ -437,13 +435,13 @@ int k = 100'000;
 int m = 200'000;
 auto n = k * m;    // Błąd: n jest typu int, ale w inicjalizatorze mamy przepełnienie w typie int
 auto x = static_cast<double>(k) * m; // OK. x jest typu double
-auto y = double(k) * m;              // OK. x jest typu double
+auto y = double(k) * m;              // OK. y jest typu double
 auto z = (double) k * m;             // OK. (double) działa tylko na k
 ```
 
 ### 9. Priorytet operatorów
 
-Pamiętamy ze szkoły, że 2 + 2\* 2 równa się 6, bo mnożenie i dzielenie mają wyższy priorytet niż dodawanie i odejmowanie. W szkolnej matematyce rozważa się jeszcze potęgowanie i to już koniec. W języku C++ wyróżnia się kilkadziesiąt operatorów. Są one uporządkowane w aż 17 grup różniących się priorytetem. Nie ma sensu uczyć się tej hierarchii, choć warto wiedzieć, gdzie ją można znaleźć - na przykład w serwisie [CppReference](https://en.cppreference.com/w/cpp/language/operator_precedence). Po kilkudziesięciu latach użytkowania języka C++ dalej nie znam wszystkich tych reguł i jakoś żyję.  W praktyce wszyscy posługują się prostą zasadą: jeżeli nie jesteśmy pewni, w jakiej kolejności opracowywane jest dane wyrażenie, to kolejność  wymuszamy nawiasami (np. jeżeli nie wiem, czy `a & b + 1 `  to  `(a & b) + 1 `  czy  `a & (b + 1) ` ), to w programie stosuje wyrażenie z nawiasami. I druga zasada: nie używamy niestandardowych wyrażeń, których nie widuje się w typowych programach C++. Nikt przytomny nie używa wyrażeń typu `++++b`, `a+++++b` czy `x = ++a++` (każde z nich może być poprawne dla odpowiednio zdefiniowanych `a` i `b`).  
+Pamiętamy ze szkoły, że 2 + 2\* 2 równa się 6, bo mnożenie i dzielenie mają wyższy priorytet niż dodawanie i odejmowanie. W szkolnej matematyce rozważa się jeszcze potęgowanie i to już koniec. W języku C++ wyróżnia się kilkadziesiąt operatorów. Są one uporządkowane w aż 17 grup różniących się priorytetem. Nie ma sensu uczyć się tej hierarchii, choć warto wiedzieć, gdzie ją można znaleźć - na przykład w serwisie [CppReference](https://en.cppreference.com/w/cpp/language/operator_precedence). Po kilkudziesięciu latach użytkowania języka C++ dalej nie znam wszystkich tych reguł i jakoś żyję.  W praktyce wszyscy posługują się prostą zasadą: jeżeli nie jesteśmy pewni, w jakiej kolejności opracowywane jest dane wyrażenie, to kolejność  wymuszamy nawiasami (np. jeżeli nie wiem, czy `a & b + 1 `  to  `(a & b) + 1 `  czy  `a & (b + 1) ` ), to w programie stosuje wyrażenie z nawiasami. I druga zasada: nie używamy niestandardowych wyrażeń, których nie widuje się w typowych programach C++. Nikt przytomny nie używa wyrażeń typu `++++b`, `a+++++b` czy `x = ++a++` (każde z nich może być poprawne dla odpowiednio zdefiniowanych `a` i `b`), dzięki czemu nie musimy się uczyć rozpoznawania ich znaczenia.  
 
 ### 10. Łączność operatorów
 
@@ -505,7 +503,7 @@ std::cout << i << "\n";        // wyświetli liczbę 97, czyli kod ASCII znaku '
    - Uwaga. Tak naprawdę w powyższym przykładzie `operator |` to nie jest zwykły ("bitowy")  `operator |`, a operator przeciążony - a to nieco inny temat. 
 
 2. Implementacja atrybutów tekstu w bibliotece {fmt}
-   Wyrażenie `fmt::emphasis`w poprzednim przykładzie ma następującą definicję w kodzie biblioteki: 
+   Wyrażenie `fmt::emphasis` w poprzednim przykładzie ma następującą definicję w kodzie biblioteki: 
 
    ```c++
    enum class emphasis : uint8_t 
@@ -604,7 +602,7 @@ Arytmetyka komputerowa różni się od arytmetyki szkolnej. Jeżeli nie zrozumie
 
 ### 15. Dalsza lektura
 
-Trudno doradzić jakąś konkretną literaturę. Można polecić choćby pobieżne zapoznanie się z wybranymi tematami, np.:
+Trudno doradzić jakąś konkretną literaturę. Mogę tylko polecić choćby pobieżne zapoznanie się z wybranymi tematami, np.:
 
 - Wikipedia: [Modulo](https://en.wikipedia.org/wiki/Modulo). Warto choćby przejrzeć to hasło, by zrozumieć, na ile sposobów w informatyce definiuje się sprawę choćby tak wydawałoby się elementarną, jak wynik dzielenia dwóch liczb całkowitych oraz wartość reszty z dzielenia dwóch liczb całkowitych.
 - Można spróbować zrozumieć, jak kiedyś w Quake'u III wyznaczano $1/sqrt{x}$: https://en.wikipedia.org/wiki/Fast_inverse_square_root. Jeśli ta sztuka się nie uda, to nic nie szkodzi.

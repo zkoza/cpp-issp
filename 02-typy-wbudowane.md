@@ -26,7 +26,7 @@ I tu wracamy do C++. C++ posiada osobne typy danych do operacji arytmetycznych (
 - `long int`
 - `long long int`
 
-Problem w tym, że C++ musi działać nie tylko na współczesnych procesorach x86-64, ale i ARM,  PowerPC, SPARC i in., a także na (być może "muzealnych") procesorach 32-bitowych, a nawet 16-bitowych.  Dlatego standard nie określa dokładnie, jaka jest wewnętrzna reprezentacja każdego z  powyższych typów podstawowych. We współczesnych systemach 64-bitowych `char` to 8 bitów, `short` to 16, a `int` to 32, a `long long int` to 64 bity. Problem jest z typem `long int`: w systemie Windows jest on równoważny typowi `int` (32 bity), a w systemach UNIX, Linux czy macOS jest on równoważny typowi `long long int` (64 bity).  Ponieważ ta nieokreśloność była powodem licznych kłopotów, wprowadzono też typy o ściśle określonej budowie:
+Problem w tym, że C++ musi działać nie tylko na współczesnych procesorach x86-64, ale i ARM,  PowerPC, SPARC i in., a także na (być może "muzealnych") procesorach 32-bitowych, a nawet 16-bitowych.  Dlatego standard nie określa dokładnie, jaka jest wewnętrzna reprezentacja każdego z  powyższych typów podstawowych. We współczesnych systemach 64-bitowych `char` to 8 bitów, `short` to 16, `int` to 32, a `long long int` to 64 bity. Problem jest z typem `long int`: w systemie Windows jest on równoważny typowi `int` (32 bity), a w systemach UNIX, Linux czy macOS jest on równoważny typowi `long long int` (64 bity).  Ponieważ ta nieokreśloność była powodem licznych kłopotów, wprowadzono też typy o ściśle określonej budowie:
 
 - `int8_t`, `int16_t`, `int32_t` i `int64_t`.
 
@@ -39,9 +39,9 @@ $$
 $$
 Na przykład dla 8-bitowego typu `int8_t` dopuszczalne wartości należą do przedziału [-128,..., 127].
 
-Do określenia odpowiedniości między układem bitów a wartością liczby powszechnie stosuje się [kod uzupełnień do dwóch](https://pl.wikipedia.org/wiki/Kod_uzupe%C5%82nie%C5%84_do_dw%C3%B3ch), który od wersji C++20 został uznany za obowiązujący.  Jest to normalny zapis liczby w układzie dwójkowym, w którym jednak bitowi "najstarszemu" przypisuje się wagę ujemną. Na przykład ośmiobitowa liczba o reprezentacji bitowej `11000011` odpowiada liczbie `1*(-128) + 1*64 + 0*32 + 0*16 + 0*8 + 0*4 + 1*2 + 1*1`, czyli 67.
+Do określenia odpowiedniości między układem bitów a wartością liczby powszechnie stosuje się [kod uzupełnień do dwóch](https://pl.wikipedia.org/wiki/Kod_uzupe%C5%82nie%C5%84_do_dw%C3%B3ch), który od wersji C++20 został uznany za obowiązujący w C++.  Jest to normalny zapis liczby w układzie dwójkowym, w którym jednak bitowi "najstarszemu" przypisuje się wagę ujemną. Na przykład ośmiobitowa liczba o reprezentacji bitowej `11000011` odpowiada liczbie `1*(-128) + 1*64 + 0*32 + 0*16 + 0*8 + 0*4 + 1*2 + 1*1`, czyli -61:
 $$
-11000011_{U2} = -2^7 + 2^6 + 2^1 + 2^0 = -61.
+11000011_{U2~8~bitów~ze~znakiem} = -2^7 + 2^6 + 2^1 + 2^0 = -61.
 $$
 
 #### Typ int jest wyróżniony
@@ -54,7 +54,7 @@ Jak wiemy, typ `int` odpowiada liczbie całkowitej o niezbyt dużej wartości be
 
 - `unsigned char`, `unsigned short`, `unsigned int`, `unsigned long` i `unsigned long long`,
 
-a także typy o ściśle określonej liczbie bitów:
+a także typy o ściśle określonej liczbie bitów (ich użycie wymaga włączenia nagłówka `<cstdint>`):
 
 - `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`.
 
@@ -62,14 +62,14 @@ Odwzorowanie reprezentacji liczbowej tych typów na liczby jest proste: używamy
 $$
 11000011_{unsigned} = 2^7 + 2^6 + 2^1 + 2^0 = 195.
 $$
-Typy nieujemne (bezznakowe) używane są stosunkowo rzadko. Preferuj typy ze znakiem, zwłaszcza `int`.
+Typy nieujemne (bezznakowe) używane są stosunkowo rzadko, gdyż operacje na nich bywają niebezpieczne (w sensie: mogą dawać nieoczekiwane wyniki), o czym napiszę dalej. Preferuj typy ze znakiem, zwłaszcza `int`.
 
 ### Reprezentacje typów zmiennopozycyjnych
 
 Jednym z podstawowych zastosowań komputerów są obliczenia inżynierskie. Nieprzypadkowo pierwszy program uruchomiony na wspomnianym wyżej ENIAC-u wyznaczał tablice balistyczne dla wojska. Obliczenie inżynierskie dość trudno prowadzić, posługując się wyłącznie liczbami całkowitymi. Dlatego współczesne procesory mają możliwość interpretowania grupy bitów jako liczby rzeczywistej, a raczej - rozsądnego przybliżenia liczby rzeczywistej. Te reprezentacje nazywamy liczbami zmiennopozycyjnymi. W standardzie C++ mamy trzy takie typy:
 
 - `float` 	 (32 bity)
-- `double`    (64 bity)
+- `double`        (64 bity)
 - `long double`   (128, 80 lub 64 bity)
 
 Typy te nie są w stanie przechować dokładnych wartości liczb rzeczywistych (poza stosunkowo nielicznymi wyjątkami liczb wymiernych, których mianowniki są potęgami dwójki, np. jak 1/2 czy 5/8). Dlaczego? Bo jeżeli mamy do dyspozycji skończoną liczbę bitów, np. 64, to możemy na nich zapisać co najwyżej $2^{64}\approx 10^{19}$ różnych liczb. Typem używanym domyślnie jest `double`. Typu `float` używa się dość rzadko, głównie w grafice komputerowej. Typ `long double` używany jest jeszcze rzadziej, chyba tylko w bardzo, bardzo specyficznych zastosowaniach inżynierskich.
@@ -78,7 +78,7 @@ Wewnętrzna reprezentacja liczb zmiennopozycyjnych (nazwa, powiedzmy, historyczn
 $$
 x = z \cdot m \cdot b^w, \quad b = 2
 $$
-Baza (*b*) nie jest nigdzie zapisywana. Znak (*z*) zapisany jest w najbardziej znaczącym bicie, któremu przypisujemy wartość `+1` lub `-1`: `+1` oznacza liczbę nieujemną, a `-1` - ujemną. Oznacza to, że w reprezentacji zmiennopozycyjnej liczba 0 (zero) może być reprezentowana jako liczba nieujemna lub ujemna (sic!) i nie ma to nic wspólnego z C++. Z kolei wykładnik i mantysę najłatwiej zrozumieć przez porównanie do zapisu liczb w reprezentacji inżynierskiej.  Na przykład liczbę `3,14` można zapisać jako `314E-2` lub $314 \cdot 10^{-2}$, gdzie za bazę przyjęliśmy liczbę 10 a nie 2. W tym przypadku znak $z = 1$, mantysa $m = 314$, a wykładnik $w = -2$ (i dodatkowo baza $b = 10$).
+Baza (*b*) nie jest nigdzie zapisywana. Znak (*z*) zapisany jest w najbardziej znaczącym bicie, któremu przypisujemy wartość `+1` lub `-1`: `+1` oznacza liczbę nieujemną, a `-1` - ujemną. Oznacza to, że w reprezentacji zmiennopozycyjnej liczba 0 (zero) może być reprezentowana jako liczba nieujemna lub ujemna (sic!) i nie ma to nic wspólnego z C++. Z kolei wykładnik i mantysę najłatwiej zrozumieć przez porównanie do zapisu liczb w reprezentacji inżynierskiej.  Na przykład liczbę `3,14` można zapisać jako `314E-2` lub $314 \cdot 10^{-2}$, gdzie za bazę przyjęliśmy liczbę 10 a nie 2. W tym przypadku znak $z = 1$ (bo liczba jest dodatnia), mantysa $m = 314$, a wykładnik $w = -2$ (i dodatkowo baza $b = 10$).
 
 Graficznie znak, wykładnik i mantysę dla liczb 64-bitowych (czyli double) można przedstawić następująco:
 
@@ -144,7 +144,7 @@ auto m = 1L;    // m jest typu long int
 auto n = 1ULL;  // n jest typu unsigned long long
 auto d = 1.0;   // d jest typu double
 auto f = 1.0f;  // f jest typu float
-auto x = 1.0L; // x jest typu long double
+auto x = 1.0L;  // x jest typu long double
 auto b = true;  // b jest typu bool 
 ```
 
@@ -152,7 +152,7 @@ Dodatkowo liczby całkowite można zapisywać w systemie dziesiętnym, dwójkowy
 
 ```c++
 int i = 10; // liczba w zapisie dziesiętnym
-int j = 012; // liczba 10 zapisana w systemie ósemkowym - zapis zaczyna się o 0, po którym następuje cyfra ósemkowa (0..7)
+int j = 012; // liczba 10 zapisana w systemie ósemkowym - zapis zaczyna się o 0, po którym następuje cyfra ósemkowa (0,1,...,7)
 int k = 0xa; // liczba 10 zapisana w systemie szesnastkowym - zapis zaczyna się od 0x, cyfry 0..9,a,..e
 int m = 0b1010; // liczba 10 zapisana w systemie dwójkowym - zapis zaczyna się od 0b, cyfry 0, 1
 ```
