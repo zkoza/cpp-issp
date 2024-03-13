@@ -28,9 +28,9 @@ std::vector<int> v(10);   // (3) Bardzo elastyczna i wygodna w użytkowaniu wers
 
   ```c++
   const int N = 10;      // stała
-  constexpr int K = 10;  // stała na pewno znana w czasie kompilacji
+  constexpr int K = 10;  // stała
   int M = 10;            // zmienna
-  int tab_0[10];         // OK, lietrał jest  stałą
+  int tab_0[10];         // OK, lietrał 10 jest  stałą
   int tab_1[N];          // OK, N ma atrybut const
   int tab_2[K];          // OK, K ma atrybut constexpr
   int tab_3[M];          // Instrukcja niezgodna ze standardem, czyli błąd
@@ -63,7 +63,7 @@ std::vector<int> v(10);   // (3) Bardzo elastyczna i wygodna w użytkowaniu wers
   std::vector<bool> flagi(10); // dynamiczna tablica 10 zmiennych typu bool zainicjalizowanych na false 
   ```
 
-  Popularność `std::vector` ma kilka przyczyn. Jedną z nich jest to, że jego rozmiar nie musi być znany podczas kompilacji (dlatego nie jest umieszczany w parametrach szablonu, czyli w nawiasach ostrokątnych, lecz w tzw. konstruktorze, który jest po prostu funkcją wywoływaną podczas działania programu). Co więcej, rozmiar ten można dowolnie zmieniać podczas działania programu. Drugą jego zaletą jest to, że tylko `std::vector` obsługuje naprawdę duże tablice. W przeciwieństwie do `std::array`, wartości elementów obiektu klasy `std::vector` są zawsze inicjalizowane, tzn. `std::vector` nigdy nie operuje na surowej pamięci.  
+  Popularność `std::vector` ma kilka przyczyn. Jedną z nich jest to, że jego rozmiar nie musi być znany podczas kompilacji (dlatego nie jest umieszczany w parametrach szablonu, czyli w nawiasach ostrokątnych, lecz w tzw. konstruktorze, który jest po prostu funkcją wywoływaną podczas działania programu). Co więcej, rozmiar ten można dowolnie zmieniać podczas działania programu. Ponadto, jeżeli potrzebujemy bardzo dużych tablic, to`std::vector` jest w praktyce jedynym dostępnym "od ręki" wyborem. W przeciwieństwie do `std::array`, wartości elementów obiektu klasy `std::vector` są zawsze inicjalizowane, tzn. `std::vector` nigdy nie operuje na surowej pamięci.  
 
 #### Tablice wielowymiarowe
 
@@ -202,7 +202,7 @@ Dla programisty C++ najważniejsze są 3 segmenty:
 
 Nazwane tablice w stylu języka C (np. `int tab[10]`) oraz zdeklarowane poprzez `std::array` są w całości umieszczane na stosie (lub w segmencie danych statycznych). Jest to możliwe, bo ich rozmiar jest znany kompilatorowi i nie może ulec zmianie, kompilator może więc automatycznie zarządzać przydzieloną im pamięcią. Natomiast nazwany wektor składa się z części przechowywanej na stosie i części przechowywanej na stercie. Część przechowywana na stosie jest niewielka i służy do zarządzania danymi, które w całości przechowywane są na stercie.
 
-Operator `sizeof` zwraca liczbę bajtów zajmowanych przez zmienną lub obiekt, ale tylko w części zarządzanej przez kompilator, czyli umieszczonej na stosie (lub w segmencie danych statycznych). Z kolei liczbę danych przechowywanych w `std::array` lub `std::vector` można otrzymać, poprzez wywoiłąnie składowej `size` tych obiektów:
+Operator `sizeof` zwraca liczbę bajtów zajmowanych przez zmienną lub obiekt, ale tylko w części zarządzanej przez kompilator, czyli umieszczonej na stosie (lub w segmencie danych statycznych). Z kolei liczbę danych przechowywanych w `std::array` lub `std::vector` można otrzymać, poprzez wywołanie składowej `size` tych obiektów:
 
 ```c++
 // vector:
@@ -264,7 +264,7 @@ Kolejne pytanie: notacja "w stylu języka C" (czyli np. `int tab[10];`) czy `std
 - posiada zdefiniowany operator przypisania
 - ułatwia diagnostykę przepełnienia bufora
 
-Czy to znaczy, że sam nie używam tablic w stylu C? Nie, czasami używam. Jenak nie zalecam. 
+Czy to znaczy, że sam nie używam tablic w stylu C? Nie, czasami używam. Jednak nie zalecam. 
 
 #### Zamiast podsumowania
 
