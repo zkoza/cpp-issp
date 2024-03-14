@@ -4,6 +4,7 @@ Rozpatrzmy dość zaawansowany przykład użycia wskaźników, przygotowany na p
 
 ```c++
 #include <iostream>
+#include <stdlib.h>    // tu jest deklaracja qsort
  
 int compare_ints(const void* a, const void* b)       // (a)
 {
@@ -30,7 +31,7 @@ int main(void)
 }
 ```
 
-- W wierszach 1-2 definiujemy rozmiar tablicy (`size`) oraz tablicę (`ints`) wraz z jej wartościami początkowymi.
+- W wierszach 1-2 funkcji `main` definiujemy rozmiar tablicy (`size`) oraz tablicę (`ints`) wraz z jej wartościami początkowymi.
 
 - W wierszu (3) wywołujemy funkcję `qsort`. Ma ona następujący prototyp:
 
@@ -38,7 +39,7 @@ int main(void)
   void qsort( void *ptr, size_t count, size_t size, int (*comp)(const void *, const void *) ); 
   ```
 
-  - Pierwszym argumentem tej funkcji jest wskaźnik na początek sortowanej tablicy. Twórcy funkcji `qsort` nie mogli przewidzieć, jakiego typu będą dane, które chcemy sortować, dlatego użyli typu `void*`. Można więc przekazać tu adres początku dowolnej tablicy dowolnego typu i dowolnej długości. Majć to na uwadze, w wierszu 3 jako pierwszego argumentu tej funkcji użyto `ints` . Wykorzystano tu informację, że nazwa tablicy może zostać automatycznie zrzutowana na wskaźnik do jej pierwszego elementu. Można tu też  było użyć wyrażenia `&ints[0]`. 
+  - Pierwszym argumentem tej funkcji jest wskaźnik na początek sortowanej tablicy. Twórcy funkcji `qsort` nie mogli przewidzieć, jakiego typu będą dane, które chcemy sortować, dlatego użyli typu `void*`. Można więc przekazać tu adres początku dowolnej tablicy dowolnego typu i dowolnej długości. Mając to na uwadze, w wierszu (3) jako pierwszego argumentu tej funkcji użyto `ints` . Wykorzystano tu informację, że nazwa tablicy może zostać automatycznie zrzutowana na wskaźnik do jej pierwszego elementu. Można tu też  było użyć wyrażenia `&ints[0]`. 
 
   - Drugim argumentem `qsort` jest liczba elementów tablicy. Dlatego wstawiono tu stałą `size`. Można też było wstawić tu literał `7`.  Typ tego argumentu to `size_t` - standardowy typ dla rozmiarów tablic. Jest to typ bez znaku (`unsigned`), a więc `size` nigdy nie jest ujemne.
 
@@ -56,7 +57,7 @@ int main(void)
     int dowolna_nazwa_funkcji(const void* a, const void* b);
     ```
 
-    Chodzi tu o wskaźnik na funkcję dwuargumentową zwracającą `int`, przy czym oba argumenty tej funkcji są wskaźnikami przekazywanymi jako  `void*`.  Gdyby twórcy funkcji `qsort`  wpisali tu jakiś konkretny typ, np.  `int` - por. `int dowolna_nazwa_funkcji(const int* a, const int* b);`, to `qsort` mógłby sortować wyłącznie tablice elementów typu `int`.  Dzięki zastosowaniu `void*` można funkcją `qsort` porządkować (prawie) wszystko. Skąd wziąć wskaźnik ten na funkcję? Metoda jest prosta. Trzeba gdzieś w kodzie zdefiniować funkcję, która będzie używana przez `qsort`  (w naszym przykładzie jest to funkcja `compare_ints`), a następnie w wywołaniu funkcji `qsort` użyć jej nazwy. Z funkcjami jest bowiem podobnie do tablic: ich nazwa jest w wyrażeniach interpretowana jak wskaźnik (adres) na początek kodu funkcji. W ten sposób powinno być już jasne, skąd taka a nie inna postać instrukcji
+    Chodzi tu o wskaźnik na funkcję dwuargumentową zwracającą `int`, przy czym oba argumenty tej funkcji są wskaźnikami przekazywanymi jako  `void*`.  Gdyby twórcy funkcji `qsort`  wpisali tu jakiś konkretny typ, np.  `int` - np. jako `int dowolna_nazwa_funkcji(const int* a, const int* b);`, to `qsort` mógłby sortować wyłącznie tablice elementów typu `int`.  Dzięki zastosowaniu `void*` można funkcją `qsort` porządkować (prawie) wszystko. Skąd wziąć ten wskaźnik na funkcję? Metoda jest prosta. Trzeba gdzieś w kodzie zdefiniować funkcję, która będzie używana przez `qsort`  (w naszym przykładzie jest to funkcja `compare_ints`), a następnie w wywołaniu funkcji `qsort` użyć jej nazwy. Z funkcjami jest bowiem podobnie do tablic: ich nazwa jest w wyrażeniach interpretowana jak wskaźnik (adres) na początek kodu funkcji. W ten sposób powinno być już jasne, skąd taka a nie inna postać instrukcji
 
     ```c++
     qsort(ints, size, sizeof(int), compare_ints); 
@@ -71,11 +72,11 @@ int main(void)
     oznacza, że tak naprawdę pierwszy argument funkcji `compare_ints` jest niemodyfikującym wskaźnikiem na `int`, czyli jest typu `const int*`. Stąd w powyższym wyrażeniu operator rzutowania, `(const int*)`, który w tym wyrażeniu zmienia typ `a` z `const void*` na `const int*`. Kolejna gwiazdka wyłuskuje z tego wskaźnika wartość argumentu. Jeżeli ktoś tego dalej nie rozumie, to może łatwiej mu pójdzie z jej rozpiską na dwie prostsze instrukcje:
 
     ```c++
-    const int tmp_ptr = static_cast<const int*>(a);
+    const int *tmp_ptr = static_cast<const int*>(a);
     int arg1 = *tmp_ptr;
     ```
 
-    Podobnie "wyciąga się" wartość drugiego argumentu `arg2` z wskaźnika `b` zadeklarowanego jako `const void* b`. Odtąd kod wykorzystuje wyłącznie zmienne `arg1` i `arg2`. 
+    Podobnie "wyciąga się" wartość drugiego argumentu `arg2` ze wskaźnika `b` zadeklarowanego jako `const void* b`. Odtąd kod wykorzystuje wyłącznie zmienne `arg1` i `arg2`. 
 
     Funkcja używania do porównywania elementów sortowanej tablicy musi zwracać:
 

@@ -350,6 +350,74 @@ Gdyby wrócić do metafory wskaźnika jako klucza do mieszkania, to dynamiczną 
 
 ![https://img-ovh-cloud.zszywka.pl/1/0638/4604-zaczarowany-olowek.jpg](https://img-ovh-cloud.zszywka.pl/1/0638/4604-zaczarowany-olowek.jpg)
 
+### Wskaźniki na funkcje
+
+Jak dotąd, widzieliśmy wskaźniki do danych - czyli do zmiennych, tablic lub struktur danych. Jednak w pamięci komputera przechowywane są nie tylko dane, ale i kod programu, który z kolei składa się z kodu poszczególnych funkcji. Skoro funkcje posiadają swój adres, to istnieje też możliwość definiowania i używania wskaźników na funkcje. 
+
+Na początek łatwy do zapamiętania fakt: tak jak nazwa tablicy traktowana jest przez kompilator jak wskaźnik na jej pierwszy element, tak nazwa funkcji traktowana jest jak adres początku bloku pamięci zawierającego jej kod. Prosty przykład:
+
+```c++
+int square(int num)
+{
+    return num * num;
+}
+
+int main()
+{
+    int n;
+    std::cin >> n;
+    if (square != 0)
+    {
+        // rób coś
+    }
+}
+```
+
+Powyższy kod zawiera ewidentny błąd (programista zapewne miał na myśli coś w rodzaju `if (square(n) != 0)`), niemniej, z punktu widzenia definicji języka C++ jest całkowicie poprawny. Kompilator wyrażenie (`square != 0`) zinterpretuje po prostu jak test, czy adres funkcji `square` jest różny od zera (skądinąd wiadomo, że jest, gdyż żaden obiekt i żadna funkcja naszego programu nie  zajmuje bajtu o adresie 0). 
+
+Rozpatrzmy nieco bardziej realistyczny przykład:
+
+```C++ 
+#include <iostream>
+
+int square(int num)
+{
+    return num * num;
+}
+
+int main()
+{
+    auto p = square;
+    std::cout << p(5) << "\n";
+}
+```
+
+W tym przypadku w instrukcji `auto p = square` definiujemy wskaźnik (o nazwie `p` ) na funkcję `square`, a następnie używamy wskaźnika jak nazwy funkcji (zupełnie jak z tablicami!). Tu czujnie pominąłem kwestię jawnej deklaracji typu wskaźnika `p` - zostawiłem to domyślności kompilatora, definiując ten tym słowem kluczowym `auto` . Jeśli jednak chcemy jawnie wskazać typ wskaźnika, najłatwiej zrobić to za pomocą instrukcji pomocniczej `using`, wprowadzającej dodatkowy typ:
+
+```c++
+using fun_ptr = int(int); // fun_ptr jest nazwą typu danych
+
+int main()
+{
+    fun_ptr *p  = square;
+    std::cout << p(5) << "\n";
+}
+```
+
+Wyrażenie `int(int)` można uzyskać z deklaracji "prawdziwej" funkcji, np.  `int square(int num)`, poprzez usunięcie z niej wszelkich identyfikatorów (nazwy funkcji i jej argumentów). Następnie definiujemy wskaźnik  na funkcję (tu: `p`) w "normalny" sposób, za pomocą notacji z gwiazdką. 
+
+Jeżeli sztuczka z `using` nam nie odpowiada, używamy notacji "z gwiazdką w nawiasach okrągłych":
+
+```c++
+int main()
+{
+    int (*p)(int) = square;      // typowy zapis odziedziczony z języka C
+    std::cout << p(5) << "\n";
+}
+```
+
+Deklarację `int (*p)(int)` czytamy następująco: `p` jest (idziemy od `p` w prawo i odbijamy się od prawego nawiasu, zmieniamy kierunek na "w lewo", napotykamy gwiazdkę interpretowaną jako deklarację wskaźnika) wskaźnikiem (odbijamy się od lewego nawiasu, zmieniamy kierunek na "w lewo", dochodzimy do kolejnego lewego nawiasu, który interpretujemy jako deklarację funkcji) na funkcję (odczytujemy listę argumentów funkcji, tu: `int`) przyjmującą jeden argument typu `int` przez wartość (odbijamy się od drugiego prawego nawiasu, dochodzimy do pierwszego `int` ) i zwracającą `int`. Powtórzmy:  `p` jest wskaźnikiem na funkcję przyjmującą jeden argument typu int przez wartość  i zwracającą `int`. Proste :-)   
+
 ### Tablice i wskaźniki w argumentach funkcji
 
 Jak za pomocą wskaźników napisać funkcję, która w miejsce jakiejś zmiennej typu `double` wpisuje jej kwadrat? Oto możliwe rozwiązanie:
@@ -453,6 +521,8 @@ Wskaźniki są przez jednych uważane za największe nieszczęście języka C++,
 
 W przyszłości trzeba będzie do tego dodać co najmniej:
 
+- wskaźniki na funkcje
+- wskaźniki na składowe (ale to to dość zaawansowany temat, mimo że one istnieją w C++ "od zawsze")
 - wzorzec programowania RAII,
 - inteligentne wskaźniki
 - zastosowania wskaźników w konstrukcji dynamicznych struktur danych, takich jak lista, dynamiczny wektor czy drzewo czerwono-czarne.
