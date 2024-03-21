@@ -12,16 +12,17 @@ W informatyce "funkcja" to stały zestaw instrukcji wykonujących jakieś konkre
 - Poprawa czytelności kodu poprzez zastąpienie bloku kodu wywołaniem funkcji, której nazwa opisuje zadanie wykonywane przez ten blok. Kod wywołujący funkcję staje się zwięzły i czytelny i z tego powodu zaleca się dzielić duże zadania na funkcje nawet wtedy, gdy tych funkcji nie wykorzystuje się nigdzie indziej. 
 - Ułatwienie [śledzenia](https://en.wikipedia.org/wiki/Traceability#Software) wykonywania się kodu; bez podziału kodu programu na funkcje, jego debugowanie byłoby poważnie utrudnione
 
-Funkcje w C++ dzielimy na dwa główne rodzaje: ***funkcje swobodne*** i ***funkcje składowe***. Funkcje swobodne to te, które wywoływane są wg składni 
+Funkcje w C++ dzielimy na dwa główne rodzaje: ***funkcje swobodne***  (ang. *free functions*) i ***funkcje składowe*** (ang. *member functions*). Funkcje swobodne to te, które wywoływane są wg składni 
 
 ```c++
 nazwa_funkcji(arg_1, arg_2,..., arg_n)          // funkcja swobodna
 ```
 
-natomiast funkcje składowe wywoływane są wg składni "z kropką": 
+natomiast funkcje składowe wywoływane są wg składni "z kropką" (lub "strzałką"): 
 
 ```c++
-obiekt.nazwa_funkcji(arg_1, arg_2,..., arg_n)   // funkcja składowa
+obiekt.nazwa_funkcji(arg_1, arg_2,..., arg_n)    // funkcja składowa obiektu
+wskaznik->nazwa_funkcji(arg_1, arg_2,..., arg_n) // funkcja składowa obiektu wskazywanego przez wskaźnik   
 ```
 
 Funkcje składowe zostaną omówione przy okazji omawiania klas; poniżej przedstawiam wyłącznie funkcje swobodne

@@ -1,6 +1,6 @@
 #### Przekazywanie argumentów do funkcji
 
-Z technicznego punktu widzenia w C++ obowiązuje przekazywanie argumentów przez wartość. Oznacza to, że funkcje działają na kopiach swoich argumentów rzeczywistych. Przed wywołaniem funkcji w umówionym miejscu (na tzw. stosie wywołań funkcji, ang. *call stack*) umieszczane są kopie argumentów przekazywanych do funkcji. Po wywołaniu funkcji, jej kod swobodnie szczytuje te wartości. 
+Z technicznego punktu widzenia (czyli z punktu widzenia twórcy kompilatora C++) w języku C++ obowiązuje tzw. przekazywanie argumentów przez wartość. Oznacza to, że funkcje działają na kopiach swoich faktycznych argumentów. Przed wywołaniem funkcji w umówionym miejscu (na tzw. stosie wywołań funkcji, ang. *call stack*) umieszczane są kopie argumentów przekazywanych do funkcji. Po wywołaniu funkcji, jej kod swobodnie szczytuje te wartości i na koniec w umówionym miejscu odkłada jej wartość (chyba że funkcję zdefiniujemy jako `void`). 
 
 Z punktu widzenia programisty, rozróżnia się jednak aż trzy główne rodzaje przekazywania parametrów, które można dalej podzielić na aż 10 metod szczegółowych:
 
@@ -34,7 +34,7 @@ Z punktu widzenia programisty, rozróżnia się jednak aż trzy główne rodzaje
   - przekazanie argumentu przez "referencję do r-wartości" (temat zaawansowany)
 
     ```c++
-    int dziwadlo(int && n);
+    int dziwadlo(int&& n);
     ```
 
 - Przekazanie argumentu ***przez wskaźnik***
@@ -102,7 +102,7 @@ void println(const std::vector<int> & v)
 }
 ```
 
-Funkcja `println` ma wyświetlać swój argument w konsoli, dlatego nie powinna przyjmować go przez zwykłą referencję. W pierwszym przypadku argument przekazywany jest więc przez wartość, gdyż `int` to typ prosty zajmujący mniej miejsca niż (ukryty za referencją) wskaźnik, natomiast w drugim przypadku argument przekazywany jest przez stałą referencję, gdyż nie potrzebujemy w funkcji kopii oryginalnego wektora, przy czym kopiowanie wektora może być bardzo kosztowne. Można to podsumować następującym diagramem:
+Funkcja `println` ma wyświetlać swój argument w konsoli, dlatego nie powinna przyjmować go przez zwykłą referencję. W pierwszym przypadku argument przekazywany jest więc przez wartość, gdyż `int` to typ prosty zajmujący mniej miejsca niż (ukryty za referencją) wskaźnik, natomiast w drugim przypadku argument przekazywany jest przez stałą referencję, gdyż nie potrzebujemy w funkcji kopii oryginalnego wektora, gdyż kopiowanie wektora może być bardzo kosztowne. Można to podsumować następującym diagramem:
 
 ```mermaid
 flowchart TD
@@ -116,4 +116,7 @@ D --> |Tak| E["Przekaż argument\n przez wartość \n(np. int arg)"]
 D --> |Nie| F["Przekaż argument\n przez stałą referencję \n(np. const int & arg)"]
 ```
 
-### 
+### Jak argumenty przekazywane są do funkcji w innych językach programowania?
+
+Powyższe pytanie jest jednym z podstawowych, które powinieneś sobie zadać, ucząc się nowego języka. W większości języków obowiązuje jakiś domyślny standard przekazywania argumentów do funkcji (i zwracania wyniku funkcji). Np. dawno, dawno temu, gdy uczyłem się programować w języku FORTRAN 77, obowiązywała w nim zasada, że wszystko, nawet literały, przekazywane było "jak przez referencję w C++", choć nikt wówczas nie używał takiej terminologii. W języku Python sytuacja jest bardziej skomplikowana, a odpowiedź na pytanie, jak przekazywany jest do funkcji jakiś konkretny argument zależy do tego, czy jego typ jest "mutable" czy "immutable", por. [Pass by reference vs value in Python](https://www.geeksforgeeks.org/pass-by-reference-vs-value-in-python/).  Z kolei tu mamy fascynującą dyskusję o przekazywaniu argumentów do funkcji w języku JavaScript: [Is JavaScript a pass-by-reference or pass-by-value language?](https://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language)
+

@@ -1,6 +1,6 @@
 # Struktury
 
-Poznaliśmy dotąd jeden sposób łączenia danych w duże jednostki - tablice. Wśród wielu zalet, tablice mają jedną wadę: wszystkie ich elementy muszą być dokładnie tego samego typu. Tymczasem w praktyce programistycznej bardzo często łączymy ze sobą obiekty różnych typów. Na przykład wygląd okna może być opisywany przez kolor tła, kolor czcionki, nazwę czcionki, rozmiar okna, jego położenie itp. oraz analogiczne właściwości różnych obiektów wyświetlanych na tym oknie. W C++ do łączenia danych różnych typów w jedną całość używa się konstrukcji `struct` (czyli tzw. struktury). Oto przykład: 
+Poznaliśmy dotąd jeden sposób łączenia danych w duże jednostki - tablice. Wśród wielu zalet, tablice mają jedną wadę: wszystkie ich elementy muszą być dokładnie tego samego typu. Tymczasem w praktyce programistycznej bardzo często łączymy ze sobą obiekty różnych typów. Na przykład wygląd okna programu może być opisywany przez kolor tła, kolor czcionki, nazwę czcionki, rozmiar okna, jego położenie itp. oraz analogiczne właściwości różnych obiektów wyświetlanych na tym oknie. W C++ do łączenia danych różnych typów w jedną całość używa się konstrukcji `struct` (czyli tzw. struktury). Oto przykład: 
 
 ```c++
 struct Okno
@@ -18,12 +18,13 @@ Mamy tutaj hipotetyczną strukturę o 5 składowych: `tytul`, `polozenie`, `czci
 Skoro `Okno` jest typem danych, to znamy już składnię umożliwiającą tworzenie zmiennych tego typu:
 
 ```c++
-Okno okno;
+int n;      // n jest zmienną (=obiektem typu podstawowego) typu int
+Okno okno;  // okno jest obiektem klasy Okno 
 ```
 
 W żargonie obiektowym zmienne nazywane są obiektami (ang. *objects*), co oznacza, że powoli zbliżamy się do programowania obiektowego. 
 
-W przypadku zmiennych (obiektów) typów podstawowych, np. `int` czy `double` wiemy, co możemy z nimi zrobić, np. dodać, pomnożyć przez 5, wyświetlić wartość w strumieniu `std::cout` itd. W przypadku obiektów typów zdefiniowanych przez użytkownika domyślny zbiór operacji na nich jest ograniczony, przy czym operacją podstawową jest uzyskiwanie dostępu do składowych. Służy do tego operator "kropka":
+W przypadku zmiennych (obiektów) typów podstawowych, np. `int` czy `double` wiemy, co możemy z nimi zrobić, np. dodać, pomnożyć przez 5, wyświetlić wartość w strumieniu `std::cout` itd. W przypadku obiektów typów zdefiniowanych przez użytkownika domyślny zbiór operacji na nich jest bardzo ograniczony, przy czym operacją podstawową jest uzyskiwanie dostępu do składowych. Służy do tego operator "kropka":
 
 ```c++
 int szer = okno.szerokosc;
@@ -34,7 +35,7 @@ okno.tytul = "Okno na podwórko";
 Oczywiście możemy pobierać adres takiego obiektu:
 
 ```c++
-Okno* p = &okno; 
+Okno* p = &okno; // p jest wskaźnikiem na obiekt okno
 ```
 
 W przypadku obiektów, do których dostęp mamy zapewniony przez wskaźnik, do wyłuskiwania składowych stosuje się operator "strzałka" (`->`):
@@ -43,11 +44,31 @@ W przypadku obiektów, do których dostęp mamy zapewniony przez wskaźnik, do w
 p->wysokosc += 10;
 ```
 
+Operator `->` wprowadzono w celu uproszczenia zapisu operacji na wskaźnikach do struktur. Np. powyższą instrukcję można bez tego operatora zapisać tak:
+
+```c++ 
+(*p).wysokosc += 10;
+```
+
+co jest dość niewygodne. W powyższym zapisie nawiasy są niezbędne, gdyż operator `.` ("kropka") ma wyższy priorytet niż `*` (czyli niż `operator *` ), więc zapis `*p.wysokosc` byłby równoważny zapisowi `*(p.wysokosc)`, który jest zapisem błędnym, jeżeli `p` jest wskaźnikiem (wskaźniki nie mają składowych, które można wyłuskiwać kropką).  Analogicznie hipotetyczny zapis
+
+```c++
+p->fun(7)->left->size();
+```
+
+bez notacji ze strzałką należałoby zapisywać w bardzo nieczytelny sposób:
+
+```c++ 
+(*(*(*p).fun(7)).left).size();
+```
+
+
+
 Struktury mogą zawierać inne struktury (w powyższym przykładzie: składową każdego obiektu typu `Okno` jest m.in. składowa typu `Font`). 
 
 #### Inicjalizacja struktur
 
-Do inicjalizacji struktur zwykle używa się notacji z nawiasami klamrowymi, np:
+Do nadawania strukturom wartości początkowej (inicjalizacji) zwykle używa się notacji z nawiasami klamrowymi, np:
 
 ```c++
 struct Punkt
@@ -60,7 +81,7 @@ Punkt p1 = {10.0f, -3.3f};
 Punkt p2 = {.x = 10.0f, .y = -3.3f};   // od C++20, tzw. designated initializer
 ```
 
-Znak równości jest w powyższym zapisie opcjonalny. Istnieje też składnia z nawiasami okrągłymi (por. konstruktory klas), która jednak w odniesieniu do struktur jest dość rzadko stosowana. 
+Znak równości jest w powyższym zapisie opcjonalny. Istnieje też składnia z nawiasami okrągłymi (por. konstruktory klas), która jednak w odniesieniu do struktur jest chyba stosunkowo rzadko stosowana. 
 
 #### Struktury dynamiczne
 
@@ -91,7 +112,7 @@ Zmienne `p0`, `p1` i `p2` nie są tu niezbędne (co omówię szczegółowo w inn
 
 ![lista2.png](./img/07/lista2.png)
 
-Warto zwrócić uwagę na to, że wartość `nullptr` ("zero") sygnalizuje koniec listy. 
+Warto zwrócić uwagę na to, że wartość `nullptr` ("zero", na schematach: znak uziemienia) sygnalizuje koniec listy. Jest to możliwe dzięki konwencji, że `nullptr` jest wartością specjalną dowolnej zmiennej wskaźnikowej sygnalizującą, że zmienna ta nie przechowuje żadnej użytecznej wartości.   
 
 W powyższym przykładzie można utworzyć wyrażenie
 
@@ -99,4 +120,4 @@ W powyższym przykładzie można utworzyć wyrażenie
 root->next->next->next->value  // tu: 3
 ```
 
-Takie kilkuelementowe łańcuchy wywołań operatora `->` są dość często widywane w praktyce, np. gdy z uchwytu do okna głównego aplikacji chcemy dotrzeć do jakiegoś pojedynczego elementu graficznego interfejsu użytkownika.
+Takie kilkuelementowe łańcuchy wywołań operatora `->` są dość często widywane w praktyce, np. gdy z uchwytu do okna głównego aplikacji chcemy dotrzeć do jakiegoś pojedynczego elementu graficznego interfejsu użytkownika. 

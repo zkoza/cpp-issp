@@ -4,7 +4,7 @@ Referencja to nowa nazwa dla już istniejącej zmiennej czy obiektu.
 
 ```c++
 int n = 0;
-int & ref = n;
+int &ref = n;
 std::cout << n << "\n";  // wyświetli 0
 ref = 1;                 // równoważne instrukcji n = 1;
 std::cout << n << "\n";  // wyświetli 1
@@ -51,7 +51,7 @@ g(int):
         ret
 ```
 
-Nie musimy znać asemblera by zauważyć, że kompilator obie wersje kodu przetłumaczył w identyczny sposób. Referencja w C++ to "ukryty wskaźnik". Innymi słowy, instrukcja
+Nie musimy znać asemblera by zauważyć, że kompilator obie wersje kodu przetłumaczył w identyczny sposób. Referencja w C++ to w praktyce "ukryty wskaźnik". Innymi słowy, instrukcja
 
 ```c++
 int & n = num;
@@ -82,12 +82,12 @@ std::cout << m << "\n"; // OK
 m = 1;                  // Błąd: m jest stałą referencją do k
 ```
 
-Mimo że dla kompilatora referencja to "ukryty wskaźnik", dla programisty jest to inna nazwa istniejącego obiektu. 
+Mimo że dla kompilatora referencja to "ukryty wskaźnik", **dla programisty** **referencja jest to inna nazwa istniejącego obiektu**. 
 
 ```c++
 char c = 'a';
 char & n = c;
-std::cout << sizeof(n) << "\n";  // wyświetli 1, czyli sizeof(k), czyli rozmiar c a nie rozmiar n
+std::cout << sizeof(n) << "\n";  // wyświetli 1, bo n to inna nazwa c, a sizeof(n) to sizeof(c), czyli 1
 ```
 
  
