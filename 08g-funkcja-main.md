@@ -42,7 +42,7 @@ argument 4: koty
 argument 5: w cudzysłowie
 ```
 
-Jak widzimy, wartość `argc`  odpowiada liczbie argumentów wiersza poleceń powiększoną o 1. Z kolei `argv` to (w wystarczającym przybliżeniu) tablica `argc` napisów w stylu języka C przechowujących kolejne argumenty wiersza poleceń, przy czym `argv[0]`, przechowuje nazwę programu (zwykle wraz ze ścieżką).
+Jak widzimy, wartość `argc`  odpowiada liczbie argumentów wiersza poleceń powiększoną o 1. Z kolei `argv` to (w wystarczającym przybliżeniu) tablica napisów w stylu języka C przechowujących kolejne argumenty wiersza poleceń, przy czym `argv[0]`, przechowuje nazwę programu (zwykle wraz ze ścieżką). Nazwy obu argumentów funkcji `main`, czyli `argc` i `argv` są zwyczajowe i oczywiście można zamiast nich użyć innych identyfikatorów, ale po co wprowadzać zamieszanie?  
 
 #### Wartość funkcji `main` 
 
@@ -73,4 +73,4 @@ echo $?
 
 Pierwsza komenda `echo $?` wyświetliła liczbę zwróconą z funkcji `main`programu `./a.out`, czyli 1, natomiast druga - kod zakończenia instrukcji `echo $?`, czyli 0. Zero oznacza bowiem "polecenie zakończyło się bez błędu". 
 
-Wartości przekazywane z funkcji `main` można badać w skryptach uruchamiających rożne programy. Dzięki temu skrypty mogą np. przerwać swoje działanie, gdy okaże się, że któryś z programów zakończył się niepowodzeniem.
+Wartości przekazywane z funkcji `main` można badać w skryptach uruchamiających rożne programy. Dzięki temu skrypty mogą np. przerwać swoje działanie, gdy okaże się, że któryś z programów zakończył się niepowodzeniem, i wyświetlać komunikaty diagnostyczne opisujące napotkany problem. 

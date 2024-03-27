@@ -47,7 +47,7 @@ Jak widzimy, operatory definiujemy jak funkcje o nazwie `operator<<`, `operator+
 int main()
 {
     Pracownik p {"Mick Jagger", 1943};
-    operator<<(operator<<(std::cout, p), "\n");
+    operator<<(operator<<(std::cout, p), "\n"); // std::cout << p << "\n";
 }
 ```
 
@@ -55,7 +55,7 @@ Ten program działa dokładnie tak samo, jak poprzedni.
 
 Widzimy więc, że aby wyrażenie `std::cout << prac` miało dla kompilatora znaczenie, pierwszy argument tego operatora musi być referencją do wyjściowego strumienia danych (gdyż `std::cout` jest jednym ze strumieni wyjścia), drugi zaś musi być typu `Pracownik`. Strumienie zawsze przekazujemy przez referencję, gdyż nie wolno ich kopiować, a poza tym chcemy coś zapisywać do strumienia, więc chcemy go modyfikować. Stąd deklaracja argumentów: `operator<<(std::ostream& out, const Pracownik& prac)`. 
 
-Typ `std::ostream` jest uniwersalnym typem wspólnym dla wszystkich strumieni wyjścia, dlatego nasz operator będzie działał także na plikach:
+Typ `std::ostream` jest uniwersalnym typem wspólnym dla wszystkich strumieni wyjścia (ang. ***o**utput **stream***), dlatego nasz operator będzie działał także na plikach:
 
 ```c++
 int main()
@@ -87,7 +87,7 @@ Oto sposób na to, by wektory zmiennych typu`int` można było mnożyć przez li
 ```c++
 std::vector<int>& operator*=(std::vector<int> & v, int k)
 {
-    for (auto & n: v) 
+    for (auto & n: v) //  jeśli chcesz modyfikować n, pamiętaj o symbolu referencji! 
         n *= k;
     return v;    
 }
@@ -122,7 +122,7 @@ Wynik:
 -2 -4 -6 
 ```
 
-Analogicznie można zdefiniować niemal wszystkie operatory dwuragumentowe i większość jednoargumentowych. Niemal pełna lista: `+`, `-`, `*`, `/`, `%`, `^`, `&`, `|`, `~`, `!`, `=`, `<`, `>`, `+=`, `-=`, `*=`, `/=`, `%=`, `^=`, `&=`, `|=`, `<<`, `>>`, `>>=`, `<<=`, `==`, `!=`, `<=`, `>=`, `<=>`, `&&`, `||`, `++`, `--`, `,`, `->*`, `->`, `( )`, `[ ]`. W niektórych przypadkach trzeba doczytać dokumentację, by dowiedzieć się np. jak odróżnić `++x` od `x++`. Można też przeciążać m.in. operatory `new` i `delete` operatory konwersji typu oraz "operatory przyrostkowe".  Oto [przykład](https://en.cppreference.com/w/cpp/chrono/operator%22%22h) zastosowania standardowych operatorów przyrostkowych:
+Analogicznie można zdefiniować niemal wszystkie operatory dwuragumentowe i większość jednoargumentowych. Niemal pełna lista operatorów, które można w ten sposób definiować dla własnych typów danych: `+`, `-`, `*`, `/`, `%`, `^`, `&`, `|`, `~`, `!`, `=`, `<`, `>`, `+=`, `-=`, `*=`, `/=`, `%=`, `^=`, `&=`, `|=`, `<<`, `>>`, `>>=`, `<<=`, `==`, `!=`, `<=`, `>=`, `<=>`, `&&`, `||`, `++`, `--`, `,`, `->*`, `->`, `( )`, `[ ]`. W niektórych przypadkach trzeba doczytać dokumentację, by dowiedzieć się np. jak odróżnić `++x` od `x++`. Można też przeciążać m.in. operatory `new` i `delete` operatory konwersji typu oraz specjalne "operatory przyrostkowe".  Oto [przykład](https://en.cppreference.com/w/cpp/chrono/operator%22%22h) zastosowania standardowych operatorów przyrostkowych:
 
 ```c++
 #include <iostream>

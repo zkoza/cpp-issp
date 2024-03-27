@@ -1,10 +1,10 @@
 ### Funkcje otwarte (`inline`)
 
-W C++ istnieją funkcje, których definicja zawiera słowo kluczowe `inline`. Pierwotnie wprowadzono je w celu ułatwienia kompilatorowi optymalnej kompilacji krótkich funkcji (tzn. składających się z kilku instrukcji) +za pomocą techniki zwanej "inlining". W dużym uproszczeniu można to porównać do stosowania hiperlinków w tekstach. Gdybym zaczął tu używać [linków](./08fa-krotki-link.md) do bardzo krótkich tekstów lun grafik,  to czytelnicy z pewnością nie byli by szczęśliwi: link trzeba otworzyć, rzucić okiem na jego zawartość, po czym jakoś wrócić  do tekstu głównego. Zamiast tego zawartość linkowanej strony można można wstawić bezpośrednio w tekście głównym:
+W C++ istnieją funkcje, których definicja zawiera słowo kluczowe `inline`. Pierwotnie wprowadzono je w celu ułatwienia kompilatorowi optymalnej kompilacji krótkich funkcji (tzn. składających się z kilku instrukcji) za pomocą techniki zwanej  z języka angielskiego *inlining* ("wklejanie"). W dużym uproszczeniu można to porównać do stosowania hiperlinków w tekstach. Gdybym zaczął tu używać [linków](./08fa-krotki-link.md) do bardzo krótkich tekstów lub grafik,  to czytelnicy z pewnością nie byli by szczęśliwi: link trzeba otworzyć, rzucić okiem na jego zawartość, po czym jakoś wrócić  do tekstu głównego. Zamiast tego zawartość linkowanej strony można można wstawić bezpośrednio w tekście głównym (i to jest właśnie ten *inlining*):
 
 ![https://ecsmedia.pl/c/czy-leci-z-nami-pilot-w-iext110233473.jpg`](https://ecsmedia.pl/c/czy-leci-z-nami-pilot-w-iext110233473.jpg)   
 
-Taki tekst czyta się szybciej i wygodniej. Jednak jeżeli chciałbym napisać jakąś dłuższą uwagę o jakimś niezbyt istotnym aspekcie technicznym C++, z pewnością lepiej byłoby go umieścić w osobnym pliku, prawda? 
+Taki tekst czyta się szybciej i wygodniej. Jednak jeżeli chciałbym napisać dłuższą uwagę o jakimś niezbyt istotnym aspekcie technicznym C++, z pewnością lepiej byłoby go umieścić w osobnym pliku, prawda? 
 
 Współczesne kompilatory nie potrzebują słowa kluczowego `inline` do optymalizacji kodu. Zwykle potrafią bowiem optymalizować kod lepiej niż ludzie. Funkcje `inline` potrzebne są jednak do wyłączenia reguły ODR (*one definition rule*) w funkcjach, których kod powinien znaleźć się w plikach nagłówkowych (czyli tych z rozszerzeniem `*.h`, włączanych do plików źródłowych `*.cpp` makrem preprocesora `#include`). Tego rodzaju funkcje są zaś niezbędne w przypadku kodu generowanego z szablonu. Innymi słowy, w praktyce funkcje `inline` są niezbędne do tego, by w C++ można było używać szablonów - technologii, która jest jedną z wyróżniających cech tego języka. Dodatkowo, funkcje `inline` na pewno mogą być optymalizowane za pomocą metody zwanej *inlining*, ale kompilator ma tu pełną swobodę w podjęciu decyzji o zastosowaniu tej optymalizacji lub jej pominięciu, także w stosunku do funkcji pozbawiony modyfikatora `inline`.   
 
@@ -30,7 +30,7 @@ Jak widać, użycie funkcji `inline` niczym nie różni się od wykorzystania "z
 
 Załóżmy, że chcemy zbudować bibliotekę z funkcją `suma` z powyższego przykładu. Mamy 2 możliwości. 
 
-- Rozwiązanie standardowe: umieścić definicję tej funkcji w pliku `suma.cpp`, a je deklarację w pliku `suma.h` i włączać tę deklarację do każdego pliku źródłowego, który chce użyć tej "biblioteki"
+- Rozwiązanie standardowe: umieścić definicję tej funkcji w pliku `suma.cpp`, a jej deklarację w pliku `suma.h` i włączać tę deklarację do każdego pliku źródłowego, który chce użyć tej "biblioteki"
 
   ```c++
   // Plik suma.h   (uproszczony, bez strażnika nagłówka)
@@ -42,7 +42,7 @@ Załóżmy, że chcemy zbudować bibliotekę z funkcją `suma` z powyższego prz
   
   #include "suma.h"
   
-  inline int suma(int x, int y)
+  int suma(int x, int y)
   {
       return x + y;
   }
@@ -70,28 +70,31 @@ Załóżmy, że chcemy zbudować bibliotekę z funkcją `suma` z powyższego prz
 
   ```c++
   // Plik suma.h   (uproszczony, bez strażnika nagłówka)
-  inline int suma(int x, int y);
+  inline int suma(int x, int y)
+  {
+      return x + y;
+  }
   ```
-
+  
   Plik `suma.cpp` byłby teraz niepotrzebny, a plik `main.cpp` nie uległby zmianie. Kompilacja wyglądałaby tak:
-
+  
   ```bash
   > g++ main.cpp
   ```
 
-Program działałby tak samo, jak w pierwszej wersji. Można by nawet  pominąć `inline`, o ile nie rozbudowalibyśmy programu o kolejny plik źródłowy (*.cpp), który zawierałby instrukcję 
+Program działałby tak samo, jak w pierwszej wersji. Można by nawet  spróbować pominąć tu słowo kluczowe  `inline`, o ile nie rozbudowalibyśmy programu o kolejny plik źródłowy (*.cpp), który zawierałby instrukcję 
 
 ```c++
 #include "suma.h"
 ```
 
-Bez modyfikatora `inline` w deklaracji funkcji `suma` kompilacja  zakończyłaby się błędem. 
+Bez modyfikatora `inline` w deklaracji funkcji `suma` kompilacja takiego programu zakończyłaby się błędem. 
 
 #### *Inlining*
 
 *Inlining* to rodzaj optymalizacji polegający na zastąpieniu wywołania funkcji wklejeniem jej kodu bezpośrednio w każdym miejscu jej wywołania. To mniej więcej tak, jak by jakiś program przeglądał kod strony internetowej i każdy link zastępował treścią strony, do której ten link się odnosi. Jeżeli na linkowanej stronie byłoby bardzo mało tekstu, miałoby to sens, jeśli dużo, to raczej byłaby katastrofa. Analogicznie `inlining` jest stosowany raczej wyłącznie do "małych" funkcji, z niewielką liczbą instrukcji. 
 
-Rozpatrzmy bardzo przykład bardzo prostego programu:
+Rozpatrzmy przykład bardzo prostego programu:
 
 ```c++
 int suma(int x, int y)
@@ -131,7 +134,7 @@ return 6;
 
 Gdyby definicja funkcji `suma` umieszczona była w osobnym pliku nagłówkowym (i zapewne miała modyfikator `inline`) , efekt byłby taki sam, gdyż kompilator miałby dostęp do jej kodu źródłowego i mógłby dokonać odpowiednich transformacji. 
 
-Gdyby definicji funkcji `suma`  umieszczona była w osobnym pliku źródłowym (*.cpp), to zoptymalizowany asembler funkcji `main` wyglądałby następująco:
+Gdyby definicji funkcji `suma`  umieszczona była w osobnym pliku źródłowym (*.cpp), to zoptymalizowany kod asemblerowy funkcji `main` wyglądałby następująco:
 
 ```assembly
 main:
@@ -140,20 +143,20 @@ main:
 	jmp    1130 <suma(int, int)>
 ```
 
-Jak widać, mielibyśmy tu (uproszczone, poprzez wywołanie `jmp` zamiast `call`) wywołanie funkcji `suma`. Program działałby odrobinę dłużej.
+Jak widać, mielibyśmy tu (uproszczone, poprzez wywołanie `jmp` zamiast `call`) wywołanie funkcji `suma`. Program działałby odrobinę dłużej niż w przypadku zastosowania *inliningu*.
 
-Dlaczego nie umieszcza się definicji wszystkich funkcji w plikach nagłówkowych z atrybutem `inline`? Bo kompilacja takich programów trwałaby koszmarnie długo, a efekt końcowy, nawet jeśli byłby lepszy, to w sposób praktycznie niemierzalny. Co więcej, istnieją techniki optymalizacji, które pozwalają zoptymalizować nawet kod zapisany w różnych plikach źródłowych tak, jak by był umieszczony w jednym (*link-time optimization*). 
+Dlaczego nie umieszcza się definicji wszystkich funkcji w plikach nagłówkowych z atrybutem `inline`? Bo kompilacja takich programów trwałaby koszmarnie długo, a efekt końcowy, nawet jeśli byłby lepszy (co jest wątpliwe, bo *inlining* wydłuża kod programów wynikowych, a bardzo duże programy z zasady działają wolno) , to w sposób praktycznie niemierzalny. Co więcej, istnieją techniki optymalizacji, które pozwalają zoptymalizować nawet kod zapisany w różnych plikach źródłowych tak, jak by był umieszczony w jednym (*link-time optimization*). 
 
 #### Ciekawostki
 
 Jeżeli chcesz zobaczyć kod asemblerowy programu napisanego w C++, to w Linuksie możesz posłużyć się  programem `objdump`. np.:
 
 ```bash
-> g++ suma.cpp main.cpp -flto -O3
+> g++ suma.cpp main.cpp -flto -O3 -g
 > objdump a.out -dC
 ```
 
-- Pierwsza komenda kompiluje program z opcjami `-O3` (pełna optymalizacja)  i `-flto` (zastosuj optymalizację na poziomie konsolidacji programu) i umieszcza wynik kompilacji w pliku `a.out` (domyślna nazwa pliku wykonywalnego w systemach UNIX i pochodnych)
+- Pierwsza komenda kompiluje program z opcjami `-O3` (pełna optymalizacja), `-flto` (zastosuj optymalizację na poziomie konsolidacji programu) i `-g` (dołącz do kodu wynikowego informacje dla debugera, w tym o programie źródłowym) i umieszcza wynik kompilacji w pliku `a.out` (domyślna nazwa pliku wykonywalnego w systemach UNIX i pochodnych)
 - Druga komenda wyświetla kod maszynowy, kod asemblerowy oraz odpowiadający im kod źródłowy (opcja `-d`) w sposób czytelny dla człowieka (opcja `-C`).
 
 Inna metoda to wklejenie fragmentu programu (np. pojedynczej funkcji) w serwisie Compiler Explorer, https://godbolt.org/. 

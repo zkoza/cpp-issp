@@ -13,7 +13,7 @@ int suma(int n, int m)
 
 chcemy wykorzystać np. w funkcji `main`, to mamy trzy wyjścia:
 
-- Umieścić definicję funkcji `suma` przed definicją funkcji `main`, np.:
+- Umieścić **definicję** funkcji `suma` **przed** definicją funkcji `main`, np.:
 
   ```c++
   #include <iostream>
@@ -29,7 +29,7 @@ chcemy wykorzystać np. w funkcji `main`, to mamy trzy wyjścia:
   }
   ```
 
-- Umieścić deklarację funkcji `suma` przed definicja funkcji `main`, a definicję funkcji `suma` umieścić gdzieś dalej w tym samym pliku:
+- Umieścić **deklarację** funkcji `suma` **przed** definicją funkcji `main`, a definicję funkcji `suma` umieścić gdzieś dalej w tym samym pliku:
 
   ```c++
   #include <iostream>
@@ -47,7 +47,7 @@ chcemy wykorzystać np. w funkcji `main`, to mamy trzy wyjścia:
   }
   ```
 
-- Umieścić ***deklarację*** funkcji `suma` w osobnym pliku (nagłówkowym), który włączymy na początku pliku zawierającego definicję funkcji `main` makrem `#include`, umieścić ***definicję*** funkcji `suma` w osobnym pliku (źródłowym), i w końcu umieścić definicję funkcji `main`  w jeszcze innym pliku (też źródłowym):
+- Umieścić ***deklarację*** funkcji `suma` **w osobnym pliku** (nagłówkowym), **włączyć** go na początku pliku zawierającego definicję funkcji `main` makrem `#include`, umieścić ***definicję*** funkcji `suma` w osobnym pliku (źródłowym), i w końcu umieścić definicję funkcji `main`  w jeszcze innym pliku (też źródłowym):
 
   ```c++
   // Plik suma.h, uproszczony (bez tzw. strażnika nagłówka)
@@ -89,7 +89,7 @@ chcemy wykorzystać np. w funkcji `main`, to mamy trzy wyjścia:
   set(CMAKE_CXX_STANDARD 17)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
   
-  add_executable(suma main.cpp suma.cpp)
+  add_executable(suma main.cpp suma.cpp) # cel "suma" zależy od main.cpp i suma.cpp
   ```
 
 Istnieje specjalny rodzaj funkcji, które nie podlegają regule ODR. Są to tzw. funkcje otwarte *(inline*), o których szerzej napisze w innym miejscu.  

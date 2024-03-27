@@ -58,6 +58,12 @@
   - [Typowa implementacja wirtualnego wywołania funkcji w C++](14b-wywolanie-wirtualne.md)
   - [Przykłady](14c-przyklady-wirtualne.md) 
 
+### Strumienie
+
+- Obsługa plików
+- Obsługa strumieni skojarzonych z pamięcią RAM
+- std::format
+
 
 ### Preprocesor
 

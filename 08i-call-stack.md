@@ -1,6 +1,6 @@
 ## Stos wywołań funkcji (*call stack*)
 
-Nie mam wątpliwości, że programując w językach kompilowanych do kodu maszynowego (C, C++, Rust i wiele, wiele innych) powinien mieć choćby elementarną wiedzę o stosie wywołań funkcji i pamięci wolnej. Ponieważ moja wiedza w tym zakresie jest właśnie taka elementarna, ograniczę się tu do przedstawienia linku do artykułu w Wikipedii:
+Nie mam wątpliwości, że programista programujący w językach kompilowanych do kodu maszynowego (C, C++, Rust i wiele, wiele innych) powinien mieć choćby elementarną wiedzę o stosie wywołań funkcji i pamięci wolnej. Ponieważ moja wiedza w tym zakresie jest właśnie taka elementarna, ograniczę się tu zasadniczo do przedstawienia linku do artykułu w Wikipedii:
 
 - https://en.wikipedia.org/wiki/Call_stack 
 
