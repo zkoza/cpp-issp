@@ -58,9 +58,10 @@
   - Jako klasa
     - [*First things first*: funkcje składowe i sekcje *public*, *private* (i *protected*)](./09a-dyn-vec-member-fun-public-private.md) 
     - [Dodajemy konstruktor i destruktor](./09b-dyn-vec-konstruktor-destruktor.md)
+    - [Do konstruktorów dodajemy listy inicjalizacyjne](./09c-dyn-vec-konstruktor-preambula.md) 
+    - Dodajemy operatory indeksowania  
     - Dodajemy składowe funkcyjne i sekcję prywatną
     - Dodajemy składowe funkcyjne z atrybutem const 
-    - Dodajemy operatory indeksowania  
     - Dodajemy  możliwość zmiany rozmiaru wektora
     - Dodajemy konstruktor kopiujący
     - Dodajemy konstruktor domyślny 
