@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstddef>  // <-- tu jest deklaracja size_t
 
 struct Wektor
 {
