@@ -7,4 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(wektor0 vector0.cpp)
 add_executable(wektor1 vector1.cpp)
+add_executable(wektor2 vector2.cpp)
 

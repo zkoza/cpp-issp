@@ -56,7 +56,8 @@
 - Przykład: własna implementacja dynamicznego wektora
   - [Jako struktura](./09a-dyn-vec-struct.md) ("w stylu języka C")
   - Jako klasa
-    - Jako prosta klasa z konstruktorem i destruktorem
+    - [*First things first*: funkcje składowe i sekcje *public*, *private* (i *protected*)](./09a-dyn-vec-member-fun-public-private.md) 
+    - [Dodajemy konstruktor i destruktor](./09b-dyn-vec-konstruktor-destruktor.md)
     - Dodajemy składowe funkcyjne i sekcję prywatną
     - Dodajemy składowe funkcyjne z atrybutem const 
     - Dodajemy operatory indeksowania  
