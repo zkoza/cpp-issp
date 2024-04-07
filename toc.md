@@ -21,6 +21,13 @@
 - [Wskaźniki](./06-wskazniki.md)
   - [`qsort` w akcji](06a-qsort.md)
 
+- Instrukcje złożone
+  - instrukcja warunkowa (if)
+  - pętla for
+  - pętla while
+  - pętla do ... while
+  - instrukcja switch
+
 - [Struktury](./07-struktury.md)
 - [Referencje](./08-referencje.md)
 - [Funkcje](./08-funkcje.md)
@@ -46,7 +53,20 @@
 
 ### Klasy i obiekty
 
-- Struktury
+- Przykład: własna implementacja dynamicznego wektora
+  - [Jako struktura](./09a-dyn-vec-struct.md) ("w stylu języka C")
+  - Jako klasa
+    - Jako prosta klasa z konstruktorem i destruktorem
+    - Dodajemy składowe funkcyjne i sekcję prywatną
+    - Dodajemy składowe funkcyjne z atrybutem const 
+    - Dodajemy operatory indeksowania  
+    - Dodajemy  możliwość zmiany rozmiaru wektora
+    - Dodajemy konstruktor kopiujący
+    - Dodajemy konstruktor domyślny 
+    - Dodajemy operator przypisania
+    - Dodajemy konstruktor z listą inicjalizacyjną
+    - Dodajemy iterator
+
 - Klasy
   - konstruktory, destruktor
   - hermetyzacja danych
