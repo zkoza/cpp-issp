@@ -60,7 +60,7 @@
     2. [Dodajemy konstruktor i destruktor](./09b-dyn-vec-konstruktor-destruktor.md)
     3. [Do konstruktorów dodajemy listy inicjalizacyjne](./09c-dyn-vec-konstruktor-preambula.md) (opcja)
     4. [Dodajemy operator indeksowania](./09d-dyn-vec-operator-indeksowania.md)  
-    5. Dodajemy składowe funkcyjne z atrybutem const 
+    5. [Dodajemy składowe funkcyjne z atrybutem const](./09e-dyn-vec-skladowe-const.md) 
     6. Dodajemy  możliwość zmiany rozmiaru wektora
     7. Dodajemy operator przypisania
     8. Dodajemy konstruktor z listą inicjalizacyjną
