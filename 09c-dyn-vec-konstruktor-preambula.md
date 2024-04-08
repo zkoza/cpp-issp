@@ -40,32 +40,44 @@ Jak widzimy, parametry inicjalizacyjne przekazuje się przed klamrą otwierając
 
 Dzięki liście inicjalizacyjnej mamy gwarancję, że w chwili, gdy rozpoczyna się wykonywanie konstruktora, wszystkie jego składowe mają już jakieś rozsądne wartości i można używać ich bezpiecznie. Nie napisałem, że są to wartości poprawne czy oczekiwane. Wystarczy, że są poprawne, czyli że gwarantują, że wszystkich składowych obiektu można w konstruktorze używać bezpiecznie. 
 
-Po drobnych przekształceniach kod wygląda nastepująco:
+Nasz program można jeszcze bardziej unowocześnić, nadając składowym domyślne wartości początkowe:
+
+ ```c++
+ class Wektor
+ {
+     int* dane = nullptr;  // domyślna wartość początkowa dla składowej
+     size_t size;
+     ... 
+ }
+ ```
+
+Takie wartości początkowe są wstawiane domyślnie w preambuły tych konstruktorów, w których programista w sposób jawny nie podał incjalizatora danej składowej. 
+
+Po drobnych przekształceniach nasz kod wygląda następująco:
 
 ```c++
 #include <iostream>
 
 class Wektor
 {
-    int* dane;
-    size_t size;
+    int* dane = nullptr;
+    size_t size = 0;
 
   public:
-    Wektor() 
-        : dane(nullptr), size(0) 
-        {}
+    Wektor()
+    { }
 
-    Wektor(size_t new_size, int init_value = 0) 
+    Wektor(size_t new_size, int init_value = 0)
         : size(new_size)
     {
-        dane = new int[new_size];
+        dane = new int[size];
         for (size_t i = 0; i < size; i++)
         {
             dane[i] = init_value;
         }
     }
 
-    Wektor(const Wektor& v) 
+    Wektor(const Wektor& v)
         : size(v.size)
     {
         dane = new int[size];
@@ -85,8 +97,8 @@ class Wektor
 
 int main()
 {
-    Wektor w(5); // czy to się kompiluje?
-    Wektor v(w); // czy to się kompiluje?
+    Wektor w(5);
+    Wektor v(w);
 }
 ```
 

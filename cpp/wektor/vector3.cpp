@@ -2,22 +2,25 @@
 
 class Wektor
 {
-    int* dane;
-    size_t size;
+    int* dane = nullptr;
+    size_t size = 0;
 
   public:
-    Wektor() : dane(nullptr), size(0) {}
+    Wektor()
+    { }
 
-    Wektor(size_t new_size, int init_value = 0) : size(new_size)
+    Wektor(size_t new_size, int init_value = 0)
+        : size(new_size)
     {
-        dane = new int[new_size];
+        dane = new int[size];
         for (size_t i = 0; i < size; i++)
         {
             dane[i] = init_value;
         }
     }
 
-    Wektor(const Wektor& v) : size(v.size)
+    Wektor(const Wektor& v)
+        : size(v.size)
     {
         dane = new int[size];
         for (size_t i = 0; i < size; i++)
