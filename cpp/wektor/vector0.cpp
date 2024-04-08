@@ -1,3 +1,5 @@
+// wersja ze strukturami, bardzo wstępna, poglądowa
+
 #include <cstddef>  // <-- tu jest deklaracja size_t
 
 struct Wektor

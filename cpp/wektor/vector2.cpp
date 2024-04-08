@@ -1,18 +1,20 @@
 #include <iostream>
 
+// konstruktory, destruktor
+
 class Wektor
 {
     int* dane;
     size_t size;
 
   public:
-    Wektor()
+    Wektor()   // konstruktor bezargumentowy
     {
         dane = nullptr;
         size = 0;
     }
 
-    Wektor(size_t new_size, int init_value = 0)
+    Wektor(size_t new_size, int init_value = 0) // popularny konstruktor z argumentem domyślnym
     {
         size = new_size;
         dane = new int[new_size];
@@ -22,7 +24,7 @@ class Wektor
         }
     }
 
-    Wektor(const Wektor& v)
+    Wektor(const Wektor& v) // konstruktor kopiujący
     {
         size = v.size;
         dane = new int[size];
@@ -32,7 +34,7 @@ class Wektor
         }
     }
 
-    ~Wektor()
+    ~Wektor()  // destruktor
     {
         delete[] dane;
         dane = nullptr;
@@ -40,7 +42,10 @@ class Wektor
     }
 };
 
-int main() {
+int main()
+{
+    // test, czy kontruktory sie kompilują
     Wektor w(5);
     Wektor v(w);
+    Wektor u;
 }

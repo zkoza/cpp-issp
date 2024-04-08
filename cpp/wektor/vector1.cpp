@@ -1,3 +1,7 @@
+// wersja z klasą,
+// - sekcje public/protected
+// - funkce składowe
+
 #include <iostream>
 
 class Wektor

@@ -56,18 +56,15 @@
 - Przykład: własna implementacja dynamicznego wektora
   - [Jako struktura](./09a-dyn-vec-struct.md) ("w stylu języka C")
   - Jako klasa
-    - [*First things first*: funkcje składowe i sekcje *public*, *private* (i *protected*)](./09a-dyn-vec-member-fun-public-private.md) 
-    - [Dodajemy konstruktor i destruktor](./09b-dyn-vec-konstruktor-destruktor.md)
-    - [Do konstruktorów dodajemy listy inicjalizacyjne](./09c-dyn-vec-konstruktor-preambula.md) 
-    - Dodajemy operatory indeksowania  
-    - Dodajemy składowe funkcyjne i sekcję prywatną
-    - Dodajemy składowe funkcyjne z atrybutem const 
-    - Dodajemy  możliwość zmiany rozmiaru wektora
-    - Dodajemy konstruktor kopiujący
-    - Dodajemy konstruktor domyślny 
-    - Dodajemy operator przypisania
-    - Dodajemy konstruktor z listą inicjalizacyjną
-    - Dodajemy iterator
+    1. [*First things first*: funkcje składowe i sekcje *public*, *private* (i *protected*)](./09a-dyn-vec-member-fun-public-private.md) 
+    2. [Dodajemy konstruktor i destruktor](./09b-dyn-vec-konstruktor-destruktor.md)
+    3. [Do konstruktorów dodajemy listy inicjalizacyjne](./09c-dyn-vec-konstruktor-preambula.md) (opcja)
+    4. [Dodajemy operator indeksowania](./09d-dyn-vec-operator-indeksowania.md)  
+    5. Dodajemy składowe funkcyjne z atrybutem const 
+    6. Dodajemy  możliwość zmiany rozmiaru wektora
+    7. Dodajemy operator przypisania
+    8. Dodajemy konstruktor z listą inicjalizacyjną
+    9. Dodajemy iterator
 
 - Klasy
   - konstruktory, destruktor
