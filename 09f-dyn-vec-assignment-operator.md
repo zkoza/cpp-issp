@@ -251,6 +251,20 @@ a kompilator zamieniał to na coś w rodzaju
 int X::kwadrat(const X *this, int n) { return n * n; }
 ```
 
+Podobnie wywołanie funkcji poprzez "notację z kropką",  np. 
+
+```c++ 
+X x;
+x.kwadrat(7);
+```
+
+można zamienić na wywołanie "zwyczajnej funkcji"
+
+```c++ 
+X x;
+X::kwadrat(&x, 7);
+```
+
 Prawdę mówiąc, pierwsze kompilatory C++ działały dokładnie w ten sposób: zamieniały kod źródłowy języka C++ na kod źródłowy języka C. W szczególności, w stosunku do (niestatycznych) funkcji składowych klas dokonywały transformacji właśnie takiej jak powyższa.  Warto przy okazji zauważyć, co w tej interpretacji oznacza `const` w deklaracji stałej funkcji składowej, np. `int kwadrat(int n) const`. Jest to modyfikator modyfikujący typ `this`. Innymi słowy, po transformacji do języka C,  on modyfikuje typ wskazywany przez ten `this`. 
 
-Na koniec - dlaczego `this` w C++ jest pseudowskaźnikiem a nie wskaźnikiem? Gdyż nie jest zwykłą zmienną, a raczej wartością. W szczególności, nie można pobrać jego adresu.
+Na koniec: dlaczego `this` w C++ jest pseudowskaźnikiem a nie wskaźnikiem? Gdyż nie jest zwykłą zmienną, a raczej wartością. W szczególności, nie można pobrać jego adresu.
