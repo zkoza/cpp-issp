@@ -61,10 +61,11 @@
     3. [Do konstruktorów dodajemy listy inicjalizacyjne](./09c-dyn-vec-konstruktor-preambula.md) (opcja)
     4. [Dodajemy operator indeksowania](./09d-dyn-vec-operator-indeksowania.md)  
     5. [Dodajemy składowe funkcyjne z atrybutem const](./09e-dyn-vec-skladowe-const.md) 
-    6. Dodajemy  możliwość zmiany rozmiaru wektora
-    7. Dodajemy operator przypisania
-    8. Dodajemy konstruktor z listą inicjalizacyjną
-    9. Dodajemy iterator
+    6. [Dodajemy operator przypisania](./09f-dyn-vec-assignment-operator.md) (używając pseudowskaźnika `this` )
+    7. Rozdzielamy implementację na interfejs i implementację
+    8. Dodajemy  możliwość zmiany rozmiaru wektora
+    9. Dodajemy konstruktor z listą inicjalizacyjną (opcja)
+    10. Dodajemy iterator (opcja)
 
 - Klasy
   - konstruktory, destruktor
