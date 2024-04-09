@@ -69,7 +69,7 @@ class Wektor
     int front() const { return _dane[0]; }         // wartość pierwszego elementu wektora
     int& back() { return _dane[_size - 1]; }       // referencja do ostatniego elementu wektora
     int back() const { return _dane[_size - 1]; }  // wartość ostatniego elementu wektora
-    size_t size() const { return _size; }          // rozmiar wektora
+    size_t size() const;          // rozmiar wektora
     int* data() const { return _dane; }            // wskaźnik do lokalizacji danych
     bool empty() const { return _size == 0; }      // czy wektor jest pusty?
 };
@@ -77,7 +77,8 @@ class Wektor
 class X
 {
   public:
-    auto This() const { return this; }
+    const X* This() const { return this; }
+    X* This()  { return this; }
 };
 
 int main()
@@ -90,6 +91,7 @@ int main()
 
     Wektor v(4);
     Wektor w(6);
+
     w[1] = 1;
     w[2] = 2;
     v = w;

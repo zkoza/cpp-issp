@@ -217,4 +217,40 @@ lub nawet
 
 #### `this` w C++ a `self` w Pythonie
 
-TBA
+Aby lepiej zrozumieć `this`, warto porównać go z jego odpowiednikami w innych językach programowania, np. z `self` w Pythonie. W serwisie [Geegs for geeks](https://www.geeksforgeeks.org/self-in-python-class/) znalazłem taki opis:
+
+*When working with classes in Python, the term “self”  refers to the instance of the class that is currently being used. It is  customary to use “self” as the first parameter in instance methods of a  class. Whenever you call a method of an object created from a [class](https://www.geeksforgeeks.org/python-classes-and-objects/), the object is automatically passed as the first argument using the  “self” parameter. This enables you to modify the object’s properties and execute tasks unique to that particular instance.*
+
+Ten opis jest ciekawy także ze względu na nomenklaturę. W informatyce często te same lub bardzo podobne koncepcje w różnych środowiskach opisywane są nieco innym językiem. Tutaj *instance of a class* to po prostu "obiekt danej klasy", *instance method* to "funkcja składowa klasy operująca na obiektach tej klasy", natomiast *an object created from a class* to "obiekt klasy". Powyższemu opisowi twarzyszy kod przykładowy:
+
+```python
+class mynumber:
+    def __init__(self, value):
+        self.value = value
+     
+    def print_value(self):
+        print(self.value)
+ 
+obj1 = mynumber(17)
+obj1.print_value()
+```
+
+Widzimy, że w języku Python funkcje składowe klas, które są wywoływane na obiektach (tzw. "metody"), mają wyróżniony pierwszy parametr, zwyczajowo nazywany `self`. Parametr ten występuje w ich definicji, ale nie używa się go podczas wywoływania takich funkcji (byłoby to bardzo niewygodne, gdyż wymagałoby to powtórzenia argumentu stojącego przed kropką, np. `ob1.print_value(obj)`). Porównajmy początek definicji, `print_value(self)` i wywołanie: `obj1.print_value()` (0 zamiast 1 jawnego argumentu). W Pythonie ten pierwszy argument jest uzupełniany automatycznie przez interpreter. Co to ma wspólnego z C++? Otóż w C++ jest dokładnie tak samo, tyle że skoro ten pierwszy argument jest używany zawsze i łato daje się to zautomatyzować, to nie tylko nie musimy, ale wręcz nie możemy deklarować go wraz z pozostałymi argumentami funkcji składowej! (Notabene, przypomina to nieco zakaz podawania `void` jako "wartości" konstruktora czy destruktora: jeśli coś w programie ma stałą postać, to niech zajmie się tym kompilator). W przeciwieństwie do Pythona, w C++ nie deklarujemy tego wyróżnionego argumentu. On zawsze nosi nazwę `this` i zawsze jest obsługiwany automatycznie przez kompilator. Czyli troszkę tak, jakbyśmy pisali 
+
+```c++     
+class X
+{
+  public:
+    int kwadrat(int n) const { return n * n; }
+};
+```
+
+a kompilator zamieniał to na coś w rodzaju
+
+```c++
+int X::kwadrat(const X *this, int n) { return n * n; }
+```
+
+Prawdę mówiąc, pierwsze kompilatory C++ działały dokładnie w ten sposób: zamieniały kod źródłowy języka C++ na kod źródłowy języka C. W szczególności, w stosunku do (niestatycznych) funkcji składowych klas dokonywały transformacji właśnie takiej jak powyższa.  Warto przy okazji zauważyć, co w tej interpretacji oznacza `const` w deklaracji stałej funkcji składowej, np. `int kwadrat(int n) const`. Jest to modyfikator modyfikujący typ `this`. Innymi słowy, po transformacji do języka C,  on modyfikuje typ wskazywany przez ten `this`. 
+
+Na koniec - dlaczego `this` w C++ jest pseudowskaźnikiem a nie wskaźnikiem? Gdyż nie jest zwykłą zmienną, a raczej wartością. W szczególności, nie można pobrać jego adresu.
