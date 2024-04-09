@@ -1,0 +1,3 @@
+##  Interfejs i implementacja klasy
+
+ 

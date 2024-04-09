@@ -268,3 +268,10 @@ X::kwadrat(&x, 7);
 Prawdę mówiąc, pierwsze kompilatory C++ działały dokładnie w ten sposób: zamieniały kod źródłowy języka C++ na kod źródłowy języka C. W szczególności, w stosunku do (niestatycznych) funkcji składowych klas dokonywały transformacji właśnie takiej jak powyższa.  Warto przy okazji zauważyć, co w tej interpretacji oznacza `const` w deklaracji stałej funkcji składowej, np. `int kwadrat(int n) const`. Jest to modyfikator modyfikujący typ `this`. Innymi słowy, po transformacji do języka C,  on modyfikuje typ wskazywany przez ten `this`. 
 
 Na koniec: dlaczego `this` w C++ jest pseudowskaźnikiem a nie wskaźnikiem? Gdyż nie jest zwykłą zmienną, a raczej wartością. W szczególności, nie można pobrać jego adresu.
+
+### Podsumowanie
+
+- Jeżeli Twoja klasa potrzebuje destruktora (lub konstruktora kopiującego), to niemal na pewno potrzebuje też operatora przypisania. 
+  - Jeżeli wśród składowej Twojej klasy są "nagie" wskaźniki, to niemal na pewno potrzebuje ona własnego operatora przypisania (oraz konstruktora kopiującego i destruktora).
+- `this` jest (pseudo)wskaźnikiem używanym wyłącznie w treści funkcji składowych klas i wskazującym na obiekt, na którym dana funkcja jest w tej chwili wywoływana. 
+  - można go w myślach traktować jako pierwszy ("zerowy"), niejawny argument każdej takiej funkcji  

@@ -62,7 +62,7 @@
     4. [Dodajemy operator indeksowania](./09d-dyn-vec-operator-indeksowania.md)  
     5. [Dodajemy składowe funkcyjne z atrybutem const](./09e-dyn-vec-skladowe-const.md) 
     6. [Dodajemy operator przypisania](./09f-dyn-vec-assignment-operator.md) (używając (pseudo)wskaźnika `this` )
-    7. Rozdzielamy implementację na interfejs i implementację
+    7. [Rozdzielamy kod na interfejs i implementację](./09g-dyn-vec-interface-implementation.md)
     8. Dodajemy  możliwość zmiany rozmiaru wektora
     9. Dodajemy konstruktor z listą inicjalizacyjną (opcja)
     10. Dodajemy iterator (opcja)
