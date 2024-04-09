@@ -152,3 +152,69 @@ i zwrócić wartość funkcji, czyli referencję do jej lewego argumentu, który
 return *this;
 ```
 
+### Inne zastosowania `this`
+
+Spójrzmy na ten fragment kodu:
+
+```c++
+Wektor& operator=(const Wektor& rhs)
+{
+    if (this == &rhs) return *this;  //  nie ma nic do roboty...
+
+    if (size() != rhs.size())
+    {
+        delete[] _dane;
+        _dane = new int[rhs.size()];
+    }
+```
+
+Skoro `_dane` są składową obiektu, na którym wywoływana jest powyższa funkcja, to można w powyższym kodzie napisać `thuis->_dane` i efekt będzie ten sam. Podobnie jest z funkcją składową `size`. Dlatego powyższy kod można by zapisać tak:
+
+
+
+```c++
+Wektor& operator=(const Wektor& rhs)
+{
+    if (this == &rhs) return *this;  //  nie ma nic do roboty...
+
+    if (this->size() != rhs.size())
+    {
+        delete[] this->_dane;
+        this->_dane = new int[rhs.size()];
+    }
+```
+
+Niektórzy uważają taki zapis za bardziej czytelny, większość jednak opuszcza `this->` w powyższym kontekście. 
+
+Spójrzmy jeszcze na ten fragment:
+
+```c++
+    for (size_t i = 0; i < rhs.size(); i++)    
+    {        
+        _dane[i] = rhs[i];    
+    }
+```
+
+Tutaj `_dane` jest wskaźnikiem, więc `_dane[i]` to odwołanie bezpośrednie do elementu tablicy `_dane`. Jak w tym kontekście wywołać na lewym argumencie naszej funkcji `operator[]`? Odpowiedź:
+
+
+
+```c++
+    for (size_t i = 0; i < rhs.size(); i++)    
+    {        
+        (*this)[i] = rhs[i];    
+    }
+```
+
+lub nawet
+
+```c++
+    for (size_t i = 0; i < rhs.size(); i++)    
+    {        
+        this->operator[](i) = rhs[i];    
+    }
+```
+
+#### `this` w C++ a `self` w Pythonie
+
+TBA
