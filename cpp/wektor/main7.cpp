@@ -14,5 +14,5 @@ int main()
     std::cout << w[0] << " " << w[1] << "\n";
     std::cout << w.size() << "\n";
     std::cout << w.empty() << "\n";
-    std::cout << w.Wektor::empty() << "\n";
+    std::cout << w.Wektor::empty() << "\n";   // dziwactwo, nie pisz tak
 }

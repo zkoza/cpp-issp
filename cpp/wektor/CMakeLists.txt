@@ -12,6 +12,5 @@ add_executable(wektor3 vector3.cpp)
 add_executable(wektor4 vector4.cpp)
 add_executable(wektor5 vector5.cpp)
 add_executable(wektor6 vector6.cpp)
-add_executable(wektor7 main7.cpp
-    vector7.cpp
-    vector7.h) # vector7.cpp vector7.h)
+add_executable(wektor7 main7.cpp vector7.cpp vector7.h)
+add_executable(wektor8 main8.cpp vector8.cpp vector8.h)

@@ -271,7 +271,7 @@ class Wektor
 };
 ```
 
-Ułatwia to optymalizację kodu. Kompilator wszystkie takie funkcje składowe potraktuje tak, jakby zadeklarowano je z omówionym już  deklaratorem `inline`.
+Ułatwia to optymalizację kodu. Kompilator wszystkie takie funkcje składowe potraktuje tak, jakby zadeklarowano je z omówionym już  deklaratorem `inline`. Oczywiście, stosując to podejście, nie powtarzamy tych definicji w pliku `*.cpp`. 
 
 Definicje funkcji można także umieścić w pliku nagłówkowym poza definicją klasy (zwykle tuż pod nią). Trzeba tylko pamiętać przestrzeni nazw i jawnym deklaratorze `inline`:
 
@@ -306,3 +306,15 @@ inline bool Wektor::empty() const { return _size == 0; }
 // i tak dalej z innymi krótkimi funkcjami 
 ```
 
+
+
+## Podsumowanie
+
+- Klasy zwykle umieszcza się w parze plików, jednym źródłowym i jednym nagłówkowym, po jednej klasie na taką parę
+- Plik nagłówkowy zawiera interfejs klasy, a plik nagłówkowy - jej implementację (nie dotyczy to kodu pisanego szablonami)
+  - Plik nagłówkowy może też zawierać definicje krótkich funkcji składowych
+  - Uwaga: w kodzie generowanym z szablonów cały kod umieszczany jest w plikach nagłówkowych
+  - Pamiętaj o strażniku pliku nagłówkowego (dobre środowisko programistyczne generuje go automatycznie)
+- W obrębie definicji klasy kompilator umieszcza przestrzeń nazw równoważną nazwie klasy
+- Poza definicją klasy definicje funkcji składowych klasy muszą zawierać jej przestrzeń nazw i operator zasięgu (`::`).  
+  - Jest to pełna (tzw. kwalifikowana, ang. *qualified*) nazwa tych funkcji, z którą możesz się spotkać np. w komunikatach kompilatora.
