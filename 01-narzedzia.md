@@ -50,6 +50,8 @@ W przypadku QtCreatora warto sprawdzić, czy mamy zainstalowane:
 - `clang-format`
 - `Qt` (QtCreator wymaga instalacji biblioteki Qt nawet, jeżeli jej nie używamy)
 
+QtCreator 
+
 ### Zintegrowany debuger ###
 
 Debuger to program pozwalający śledzić wykonywanie programu. Innymi słowy, jest to program, przy pomocy którego możemy przerwać działanie programu (np. napisanego w C++) i dokonać inspekcji jego stanu. Programiści z reguły nie posługują się debugerami bezpośrednio, lecz raczej preferują nakładki graficzne na swoje ulubione zintegrowane środowisko programistyczne. Przykład sesji z takim zintegrowanym debugerem przedstawia powyższy zrzut ekranu z programu QtCreator. 

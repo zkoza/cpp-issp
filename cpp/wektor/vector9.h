@@ -1,8 +1,8 @@
-#ifndef VECTOR8_H
-#define VECTOR8_H
-
+#ifndef VECTOR9_H
+#define VECTOR9_H
 
 #include <cstddef>
+#include <initializer_list>
 
 class Wektor
 {
@@ -14,6 +14,7 @@ class Wektor
     Wektor();
     Wektor(size_t new_size, int init_value = 0);
     Wektor(const Wektor& v);
+    Wektor(const std::initializer_list<int> & list);
     ~Wektor();
 
     Wektor& operator=(const Wektor& rhs);
@@ -33,8 +34,9 @@ class Wektor
     void shrink_to_fit();
     void push_back(int value);
     void pop_back();
+
   private:
     void grow();
 };
 
-#endif  // VECTOR8_H
+#endif  // VECTOR9_H
