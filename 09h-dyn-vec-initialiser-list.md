@@ -32,6 +32,88 @@ Wektor::Wektor(const std::initializer_list<int> &list)
 }
 ```
 
-Korzystamy to z tego, że lista inicjalizacyjna posuada składową `size` zwracającą liczbę elementów listy. Używamy jej do inicjalizacji rozmiaru logicznego (`_size`) i fizycznego (`_capacity`) listy. 
+Korzystamy to z tego, że lista inicjalizacyjna posiada składową `size` zwracającą liczbę elementów listy. Używamy jej do inicjalizacji rozmiaru logicznego (`_size`) i fizycznego (`_capacity`) listy. 
 
-​      
+Możemy teraz przetestować nasz nowy konstruktor:
+
+```c++ 
+#include "vector9.h"
+#include <iostream>
+
+int main()
+{
+    Wektor v = {1, 2, 4, 8, 16};
+    for (int i = 0; i < v.size(); i++)
+        std::cout << v[i] << " ";
+    std::cout << "\n";
+}
+```
+
+który kompiluje się i daje oczekiwany wynik
+
+```txt
+1 2 4 8 16
+```
+
+### Na marginesie: trzy, a nawet cztery sposoby inicjalizacji obiektów 
+
+W tej chwili do inicjalizacji obiektów możemy korzystać z dowolnej z 4 składni:
+
+```c++       
+Wektor a(7);    // a
+Wektor b{7};    // b
+Wektor c = {7}; // c
+Wektor d = 7;   // d  por: std::string s = "ala"
+```
+
+- W pierwszym przypadku (z nawiasami okrągłymi) zostanie wywołany konstruktor jednoargumentowy
+
+- W drugim przypadku (z klamrami) mamy dwie możliwości
+
+  - jeżeli w klasie Wektor zdefiniowano konstruktor z listą inicjalizacyjną, to zostanie wywołany ten konstruktor
+  - w przeciwnym wypadku zostanie wywołany konstruktor jednoargumentowy (tu: z argumentem 7)
+
+- Trzeci przypadek równoważny jest drugiemu (znak `=` nie jest operatorem przypisania)
+
+- Przypadek czwarty, choć wygląda dziwnie, równoważny jest przypadkowi pierwszemu. Ten rodzaj inicjalizacji jest często widywany przy konstrukcji napisów, np.:
+
+  ```c++
+  std::string s = "Ala ma kota";
+  ```
+
+  Tu `s` jest bowiem obiektem pewnej klasy użytkownika, który inicjalizowany jest wyrażeniem zupełnie innego typu (zapewne `const char[12];`). Ten rodzaj inicjalizacji występuje też dość często przy przekazywaniu argumentów do funkcji przez wartość.  
+
+Z powyższego wynika, że najczęściej nie ma żadnej różnicy, czy użyje się inicjalizatora w nawiasach okrągłych czy w klamrach, jednak jeżeli w klasie istnieje zarówno konstruktor z listą inicjalizacyjną, jak i z małą liczbą argumentów, to możemy mieć kłopot. Na przykład
+
+```c++
+Wektor w1(2);    // wektor 2-elementowy: {0, 0}
+Wektor w2{2};    // wektor 1-elementowy: {2}
+Wektor w3(1, 3); // wektor 1-elementowy: {3}
+Wektor w4{1, 3}; // wektor 2-elementowy: {1, 3}
+```
+
+Ponadto, jeżeli pominiemy inicjalizator, np.:
+
+```c++ 
+Wektor w;
+```
+
+to obiekt zostanie skonstruowany tzw. konstruktorem domyślnym, czyli takim, który jest bezargumentowy lub którego wszystkie argumenty mają wartości domyślne. 
+
+Żeby było jeszcze dziwniej, instrukcja
+
+```c++
+Wektor x();
+```
+
+nie definiuje obiektu, lecz jest deklaracją funkcji o nazwie `x` i wartości typu `Wektor`. 
+
+Widuje się też definicje obiektów z typem dedukowanym przez kompilator:
+
+```c++
+auto f = Wektor(7);  // konstruktor 1-argumentowy => {0, 0, 0, 0, 0, 0, 0}
+auto g = Wektor{7};  // konstruktor z listą inicjalizacyjną => {7}
+```
+
+Wszytko to razem sprawia pewne wrażenie chaosu. Jego źródłem są decyzje podejmowane w kolejnych wersjach C++. Pierwotnie inicjalizacja naśladowała składnię obowiązującą w języku C, a wariant z klamrami wprowadzono w wersji C++11.  To bogactwo składni najczęściej nie powoduje kłopotów, czasami jednak można się nieźle zdziwić.  
+
