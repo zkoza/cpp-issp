@@ -115,5 +115,10 @@ auto f = Wektor(7);  // konstruktor 1-argumentowy => {0, 0, 0, 0, 0, 0, 0}
 auto g = Wektor{7};  // konstruktor z listą inicjalizacyjną => {7}
 ```
 
-Wszytko to razem sprawia pewne wrażenie chaosu. Jego źródłem są decyzje podejmowane w kolejnych wersjach C++. Pierwotnie inicjalizacja naśladowała składnię obowiązującą w języku C, a wariant z klamrami wprowadzono w wersji C++11.  To bogactwo składni najczęściej nie powoduje kłopotów, czasami jednak można się nieźle zdziwić.  
+Wszytko to razem sprawia pewne wrażenie chaosu. Jego źródłem są decyzje podejmowane w kolejnych wersjach C++. Pierwotnie inicjalizacja naśladowała składnię obowiązującą w języku C, a wariant z klamrami wprowadzono w wersji C++11 w celu ujednolicenia składni: za pomocą tej składni można zainicjalizować wszystko, co w ogóle da się zainicjalizować, i nie można jej pomylić z deklaracją funkcji, co z kolei ułatwia pisanie szablonów.  Tą składnia można inicjalizować nawet zwykłe liczby (np. `int x{7};` oznacza to samo, co `int x = 7`). To bogactwo składni C++ najczęściej nie powoduje kłopotów, czasami jednak można się nieźle zdziwić i długo szukać błędu.   
 
+### Podsumowanie 
+
+- Do inicjalizacji za pomocą list wartości służy konstruktor z pojedynczym argumentem typu `std::initializer_list<Typ>`.
+- W C++ do inicjalizacji stosuje się 3 rodzaje składni: ze znakiem `=`, z listą argumentów konstruktora w nawiasach okrągłych lub w klamrach lub z listą wartości początkowych w klamrach
+  - Żeby uniknąć chaosu na początkowym etapie nauki, w tym wykładzie unikam klamer, jednak to klamry uznawane są za najbardziej bezpieczny i pożądany sposób inicjalizacji w nowoczesnym C++ 
