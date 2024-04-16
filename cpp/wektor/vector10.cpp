@@ -1,10 +1,12 @@
-#include "vector9.h"
+#include "vector10.h"
 
 #include <stdexcept>
 
 Wektor::Wektor() {}
 
-Wektor::Wektor(size_t new_size, int init_value) : _size(new_size), _capacity(new_size)
+Wektor::Wektor(size_t new_size, int init_value)
+    : _size(new_size),
+      _capacity(new_size)
 {
     _dane = new int[_capacity];
     for (size_t i = 0; i < _size; i++)
@@ -13,7 +15,9 @@ Wektor::Wektor(size_t new_size, int init_value) : _size(new_size), _capacity(new
     }
 }
 
-Wektor::Wektor(const Wektor& v) : _size(v._size), _capacity(v._size)
+Wektor::Wektor(const Wektor& v)
+    : _size(v._size),
+      _capacity(v._size)
 {
     _dane = new int[_capacity];
     for (size_t i = 0; i < _size; i++)
@@ -44,7 +48,8 @@ Wektor::~Wektor()
 
 Wektor& Wektor::operator=(const Wektor& rhs)
 {
-    if (this == &rhs) return *this;
+    if (this == &rhs)
+        return *this;
 
     if (size() != rhs.size())
     {
@@ -60,31 +65,54 @@ Wektor& Wektor::operator=(const Wektor& rhs)
     return *this;
 }
 
-int& Wektor::operator[](size_t index) { return _dane[index]; }
+int& Wektor::operator[](size_t index)
+{
+    return _dane[index];
+}
 
-int Wektor::operator[](size_t index) const { return _dane[index]; }
+int Wektor::operator[](size_t index) const
+{
+    return _dane[index];
+}
 
 int& Wektor::at(size_t index)
 {
-    if (index >= _size) throw std::out_of_range("Index out of range in Wektor::at(size_t)");
+    if (index >= _size)
+        throw std::out_of_range("Index out of range in Wektor::at(size_t)");
     return _dane[index];
 }
 
 int Wektor::at(size_t index) const
 {
-    if (index >= _size) throw std::out_of_range("Index out of range in Wektor::at(size_t)");
+    if (index >= _size)
+        throw std::out_of_range("Index out of range in Wektor::at(size_t)");
     return _dane[index];
 }
 
-int& Wektor::front() { return _dane[0]; }
+int& Wektor::front()
+{
+    return _dane[0];
+}
 
-int Wektor::front() const { return _dane[0]; }
+int Wektor::front() const
+{
+    return _dane[0];
+}
 
-int& Wektor::back() { return _dane[_size - 1]; }
+int& Wektor::back()
+{
+    return _dane[_size - 1];
+}
 
-int Wektor::back() const { return _dane[_size - 1]; }
+int Wektor::back() const
+{
+    return _dane[_size - 1];
+}
 
-size_t Wektor::capacity() const { return _capacity; }
+size_t Wektor::capacity() const
+{
+    return _capacity;
+}
 
 void Wektor::resize(size_t new_size, int init_value)
 {
@@ -109,7 +137,8 @@ void Wektor::resize(size_t new_size, int init_value)
 
 void Wektor::shrink_to_fit()
 {
-    if (_size == _capacity) return;
+    if (_size == _capacity)
+        return;
 
     int* tmp = new int[_size];
     for (size_t i = 0; i < _size; i++)
@@ -131,7 +160,30 @@ void Wektor::push_back(int value)
     _size++;
 }
 
-void Wektor::pop_back() { _size--; }
+void Wektor::pop_back()
+{
+    _size--;
+}
+
+Wektor::const_iterator Wektor::begin() const
+{
+    return const_iterator(*this, 0);
+}
+
+Wektor::const_iterator Wektor::end() const
+{
+    return const_iterator(*this, size());
+}
+
+Wektor::iterator Wektor::begin()
+{
+    return iterator(*this, 0);
+}
+
+Wektor::iterator Wektor::end()
+{
+    return iterator(*this, size());
+}
 
 void Wektor::grow()
 {
@@ -145,8 +197,17 @@ void Wektor::grow()
     delete[] tmp;
 }
 
-size_t Wektor::size() const { return _size; }
+size_t Wektor::size() const
+{
+    return _size;
+}
 
-int* Wektor::data() const { return _dane; }
+int* Wektor::data() const
+{
+    return _dane;
+}
 
-bool Wektor::empty() const { return _size == 0; }
+bool Wektor::empty() const
+{
+    return _size == 0;
+}

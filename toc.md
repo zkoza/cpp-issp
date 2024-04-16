@@ -63,11 +63,10 @@
     5. [Dodajemy składowe funkcyjne z atrybutem const](./09e-dyn-vec-skladowe-const.md) 
     6. [Dodajemy operator przypisania](./09f-dyn-vec-assignment-operator.md) (używając (pseudo)wskaźnika `this` )
     7. [Rozdzielamy kod na interfejs i implementację](./09g-dyn-vec-interface-implementation.md)
-    8. [Dodajemy  możliwość zmiany rozmiaru wektora](./09g-dyn-vec-resize.md)
-    9. [Dodajemy konstruktor z listą inicjalizacyjną](./09h-dyn-vec-initialiser-list.md) (opcja)
-    10. Dodajemy iterator (opcja)
+    8. [Dodajemy  możliwość zmiany rozmiaru wektora](./09h-dyn-vec-resize.md)
+    9. [Dodajemy konstruktor z listą inicjalizacyjną](./09i-dyn-vec-initialiser-list.md) (opcja)
+    10. [Dodajemy iterator](./09j-dyn-vec-iterator.md) (opcja)
     11. Zamieniamy klasę w szablon klasy
-
 - Klasy
   - konstruktory, destruktor
   - hermetyzacja danych
