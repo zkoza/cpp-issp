@@ -144,13 +144,13 @@ QtCreator został zaprojektowany z myślą o programach pisanych w Qt a nie w kl
 
 #### Gdzie jest mój plik wykonywalny? W którym katalogu będzie uruchomiony?
 
-Odpowiedzi na oba te pytania znajdują się w panelu `Projekty` - por. poprzedni punkt. Jeżeli chcemy sami zdefiniować katalog, w którym ma być umieszczany plik wykonywalny i wszystkie inne pliki generowane przez kompilator, powinniśmy kliknąć opcję `Budowanie"` w sekcji `Budowanie i uruchamianie`:
+Odpowiedzi na oba te pytania znajdują się w panelu `Projekty` - por. poprzedni punkt. Jeżeli chcemy sami zdefiniować katalog, w którym ma być umieszczany plik wykonywalny i wszystkie inne pliki generowane przez kompilator, powinniśmy kliknąć opcję `Budowanie` w sekcji `Budowanie i uruchamianie`:
 
 ![qtcreator-config-build.png](./img/01/qtcreator-config-build.png)
 
 #### Jak zdefiniować argumenty wiersza poleceń?
 
-Odpowiedź na to pytanie także znajduje się w panelu `Projekty`.  Argumenty wiersza poleceń wpisujemy w polu "Argumenty linii komend",  por. poprzedni rysunek. Np. po wpisaniu w tym polu "-N10 -T"
+Odpowiedź na to pytanie także znajduje się w panelu `Projekty`.  Argumenty wiersza poleceń wpisujemy w polu "Argumenty linii komend",  por. rysunek w rozdziale "Gdzie jest moja konsola?". Np. po wpisaniu w tym polu "-N10 -T"
 
 ![qtcreator-config-cli.png](./img/01/qtcreator-config-cli.png)
 
