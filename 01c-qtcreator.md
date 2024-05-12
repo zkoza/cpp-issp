@@ -126,7 +126,7 @@ Generalnie, jeśli nie jesteś zawodowcem lub choćby pół-zawodowcem i jeżeli
 
 ### Test konfiguracji
 
-Najłatwiej sprawdzić, czy wszystko działa, kompilując najprostszy program, najlepiej taki, który korzysta z Qt. Z menu `Plik` wybierz `Nowy projekt`, potem wymierz szablon `Application (Qt)`  i `Aplikacja Qt Widgets`, następnie przeklikaj kolejne okna dialogowe, wybierając domyślne opcje. Po wygenerowaniu kodu źródłowego w lewym kliknij znajdującą się w okolicach lewego dolnego rogu okna QtCreatora zieloną strzałkę, co powinno spowodować kompilację i uruchomienie programu. Jeśli wszystko jest OK, instalacja jest prawidłowa.   
+Najłatwiej sprawdzić, czy wszystko działa, kompilując najprostszy program, najlepiej taki, który korzysta z Qt. Z menu `Plik` wybierz `Nowy projekt`, potem wymierz szablon `Application (Qt)`  i `Aplikacja Qt Widgets`, następnie przeklikaj kolejne okna dialogowe, wybierając domyślne opcje. Po wygenerowaniu kodu źródłowego kliknij znajdującą się w okolicach lewego dolnego rogu okna QtCreatora zieloną strzałkę, co powinno spowodować kompilację i uruchomienie programu. Jeśli wszystko jest OK, instalacja jest prawidłowa.   
 
 ![qtcreator-run.png](./img/01/qtcreator-run.png)
 
