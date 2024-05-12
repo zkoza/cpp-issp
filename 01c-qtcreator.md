@@ -76,20 +76,25 @@ Pobierz instalator Qt z oficjalnej strony pobierania znajdującej się pod adres
 
 Instalacja Qt i QtCreatora poprzez program instalacyjny przebiega w kilku krokach. W przypadku  większości z nich można użyć ustawień domyślnych i po prostu kliknąć **"Next"** lub **"Agree**". Od tej reguły występuj jednak kilka ważnych wyjątków omówionych poniżej. 
 
-- Krok 1: rejestracja w serwisie Qt. Jako identyfikator użytkownika należy podać działający e-mail. Koniecznie trzeba też zatwierdzić regulamin usług ("service terms").  ![qtcreator-install-welcome.png](./img/01/qtcreator-install-welcome.png)
+- **Krok 1:** rejestracja w serwisie Qt. Jako identyfikator użytkownika należy podać działający e-mail. Koniecznie trzeba też zatwierdzić regulamin usług ("service terms").  ![qtcreator-install-welcome.png](./img/01/qtcreator-install-welcome.png)
 
-- Krok 2: Wybór licencji i wyrażenie stosownych zgód. Należy koniecznie zaznaczyć, że zapoznało się z warunkami używania wersji Open Source Qt, nie wpisywać nazwy firmy i zaznaczyć opcję "I'm an individual and do not use Qt for any company".  
-![qtcreator-licensing.png](./img/01/qtcreator-licensing.png)
-- Krok 3: Zgoda na wysyłanie pseudoanonimowych informacji o sposobach wykorzystywania programu. Można jej udzielić, ale nie ma takiej konieczności. 
-![qtcreator-installer-3.png](./img/01/qtcreator-installer-3.png)
-- Krok 4: Wybór katalogu instalacyjnego (domyślnie: `c:\Qt`) oraz rodzaju instalacji. Folder prawdopodobnie jest dobry, chyba że brakuje nam miejsca na dysku `C:`. Jeśli zaś chodzi o rodzaj instalacji, to unikamy kafelków z napisem "ARM", "Android" itp. W przypadku jak poniżej klikamy "*Qt 6.7 for desktop development (MinGW toolchain and Qt Libraries for MinGW)*". Tu wyjaśnienie: MinGW to darmowy klon kompilatora g++ dla systemu Windows. Musisz go mieć, jeśli chcesz korzystać z Qt.      
-![qtcreator-installation-folder.png](./img/01/qtcreator-installation-folder.png)
-- Krok 5: *Licence agreement*. Klikamy stosowną zgodę, np. "I have read and agree to the terms contained in the licence agreement". 
-- Krok 6: Zakładka "Start menu shortcuts" z domyślną wartością "Qt". Nie wydaje mi się, by cokolwiek warto było tu zmieniać. Klikamy "Next".   
-- Krok 7: Zakładka "Ready to install". Nie ma nad czym deliberować, klikamy "Next". Zajmująca ponad 5 GB instalacja może potrwać całkiem długo, więc uzbrajamy się w cierpliwość. Na moim starożytnym komputerze pierwsze uruchomienie programu QtCreator trwało i trwało... 
+- **Krok 2:** Wybór licencji i wyrażenie stosownych zgód. Należy koniecznie zaznaczyć, że zapoznało się z warunkami używania wersji Open Source Qt, nie wpisywać nazwy firmy i zaznaczyć opcję "I'm an individual and do not use Qt for any company".  
+  ![qtcreator-licensing.png](./img/01/qtcreator-licensing.png)
+
+- **Krok 3:** Zgoda na wysyłanie pseudoanonimowych informacji o sposobach wykorzystywania programu. Można jej udzielić, ale nie ma takiej konieczności. 
+  ![qtcreator-installer-3.png](./img/01/qtcreator-installer-3.png)
+
+- **Krok 4:** Wybór katalogu instalacyjnego (domyślnie: `c:\Qt`) oraz rodzaju instalacji. Folder prawdopodobnie jest dobry, chyba że brakuje nam miejsca na dysku `C:`. Jeśli zaś chodzi o rodzaj instalacji, to unikamy kafelków z napisem "ARM", "Android" itp. W przypadku jak poniżej klikamy "*Qt 6.7 for desktop development (MinGW toolchain and Qt Libraries for MinGW)*". Tu wyjaśnienie: MinGW to darmowy klon kompilatora g++ dla systemu Windows. Musisz go mieć, jeśli chcesz korzystać z Qt pod Windows. W systemie macOS zamiast MinGW prawdopodobnie ujrzymy coś w rodzaju "Xcode".       
+  ![qtcreator-installation-folder.png](./img/01/qtcreator-installation-folder.png)
+
+- **Krok 5:** *Licence agreement*. Klikamy stosowną zgodę, np. "I have read and agree to the terms contained in the licence agreement". 
+
+- **Krok 6:** Zakładka "Start menu shortcuts" z domyślną wartością "Qt". Nie wydaje mi się, by cokolwiek warto było tu zmieniać. Klikamy "Next". To tam w menu Start w twoim systemie pojawią się skróty do plików związanych z Qt oraz QtCreator-em. 
+
+- Krok 7: Zakładka "Ready to install". Nie ma nad czym deliberować, klikamy "Next".
   ![qtcrator-installer-ready.png](./img/01/qtcrator-installer-ready.png)
-
-
+  
+  Zajmująca ponad 5 GB instalacja może potrwać całkiem długo, więc uzbrajamy się w cierpliwość. Na moim starożytnym komputerze pierwsze uruchomienie programu QtCreator trwało i trwało... 
 
 ### Konfiguracja
 
