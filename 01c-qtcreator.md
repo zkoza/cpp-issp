@@ -74,7 +74,7 @@ Jeśli masz już zainstalowany Qt Creator i chcesz go uaktualnić, wskazane jest
 
 Pobierz instalator Qt z oficjalnej strony pobierania znajdującej się pod adresem  [www.qt.io/download-qt-installer](https://www.qt.io/download-qt-installer). Witryna powinna wykryć Twój system operacyjny i automatycznie pobrać zgodny z nim program instalacyjny. Pobrany instalator będzie miał nazwę w rodzaju `qt-unified-windows-x64-4-online`. Po pobraniu uruchom go (np. kliknij dwukrotnie jego ikonkę).
 
-Instalacja Qt i QtCreatora poprzez program instalacyjny przebiega w kilku krokach. W przypadku  większości z nich można użyć ustawień domyślnych i po prostu kliknąć **"Next"** lub **"Agree". Od tej reguły występuj jednak kilka ważnych wyjątków omówionych poniżej. 
+Instalacja Qt i QtCreatora poprzez program instalacyjny przebiega w kilku krokach. W przypadku  większości z nich można użyć ustawień domyślnych i po prostu kliknąć **"Next"** lub **"Agree**". Od tej reguły występuj jednak kilka ważnych wyjątków omówionych poniżej. 
 
 - Krok 1: rejestracja w serwisie Qt. Jako identyfikator użytkownika należy podać działający e-mail. Koniecznie trzeba też zatwierdzić regulamin usług ("service terms").  ![qtcreator-install-welcome.png](./img/01/qtcreator-install-welcome.png)
 
