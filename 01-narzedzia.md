@@ -19,7 +19,7 @@ Z punktu widzenia osób uczących się C++ cała bieda w tym, że nie istnieje j
 
 Niektóre narzędzia są ograniczone do jednej platformy (np. tylko do Windows), niektóre są uniwersalne. Musisz wybrać jedno z nich i trzymać się go przez co najmniej semestr. Wikipedia podaje dość długą listę zintegrowanych środowisk programistycznych dla C++: https://en.wikipedia.org/wiki/Comparison_of_integrated_development_environments. Spośród cech pożądanych w IDE należy wyróżnić:
 
-- koszt (co najmniej darmowa licencję studencka)
+- koszt (co najmniej darmowa licencja studencka)
 - zintegrowany debugger
 - obsługa projektów (najlepiej: w systemie CMake)
 - autouzupełnianie
@@ -145,7 +145,15 @@ Istnieje kilka "zintegrowanych środowisk programistycznych" napisanych jako apl
 
 
 
+Patrz także: 
+
+- [BitBucket, GitHub i Gitlab ](01a-githubs.md)
+- [Git](01b-git.md)
+- [Instalacja i konfiguracja QtCreator](01c-qtcreator.md)
+
+
+
 ***
 
- Ostatnia zmiana: 22 lutego 2024
+ Ostatnia zmiana: 10 maja 2024
 
