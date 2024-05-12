@@ -187,12 +187,14 @@ Kolumna "Budowanie" w powyższym menu kontekstowym zasługuje na szczególną uw
 
 Powyższe dwa tryby są powszechnie używane w zintegrowanych środowiskach programistycznych (np. w Code::blocks czy Visual Studio Code). QtCreator obsługuje też kilka innych trybów kompilacji (np. `RelWIthDebInfo`, `MinSizeRel`). Nie używaj ich, dopóki nie oswoisz się z systemem CMake.
 
+#### Struktura katalogów budowania
+
 Każdej kombinacji projektu, zestawu narzędzi i trybu budowania odpowiada inny katalog. Np. w katalogu  studenta, który rozwiązał 5 list z programowania w C++, układ katalogów może wyglądać następująco: 
 
 
 ![tree.png](./img/01/tree.png)
 
-Pliki dla każdej listy zadań przechowywane są w osobnych katalogach (które zawierają własny plik konfiguracyjny projektu w systemie CMake,  `CMakeLists.txt`). Równolegle do każdego z nich QtCreator tworzy katalog z plikami generowanymi przez kompilator (o nazwie zaczynającej się od `build-`). Na przykład katalog `build-Lista1-Desktop-Debug` związany jest z projektem `Lista1`, zestawem narzędzi kompilatora `Desktop` i trybem kompilacji `Debug`. Jeśli korzystamy z systemu kontroli wersji, np. git, to nigdy nie umieszczamy w nim katalogów budowania (`build*`). 
+Pliki dla każdej listy zadań przechowywane są w osobnych katalogach (które zawierają własny plik konfiguracyjny projektu w systemie CMake,  `CMakeLists.txt`). Równolegle do każdego z nich QtCreator tworzy katalog z plikami generowanymi przez kompilator (o nazwie zaczynającej się od `build-`). Na przykład katalog `build-Lista1-Desktop-Debug` związany jest z projektem `Lista1`, zestawem narzędzi kompilatora `Desktop` i trybem kompilacji `Debug`. **Jeśli korzystamy z systemu kontroli wersji, np. git, to nigdy nie umieszczamy w nim katalogów budowania (`build*`)**. 
 
 ------
 
