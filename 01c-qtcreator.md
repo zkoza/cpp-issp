@@ -183,7 +183,7 @@ Qt Creator potrafi obsługiwać kilka projektów naraz. Tu mam zrzut ekranu w sy
 Kolumna "Budowanie" w powyższym menu kontekstowym zasługuje na szczególną uwagę, gdyż występujące w niej pozycje występują w wielu oknach konfiguracji QtCreatora i jest to też jeden z najczęściej dokonywanych przez użytkownika wyborów konfiguracji budowania programu. 
 
 - `Debug` ("Debugowa") - Ten tryb kompilacji wybieramy, jeżeli chcemy móc stosunkowo łatwo uzyskiwać informacje o ewentualnych błędach w programie. Kompilacja w tym trybie umożliwia bezproblemowe uruchamianie programu pod kontrola debugera. Może też włączyć autodiagnostykę programu wykonywaną w czasie jego wykonywania (o ile program został napisany w odpowiedni sposób). **Jest to domyślny tryb kompilacji**. Nie używaj jednego, jeżeli nie masz ku temu dobrego powodu. 
-- `Release` ("Release'owa") - Tryb kompilacji nastawiony na możliwie jak największą  szybkość uzyskiwanego programu wykonywalnego. Słowo "Release" oznacza tu "wydanie" (kolejnej wersji produktu). Jest to kompilacja, którą można udostępnić klientowi. Klient nie będzie chciał debugować kupionego przez siebie programu, za to będzie zadowolony, jeżeli ten program będzie zajmował mało miejsca i działał szybko
+- `Release` ("Release'owa") - Tryb kompilacji nastawiony na możliwie jak największą  szybkość uzyskiwanego programu wykonywalnego. Słowo "Release" oznacza tu "wydanie" (kolejnej wersji produktu). Jest to kompilacja, którą można udostępnić klientowi. Klient nie będzie chciał debugować kupionego przez siebie programu, za to będzie zadowolony, jeżeli ten program będzie zajmował mało miejsca i działał szybko. Programy kompilowane w trybie Release mogą działać nawet ponad 10 razy szybciej niż w trybie Debug. 
 
 Powyższe dwa tryby są powszechnie używane w zintegrowanych środowiskach programistycznych (np. w Code::blocks czy Visual Studio Code). QtCreator obsługuje też kilka innych trybów kompilacji (np. `RelWIthDebInfo`, `MinSizeRel`). Nie używaj ich, dopóki nie oswoisz się z systemem CMake.
 
@@ -193,3 +193,7 @@ Każdej kombinacji projektu, zestawu narzędzi i trybu budowania odpowiada inny 
 ![tree.png](./img/01/tree.png)
 
 Pliki dla każdej listy zadań przechowywane są w osobnych katalogach (które zawierają własny plik konfiguracyjny projektu w systemie CMake,  `CMakeLists.txt`). Równolegle do każdego z nich QtCreator tworzy katalog z plikami generowanymi przez kompilator (o nazwie zaczynającej się od `build-`). Na przykład katalog `build-Lista1-Desktop-Debug` związany jest z projektem `Lista1`, zestawem narzędzi kompilatora `Desktop` i trybem kompilacji `Debug`. Jeśli korzystamy z systemu kontroli wersji, np. git, to nigdy nie umieszczamy w nim katalogów budowania (`build*`). 
+
+------
+
+Ostatnia zmiana: 13 maja 2024
