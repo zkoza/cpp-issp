@@ -105,3 +105,23 @@
 - Asercje
 - Debuger
 
+### Biblioteka standardowa
+
+- STL
+
+  - Kontenery
+
+  - Algorytmy
+
+  - Iteratory
+
+  - Funktory
+
+- Inne elementy biblioteki standardowej
+
+# Zaawansowane cechy języka
+
+[Linka](./advanced/advanced-toc.md)
+
+
+

@@ -1,6 +1,8 @@
 # Wskaźniki
 
-Gdy kupujemy chleb, to dostajemy ten chleb i możemy przynieść go ze sobą do domu. Gdy kupujemy mieszkanie, to nikt nie przenosi go z jednego budynku do drugiego; w tym przypadku dostajemy "tylko" akt notarialny i klucze. Wskaźniki to właśnie takie klucze, które pasują tylko do jednego mieszkania i - w pewnym sensie - identyfikują je. Ich podstawowym zastosowanie jest przekazywanie informacji o tym, gdzie są dane, bez konieczności przekazywania (powielania) tych danych. W gruncie rzeczy to jedyne ich zastosowanie. Niemniej, świat, w którym programowanie obywałoby się bez wskaźników (choćby ukrytych przed programistą) byłby równie dziwny, jak świat, w którym kupiec domu musi sobie ten dom wykopać z ziemi i przetransportować na własną działkę.
+Gdy kupujemy chleb, to dostajemy ten chleb i możemy przynieść go ze sobą do domu. Gdy kupujemy mieszkanie, to nikt nie przenosi go z jednego budynku do drugiego; w tym przypadku dostajemy "tylko" akt notarialny i klucze. Wskaźniki to właśnie takie klucze, które pasują tylko do jednego mieszkania i - w pewnym sensie - identyfikują je. Ich podstawowym zastosowaniem jest przekazywanie informacji o tym, gdzie są dane, bez konieczności przekazywania (powielania) tych danych. W gruncie rzeczy to jedyne ich zastosowanie. Niemniej, świat, w którym programowanie obywałoby się bez wskaźników (choćby ukrytych przed programistą) byłby równie dziwny, jak świat, w którym kupiec domu musi sobie ten dom wykopać z ziemi i przetransportować na własną działkę.
+
+Można też o wskaźnikach opowiedzieć nieco konkretniej. Otóż bodaj najważniejszym zasobem każdego komputera, oprócz jednostki arytmetyczno-logicznej (czyli zwykle wielordzeniowego procesora), jest pamięć operacyjna. We współczesnych komputerach zarządzanie pamięcią jest operacją bardzo złożoną (dla zainteresowanych, mamy  tu do czynienia z takimi procesami, jak wirtualizacja pamięci, jej segmentacja, przerwania, separacja dostępu dla różnych procesów i/lub użytkowników, pamięci podręczne czyli tzw. cache poziomów L1-L3, synchronizacja tychże pamięci podręcznych oraz pamięci głównej między różnymi rdzeniami procesora lub procesorów, plik wymiany, automatyczne bądź ręczne zarządzanie przydziałem pamięci). Na szczęście niemal wszystkie te skomplikowane kwestie są niewidoczne dla programisty i pamięć możemy traktować po prostu jak wielką tablicę bajtów. Każda zmienna, każdy obiekt naszego programu, a także kod każdej funkcji zajmuje jakiś obszar pamięci operacyjnej. Początek tego obszaru to indeks w tej tablicy, przypomnijmy, bajtów. Otóż ten indeks to... wskaźnik.   
 
 ### Operator pobrania adresu
 
@@ -71,9 +73,13 @@ p->imie = "Bolek";
 p->rok_urodzenia = 2000;
 ```
 
-Zapis ten pozwala uprościć nawiasy, które byłyby niezbędne bez niego: zapis `p->imie` jest bowiem równoważny zapisowi `(*p).imie`. W tej postaci nie jest to może jeszcze duże uproszczenie, ale adresowanie pośrednie czasem występuje w całych ciągach i jeżeli możemy coś zapisać w postaci
-`ui->main_widget->get_slider(1)->setRGB(RGBColor(127, 64, 197)); `, to cieszymy się, że nie musimy tego zapisywać jako 
-`(*(*(*ui).main_widget).get_slider(1)).setRGB(RGBColor(127, 64, 197));`  (mam nadzieję, że się nie pomyliłem w przekształcaniu wyrażeń);
+Operator `->` pozwala uprościć zapis kodu programu poprzez pominięcie nawiasów, które bez niego byłyby niezbędne: zapis `p->imie` jest bowiem równoważny zapisowi `(*p).imie`. W tej postaci nie jest to może jeszcze duże uproszczenie, ale adresowanie pośrednie czasem występuje w całych ciągach i jeżeli możemy coś zapisać w postaci
+`ui->main_widget->get_slider(1)->setRGB(RGBColor(127, 64, 197)); ` 
+
+to cieszymy się, że nie musimy tego zapisywać jako 
+`(*(*(*ui).main_widget).get_slider(1)).setRGB(RGBColor(127, 64, 197));`  
+
+(mam nadzieję, że się nie pomyliłem w przekształcaniu wyrażeń);
 
 Warto porównać to, jak `std::cout` traktuje wskaźnik, a jak wyłuskiwaną z niego wartość:
 
@@ -118,7 +124,7 @@ p = &x;  // błąd: typt p i &x są różne
 
 ### Wskaźnik typu `void*`
 
-Istnieje specjalny, "niepełny" typ wskaźnikowy `void*`, dosłownie "wskaźnik na pustkę", w rzeczywistości "wskaźnik na nie wiadomo co". Typu tego używamy, gdy chcemy "oszukać" (czy raczej na chwilę wyłączyć) system kontroli typów języka C++. Jeżeli zadeklarujemy `p` jako `void* p;`, to kompilator zezwoli na przypisanie mu wartości dowolnego wskaźnika, niezależnie od tego, na co by on naprawdę nie wskazywał. Ponieważ jednak kompilator nie ma informacji o tym, na co wskaźnik typu `void*` wskazuje, to nie zezwala na wyłuskiwanie z niego wartości (operatorem `*` lub `->`)
+Istnieje specjalny, "niepełny" typ wskaźnikowy `void*`, dosłownie "wskaźnik na pustkę". W rzeczywistości jest to "wskaźnik na nie wiadomo co". Typu tego używamy bowiem, gdy chcemy "oszukać" (czy raczej na chwilę wyłączyć) system kontroli typów języka C++. Jeżeli zadeklarujemy `p` jako `void* p;`, to kompilator zezwoli na przypisanie mu wartości dowolnego wskaźnika, niezależnie od tego, na co by on naprawdę nie wskazywał. Ponieważ jednak kompilator nie ma informacji o tym, na co wskaźnik typu `void*` wskazuje, to nie zezwala na wyłuskiwanie z niego wartości (operatorem `*` lub `->`)
 
 ```c++
 int n;
