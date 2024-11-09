@@ -2,4 +2,5 @@ cpp/build-wektor-Desktop-Debug/
 cpp/wektor/CMakeLists.txt.user
 *.user
 cpp/build*
+advanced/cpp/z01/build*
 
