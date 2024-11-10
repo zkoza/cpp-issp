@@ -87,12 +87,29 @@ silnia(int):
 ```
 
 - Instrukcja `push rbp` zapisuje na stosie zawartość rejestru `rbp`, w którym procesor przechowuje bieżącą wartość ramki stosu (*frame pointer*).
+
 - Instrukcja ` mov rbp, rsp` zapisuje w rejestrze `rbp`  wartość wskaźnika stosu przechowywaną w rejestrze `rsp`. 
+
 - Instrukcja  `sub rsp, 32`  zmniejsza wartość rejestru `rsp` o 32, co łącznie z dwiema poprzednimi instrukcjami oznacza, że funkcja rezerwuje na stosie funkcji 32 bajty na własne potrzeby. Tu uwaga: w procesorach zgodnych z architekturą i386 zazwyczaj stos zajmuje najwyższe adresy i rośnie w dół, w stronę mniejszych adresów. Dlatego nowa wartość wskaźnika stosu jest mniejsza od poprzedniej, a jednocześnie stos rośnie a nie maleje.  
-- Instrukcja `mov DWORD PTR [rbp-20], edi` przesyła wartość zapisaną w rejestrze `edi` pod adres o 20 bajtów mniejszy od wartości zapisanej w rejestrze `rbp`. Oznacza to, że 32-bitowy (co wynika z modyfikatora `DWORD`) argument `n` funkcji `silnia` jest do niej przekazywany właśnie w rejestrze `edi` i natychmiast zapisywany w pamięci pod adresem odpowiadającym zmiennej `n`. Adres ten nie jest znany w trakcie kompilacji, lecz wyznaczany *at runtime* względem bieżącego położenia ramki stosu. To jest kluczowa własność stosu funkcji. Adresy wszelkich zmiennych lokalnych w funkcji, jej argumentów i wartości wyznaczane są podczas działania programu (ang. *at runtime*) względem wartości zapisanej w rejestrze `rbp` (lub, zależnie od implementacji, `rsp`). Jeżeli funkcja `silnia` wywoła samą siebie, to każde wywołanie rozpocznie się od zarezerwowania na stosie funkcji miejsca na zmienne lokalne, argumenty i wartość funkcji. Każde jej wywołanie operować więc będzie na fizycznie innej pamięci. Innymi słowy, jeżeli `silnia` wywoła się rekurencyjnie, np. `silnia(3)` wywoła `silnia(2)`, ta zaś wywoła `silnia(1)`, to na stosie funkcji będą zarezerwowane trzy osobne, rozłączne bloki pamięci dla każdej z nich. Zmienna `n` w każdym z tych wywołań to inna zmienna. Podobnie zmienna `poprzedni` w każdym wywołaniu to inna zmienna. 
+
+- Instrukcja `mov DWORD PTR [rbp-20], edi` przesyła wartość zapisaną w rejestrze `edi` pod adres o 20 bajtów mniejszy od wartości zapisanej w rejestrze `rbp`. Oznacza to, że 32-bitowy (co wynika z modyfikatora `DWORD`) argument `n` funkcji `silnia` jest do niej przekazywany właśnie w rejestrze `edi` i natychmiast zapisywany w pamięci pod adresem odpowiadającym zmiennej `n`. Adres ten nie jest znany w trakcie kompilacji, lecz wyznaczany *at runtime* względem bieżącego położenia ramki stosu. To jest kluczowa własność stosu funkcji. Adresy wszelkich zmiennych lokalnych w funkcji, jej argumentów i wartości wyznaczane są podczas działania programu (ang. *at runtime*) względem wartości zapisanej w rejestrze `rbp` (lub, zależnie od implementacji, `rsp`). Jeżeli funkcja `silnia` wywoła samą siebie, to każde wywołanie rozpocznie się od zarezerwowania na stosie funkcji miejsca na zmienne lokalne, argumenty i wartość funkcji. Każde jej wywołanie operować więc będzie na fizycznie innej pamięci. Innymi słowy, jeżeli `silnia` wywoła się rekurencyjnie, np. `silnia(3)` wywoła `silnia(2)`, ta zaś wywoła `silnia(1)`, to na stosie funkcji będą zarezerwowane trzy osobne, rozłączne bloki pamięci dla każdej z nich. Zmienna `n` w każdym z tych wywołań to inna zmienna. Podobnie zmienna `poprzedni` w każdym wywołaniu to inna zmienna. Ilustruje to poniższy rysunek, który schematycznie przedstawia ewolucję stanu stosu w przypadku programu, w którym funkcja `main` wywołuje `silnia(3)` (strzałka reprezentuje kierunek, w którym stos rośnie)
+
+  ![](./img/z01/rekurencja-backtrace.png) 
+
+  - (a) Na początku na stosie są dane lokalne funkcji `main` (i funkcji, które ją wywołały - to ten szary kolor - funkcja `main` nie jest i nie może być pierwszą funkcją naszego programu, bo przecież trzeba zainicjalizować choćby zmienne globalne).
+  - (b) Wywołanie funkcji `silnia(3)` powoduje przydzielenie mu na stosie pamięci niezbędnej do jego obsługi. Ta funkcja w trakcie swojego działania wywołuje `silnia(2)`.
+  - (c)  Wywołanie funkcji `silnia(2)` powoduje przydzielenie mu na stosie pamięci niezbędnej do obsługi tego wywołania. Ta funkcja w trakcie swojego działania wywołuje `silnia(1)`.
+  - (d) Wywołanie funkcji `silnia(1)` powoduje przydzielenie mu na stosie pamięci niezbędnej do obsługi tego wywołania. Ta funkcja w trakcie swojego jest w stanie wyznaczyć swoją wartość bez wywoływania innych funkcji. W chwili, gdy się wykonuje, na stosie funkcji (*call stack*) zarezerwowano pamięć na potrzeby funkcji `main`, `silnia(3)`, `silnia(2)` i `silnia(1)`. 
+  - (e) Po zakończeniu działania funkcji `silnia(1)` zajmowana przez nią pamięć na stosie funkcji zostaje zwolniona. Na stosie funkcji (*call stack*) pozostaje pamięć zarezerwowana na potrzeby wywołań funkcji `main`, `silnia(3)` i `silnia(2)`. W tej chwili na szczycie stosu znajduje się wywołanie funkcji `silnia(2)` i to ono jest przetwarzane przez procesor. Funkcja ta jest już w stanie samodzielnie wyznaczyć swoją wartość. Pozostałe wywołania czekają na zakończenie wywołanych przez nie funkcji.
+  - (f) Po zakończeniu działania funkcji `silnia(2)` zajmowana przez nią pamięć na stosie funkcji zostaje zwolniona. Na stosie funkcji pozostaje pamięć zarezerwowana na potrzeby wywołań funkcji `main` i `silnia(3)`. Funkcja ta jest już w stanie samodzielnie wyznaczyć swoją wartość. W tej chwili na szczycie stosu znajduje się wywołanie funkcji `silnia(3)` i to ono jest przetwarzane przez procesor.
+  -  (g) Po zakończeniu działania funkcji `silnia(3)` zajmowana przez nią pamięć na stosie funkcji zostaje zwolniona. Na stosie funkcji pozostaje pamięć zarezerwowana na potrzeby wywołań funkcji `main` i `silnia(3)`. Funkcja ta jest już w stanie samodzielnie wyznaczyć swoją wartość. W tej chwili na szczycie stosu znajduje się wywołanie funkcji `main` i to ono jest przetwarzane przez procesor. 
+
 - Instrukcja `cmp DWORD PTR [rbp-20], 1` dokonuje porównania zawartości 4 bajtów (bo `DWORD`)  począwszy od komórki pamięci znajdującej się pod adresem o 20 bajtów mniejszym od wskaźnika ramki, `rbp`, z liczbą 1. Innymi słowy, mamy tu warunek instrukcji `if (n <= 1)`. 
-- Instrukcja `jg .L2` testuje stan odpowiedniego rejestru procesora po porównaniu wykonanym w poprzedniej instrukcji. Jeżeli on "pozytywny", program skacze do instrukcji opatrzonej etykietą `.L2`. 
-- W przeciwnym wypadku wykonuje się instrukcja `mov eax, 1`, która zapisuje w rejestrze `eax` wartość funkcji ustaloną na 1. 
+
+- Instrukcja `jg .L2` testuje stan odpowiedniego rejestru procesora po porównaniu wykonanym w poprzedniej instrukcji. Jeżeli jest on "pozytywny" (`n > 1`), program skacze (ang. ***j**umps*) do instrukcji opatrzonej etykietą `.L2`. 
+
+- W przeciwnym wypadku wykonuje się instrukcja `mov eax, 1`, która zapisuje w rejestrze `eax` wartość funkcji równą 1. 
+
 - Instrukcja `jmp .L3` przenosi sterowanie do instrukcji opatrzonej etykietą `.L3`.  
 
 Dalszą część kodu można przeanalizować w analogiczny sposób. 
@@ -142,3 +159,9 @@ Spójrzmy teraz, jak kompilator traktuje zmienne alokowane na stercie operatorem
    Powyższa instrukcja asemblera zapisuje liczbę 99 do miejsca o adresie o  4 bajty mniejszym od adresu zapisanego w rejestrze ramki stosu (czyli do zmiennej `k`). 
 
 Widzimy, że obsługa zmiennych automatycznych, jak `k` i `p`, zawsze realizowana jest poprzez adresowanie względne względem bieżącej wartości ramki stosu (tu: stanu rejestru `rbp`). Ponadto użycie tych zmiennych nie wymaga jakiejś osobnej "alokacji" pamięci dla nich. Tymczasem obsługa zmiennych umieszczonych na stercie wymaga dość kosztownej alokacji (funkcją `operator new`, której wywołania kompilator nie optymalizuje nawet w trybie *Release*), natomiast samo ich użycie wymaga znajomości ich bezpośredniego adresu.
+
+#### Dalsza lektura nieobowiązkowa
+
+- [Call stack](https://en.wikipedia.org/wiki/Call_stack) (lub bardzo skromna wersja tej strony w polskiej Wikipedii: [Stos procesora](https://pl.wikipedia.org/wiki/Stos_(informatyka)#Stos_procesora))
+- [Przepełnienie stosu](https://pl.wikipedia.org/wiki/Przepe%C5%82nienie_stosu) 
+- [Programowanie niskopoziomowe](https://ww2.ii.uj.edu.pl/~kapela/pn/print-lecture-and-sources.php) 
