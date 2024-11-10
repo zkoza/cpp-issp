@@ -41,18 +41,54 @@ W programie tym:
 - zmienne `argc`, `argv`, `b` i `p`, jako niestatyczne zmienne lokalne w funkcji, zostaną zaalokowane w segmencie STACK, czyli na stosie funkcji. Tam też znajdzie się miejsce na wartość zwracaną z `main` (tu: zero). 
 - dodatkowo jedna nienazwana zmienna typu `int` i wartości 8 zostanie zaalokowana na stercie (HEAP) operatorem `new`. Jest ona dostępna poprzez wskaźnik `p`.    
 
-Można zadać pytanie, dlaczego pisząc w większości innych języków programowania niż C/C++ nie musimy rozróżniać obiektów globalnych, lokalnych i alokowanych na stercie programu. W większości przypadków odpowiedź jest prosta: tamte języki preferują bezpieczeństwo i łatwość użycia ponad efektywność kodu wynikowego. I mogą polegać na C/C++ jako narzędziach do tworzenia interpreterów lub kompilatorów tych języków i/lub ich maszyn wirtualnych.     
+Można zadać pytanie, dlaczego pisząc w większości innych języków programowania niż C/C++ nie musimy rozróżniać obiektów globalnych, lokalnych i alokowanych na stercie programu. W większości przypadków odpowiedź jest prosta: tamte języki preferują bezpieczeństwo i łatwość użycia ponad efektywność kodu wynikowego. I mogą polegać na C/C++ jako narzędziach do tworzenia interpreterów lub kompilatorów tych języków i/lub ich maszyn wirtualnych.
+
+Różnicę między stosem i stertą łatwo można też zademonstrować następującym mikroprogramem:
+
+```c++
+#include <iostream>
+
+int glob = 999;
+
+int main(int argc, const char* argv[]) 
+{
+    int* p = new int {7};
+    static int st = 9;
+    std::cout << "p    is at " << &p << "\n";
+    std::cout << "argc is at " << &argc << "\n";
+    std::cout << "argv is at " << &argv << "\n";
+    std::cout << "*p   is at " << p << "\n";
+    std::cout << "st   is at " << &st << "\n";
+    std::cout << "glob is at " << &glob << "\n";
+    std::cout << "main is at " << (void*) main << "\n";
+}
+```
+
+który może wyświetlić w konsoli następujacy wynik:
+
+```
+p    is at 0x7ffc17ccc478
+argc is at 0x7ffc17ccc46c
+argv is at 0x7ffc17ccc460
+*p   is at 0x7ed2b0
+st   is at 0x40402c
+glob is at 0x404028
+main is at 0x401146
+```
+
+Jak widać, argumenty funkcji `main` oraz lokalna w niej zmienna (`argc`, `argv` i `p`) są w pamięci umieszczone bardzo blisko siebie (na stosie), a ich adresy mają "niemożliwie" wysokie wartości, co wynika z zastosowania wirtualizacji pamięci (aby mój komputer był w stanie zaadresować całą pamięć od komórki o numerze `0` do  `0x7ffe4284d818`, musiałby mieć  ponad 140 tysięcy GB pamięci). Zaalokowana na stercie zmienna `*p` zlokalizowana jest pod dość niskim adresem `0xffb2b0`. Kilka MB niżej znajdują się zmienna globalna `glob` i zmienna statyczna w funkcji `st`, przy czym odległość między nimi wynosi dokładnie 4 bajty, co sugeruje, że znajdują się w tym samym bloku pamięci. Kod funkcji `main`  znajduje się kilkanaście KB poniżej `*p`. Jest to całkowicie zgodne z przedstawionym powyżej opisem podziału pamięci wirtualnej udostępnianej dla wykonującego się procesu. 
 
 Jakie stąd wnioski?
 
 - Miej świadomość, że w każdym programie napisanym w C/C++ 
 
   - część zmiennych i obiektów (np. `std::cout`) zajmuje miejsce w obszarze zmiennych (zainicjalizowanych lub nie)  globalnych i statycznych. To pozwala lepiej zrozumieć specyfikę obiektów globalnych i statycznych w funkcjach. 
-  - część zmiennych i obiektów zajmuje miejsce na stosie funkcji. W szczególności przechowywane są tam wszystkie niestatyczne zmienne lokalne w funkcjach, ich argumenty i wartość. 
-  - część zmiennych i obiektów zajmuje miejsce na stercie (pamięci wolnej). Te obiekty nie mają swojej nazwy i zarządzane są wyłącznie poprzez wskaźniki.
+  - część zmiennych i obiektów zajmuje miejsce na stosie wywołań funkcji (*call stack*). W szczególności przechowywane są tam wszystkie niestatyczne zmienne lokalne w funkcjach, ich argumenty i wartość. 
+  - część zmiennych i obiektów zajmuje miejsce na stercie. Te obiekty nigdy nie mają swojej nazwy i zarządzane są wyłącznie poprzez wskaźniki. 
 
 - Stosem i zmiennymi globalnymi zarządza kompilator, a stertą - programista. 
 
   - interfejsem programistycznym sterty są dwa operatory `new` i odpowiadające im dwa operatory `delete`. 
 
 - Dynamiczne struktury danych muszą posługiwać się stertą, jedynym blokiem pamięci programu, w którym pamięć na indywidualne obiekty bądź ich tablice przydzielana jest na żądanie, natomiast uchwyt do tych danych zwykle (ale nie na pewno) będzie umieszczony na stosie.
+
