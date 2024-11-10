@@ -1,4 +1,4 @@
-# Zaawansowane programowanie w C++ dla ISSP
+# Zaawansowane programowanie w C++
 
 ## Spis treści
 
@@ -16,16 +16,18 @@
   - Zasada RAII
 
 - Debuger
-  - Przegląd tego, co co może Twój debuger
-  - Obsługa "core dumps"
+  - Przegląd możliwości współczesnych debugerów
+  - Obsługa *core dumps*
   - Wpinanie się w uruchomiony proces
 
 
 ### Wyrażenia lambda
 
-
+- TBA
 
 ### Semantyka *move*
+
+- TBA
 
 ### Programowanie współbieżne
 
