@@ -49,3 +49,9 @@
   - [Lista pojedynczo wiązana](./z01-dynamiczna-lista-pojedynczo-wiazana.md)
   - [Lista podwójnie wiązana](./z01-dynamiczna-lista-podwojnie-wiazana.md)
   - [Binarne drzewo poszukiwań (BST)](./z01-bst.md)
+
+### Programowanie dynamiczne
+
+- [Nieco teorii](z02-prog-dyn-intro.md)
+- [Symbol Newtona](./z02-prog-dyn-newton.md)
+- [Problem optymalizacyjny](z02-problem-optymalizacyjny.md)
