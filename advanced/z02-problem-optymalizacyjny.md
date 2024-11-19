@@ -139,6 +139,7 @@ Na koniec ciekawostka.
 ### Problemy
 
 1. Przedstawiony powyżej problem "Szewczyka Dratewki" jest równoważny pewnemu znanemu problemowi z programowania dynamicznego, mającemu w chwili pisania tych słów swoją stronę w Wikipedii w 10 językach. O jaki znany problem tu chodzi? 
+
 2. Udowodnij, że jeżeli Czarnoksiężnik przedstawił Dratewce ciąg niemalejący $a_1, a_2, \ldots a_n$, gdzie $1 \le a_1 \le a_2 \ldots  \le  a_n$, to optymalna strategia polega na kupowaniu klejnotów od lewej do prawej, czyli, kolejno, $a_2$, potem $a_3$, $a_4$ i tak aż do $a_{n-1}$. 
    * czy podobną właściwość posiadają też ciągi nierosnące?
    * czy można tę właściwość zastosować do istotnego zmniejszenia średniej liczby wywołań rekurencyjnych funkcji `best_price`?
@@ -153,5 +154,9 @@ Na koniec ciekawostka.
 5. Napisz program (klasa, rekurencyjna funkcja składowa, spamiętywanie) wyznaczający liczbę różnych dróg, którymi z węzła (0, 0) można dojść do węzła $(n, n)$, gdzie $n$ jest liczbą całkowitą $\ge0$, poruszając się wyłącznie w prawo lub do góry o jedną jednostkę i nigdy nie przekraczając diagonali $y = x$. Por. rysunek dla $n=4$, z którego wynika, że $C_4 = 14$:
    ![](/home/zkoza/Pulpit/Dydaktyka/aaa_ProgCPP/github/cpp-issp/advanced/img/z02/grid_example.png)
 
-6. Szewczyk Dratewka został zaproszony do skarbca. Są w nim, oczywiście, skarby. Każdy ma swoją wagę $w_i$ i cenę $c_i$, przy czym zarówno wagi, jak i ceny są wyrażone w liczbach naturalnych. Za zabicie każdego smoka Dratewka może ze skarbca wziąć spośród N skarbów tyle, ile chce, byle ich waga nie przekraczała $W$. Napisz program, który pomoże Dratewce wybrać skarby o możliwie największej sumarycznej cenie dla danych $N$, $W$, $\{w_i\}$ oraz $\{c_i\}$, gdzie $i = 1,2,\ldots,N$. Wskazówka. Ustaw skarby w ciąg. Albo ostatni element należy do zbioru optymalnego, albo nie. W każdym z tych przypadków redukujesz problem do problemów mniejszych (tzn. z mniejszym *W* i/lub mniejszą liczbą elementów ciągu).
+6. Szewczyk Dratewka został zaproszony do skarbca. Są w nim, oczywiście, skarby. Każdy ma swoją wagę $w_i$ i cenę $c_i$, przy czym zarówno wagi, jak i ceny są wyrażone w liczbach naturalnych. Za zabicie każdego smoka Dratewka może ze skarbca wziąć spośród N skarbów tyle, ile chce, byle ich waga nie przekraczała $W$. Napisz program, który pomoże Dratewce wybrać skarby o możliwie największej sumarycznej cenie dla danych $N$, $W$, $\{w_i\}$ oraz $\{c_i\}$, gdzie $i = 1,2,\ldots,N$​. Wskazówka. Ustaw skarby w ciąg. Albo ostatni element należy do zbioru optymalnego, albo nie. W każdym z tych przypadków redukujesz problem do problemów mniejszych (tzn. z mniejszym *W* i/lub mniejszą liczbą elementów ciągu).
+
+7. W każdym węźle trójkąta równobocznego o boku $n$ wyciętego z siatki trójkątnej znajduje się liczba całkowita. Znajdź drogę z wierzchołka górnego do dowolnego węzła dolnego rzędu, dla której suma liczb w wierzchołkach lezących na tej drodze jest możliwie najmniejsza. Ścieżka w każdym kroku musi schodzić w dół, w lewo lub w prawo, do lewego lub prawego potomka. Sytuacje dla $n=4$ ilustruje poniższy rysunek. Najkrótsza droga to (chyba) $3\rightarrow 1 \rightarrow 9 \rightarrow 1$. Wskazówka: taki trójkąt możesz zapisać w tablicy w dolnym trójkącie tablicy dwuwymiarowej.   
+
+   ![](./img/z02/triangle.png)    
 
