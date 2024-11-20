@@ -156,7 +156,14 @@ Na koniec ciekawostka.
 
 6. Szewczyk Dratewka został zaproszony do skarbca. Są w nim, oczywiście, skarby. Każdy ma swoją wagę $w_i$ i cenę $c_i$, przy czym zarówno wagi, jak i ceny są wyrażone w liczbach naturalnych. Za zabicie każdego smoka Dratewka może ze skarbca wziąć spośród N skarbów tyle, ile chce, byle ich waga nie przekraczała $W$. Napisz program, który pomoże Dratewce wybrać skarby o możliwie największej sumarycznej cenie dla danych $N$, $W$, $\{w_i\}$ oraz $\{c_i\}$, gdzie $i = 1,2,\ldots,N$​. Wskazówka. Ustaw skarby w ciąg. Albo ostatni element należy do zbioru optymalnego, albo nie. W każdym z tych przypadków redukujesz problem do problemów mniejszych (tzn. z mniejszym *W* i/lub mniejszą liczbą elementów ciągu).
 
-7. W każdym węźle trójkąta równobocznego o boku $n$ wyciętego z siatki trójkątnej znajduje się liczba całkowita. Znajdź drogę z wierzchołka górnego do dowolnego węzła dolnego rzędu, dla której suma liczb w wierzchołkach lezących na tej drodze jest możliwie najmniejsza. Ścieżka w każdym kroku musi schodzić w dół, w lewo lub w prawo, do lewego lub prawego potomka. Sytuacje dla $n=4$ ilustruje poniższy rysunek. Najkrótsza droga to (chyba) $3\rightarrow 1 \rightarrow 9 \rightarrow 1$. Wskazówka: taki trójkąt możesz zapisać w tablicy w dolnym trójkącie tablicy dwuwymiarowej.   
-
+7. W każdym węźle trójkąta równobocznego o boku $n$ wyciętego z siatki trójkątnej znajduje się liczba całkowita. Znajdź drogę z wierzchołka górnego do dowolnego węzła dolnego rzędu, dla której suma liczb w wierzchołkach lezących na tej drodze jest możliwie najmniejsza. Ścieżka w każdym kroku musi schodzić w dół, w lewo lub w prawo, do lewego lub prawego potomka. Sytuacje dla $n=4$ ilustruje poniższy rysunek. Najkrótsza droga to (chyba) $3\rightarrow 1 \rightarrow 9 \rightarrow 1$. Wskazówka: taki trójkąt możesz zapisać w tablicy w dolnym trójkącie tablicy dwuwymiarowej. Np. poniższy trójkąt miałby wówczas reprezentację
+   ```  
+   3
+   5 1
+   6 7 9
+   2 5 8 1
+   ```
+   
    ![](./img/z02/triangle.png)    
-
+8. Dany jest ciąg liczb naturalnych $a_i$, $i = 1,\ldots,n$. Czy można wybrać z niego podciąg $b_i$ taki, że $\sum_i b_i = (\sum_i a_i)/2$ , czyli czy można podzielić $a_i$ na dwie części o identycznych sumach? 
+   Wskazówka. Wyznacz sumę $S$ wszystkich $a_i$. Jeżeli $S$ jest nieparzyste, to znasz odpowiedź. Jeśli jest parzyste, to rozwiąż zagadnienie: czy istnieje podciąg $b_i$ ciągu $a_i$ taki, że $\sum_i^n b_i = S/2$? W tym celu rozważ dwa przypadki: $a_n$ jest elementem ciągu $b_i$ lub nie jest. W obu przypadkach sprowadzasz problem sparametryzowany przez parę liczb $(n, S/2)$ do problemu $(n', S'/2)$, w którym $n'\le n$, $S'\le S$ oraz $n + S < n'+ S'$. Można więc zastosować rekurencję ze spamiętywaniem, czyli programowanie dynamiczne.
