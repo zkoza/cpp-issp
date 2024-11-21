@@ -163,7 +163,12 @@ Na koniec ciekawostka.
    6 7 9
    2 5 8 1
    ```
-   
+
    ![](./img/z02/triangle.png)    
+
 8. Dany jest ciąg liczb naturalnych $a_i$, $i = 1,\ldots,n$. Czy można wybrać z niego podciąg $b_i$ taki, że $\sum_i b_i = (\sum_i a_i)/2$ , czyli czy można podzielić $a_i$ na dwie części o identycznych sumach? 
-   Wskazówka. Wyznacz sumę $S$ wszystkich $a_i$. Jeżeli $S$ jest nieparzyste, to znasz odpowiedź. Jeśli jest parzyste, to rozwiąż zagadnienie: czy istnieje podciąg $b_i$ ciągu $a_i$ taki, że $\sum_i^n b_i = S/2$? W tym celu rozważ dwa przypadki: $a_n$ jest elementem ciągu $b_i$ lub nie jest. W obu przypadkach sprowadzasz problem sparametryzowany przez parę liczb $(n, S/2)$ do problemu $(n', S'/2)$, w którym $n'\le n$, $S'\le S$ oraz $n + S < n'+ S'$. Można więc zastosować rekurencję ze spamiętywaniem, czyli programowanie dynamiczne.
+   Wskazówka. Wyznacz sumę $S$ wszystkich $a_i$. Jeżeli $S$ jest nieparzyste, to znasz odpowiedź. Jeśli jest parzyste, to rozwiąż zagadnienie: czy istnieje podciąg $b_i$ ciągu $a_i$ taki, że $\sum_i^n b_i = S/2$? W tym celu rozważ dwa przypadki: $a_n$ jest elementem ciągu $b_i$ lub nie jest. W obu przypadkach sprowadzasz problem sparametryzowany przez parę liczb $(n, S/2)$ do problemu $(n', S'/2)$, w którym $n'\le n$, $S'\le S$ oraz $n + S < n'+ S'$​. Można więc zastosować rekurencję ze spamiętywaniem, czyli programowanie dynamiczne.
+
+9. Napisz program, który wyznaczać będzie najdłuższy podciąg dwóch danych ciągów liter. Na przykład jeżeli mamy dwa ciągi liter, ALAMAKOTA i USZATEK, najdłuższym pociągiem każdego z nich jest AK lub AT. Wszystkie litery ciągu (napisu) AK występują bowiem w ciągach wyjściowych i to w tej samej kolejności, podobnie sytuacja ma się z podciągiem AT. Inny przykład: najdłuższym podciągiem ciągów ABBA i BARNABA jest podciąg ABA lub BBA (**AB**B**A**, B**A**RNA**BA** lub A**BBA**, **B**ARNA**BA**).   
+
+   Wskazówka. Jeżeli dwa ciągi kończą się tą sama literą, to ta litera będzie występować w najdłuższym podciągu (oczywiście na jego końcu) i możemy zredukować problem do takiego, w którym tę ostatnią literę usunięto. W przeciwnym co najmniej jedna z ostatnich liter nie należy do najdłuższego ciągu (dlaczego?). Można więc problem sprowadzić do takiego, w którym albo można usunąć ostatnią literę z pierwszego napisu, albo z drugiego, i wystarczy wybrać ten wariant, który daje dłuższy podciąg.     
