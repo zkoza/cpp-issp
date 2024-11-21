@@ -24,7 +24,7 @@ Ważna uwaga. Uchwyt może być zmienną zaalokowaną na stosie lub stercie, nat
 
 Zacznijmy od implementacji najbardziej potrzebnej funkcji, czyli takiej, która będzie dodawała do listy kolejny element ze składową `value` o dowolnej wartości `n`.  Nazwijmy ją `insert`. Potrzebuje ona 2 argumentów: wskaźnika do elementu, przed którym mamy wstawić nowy element (lub wskaźnika `nullptr` jeżeli lista jest pusta) oraz liczby, która ma być zapisana w polu `value` tego elementu. Zróbmy też odpowiedni rysunek pierwszego kroku:
 
-![](/home/zkoza/Pulpit/Dydaktyka/aaa_ProgCPP/github/cpp-issp/img/z01/lista-step1.png)     
+![](./img/z01/lista-step1.png)     
 
 W tym kroku tworzymy (na stercie!) nowy element listy. Inicjalizujemy jego składową `value` wartością zmiennej `n`, natomiast jego składowa `next` powinna wskazywać następny element listy. Czyli powinna mieć taką samą wartość, jaką ma `root`. Ponadto powinniśmy zauważyć, że skoro nowy element jest alokowany na stercie, to nie może mieć nazwy. Dlatego potrzebujemy zmiennej wskaźnikowej, w której `opertor new` zapisze jego adres. Stąd już gotowy kod:    
 
