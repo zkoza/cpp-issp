@@ -8,39 +8,42 @@ Rekurencja w  programowaniu to oczywiście wywoływanie funkcji przez samą sieb
 >
 >  to tym samym udowodnimy prawdziwość $T(n)$ dla każdego $n \ge 1$.   
 
-Trywialny przykład: niech $T(n)$​ oznacza zdanie "Suma n jedynek wynosi n". Sprawdzamy warunek 1: "suma 1 jedynki wynosi 1". Jest to zdanie prawdziwe. Przechodzimy do punktu drugiego. Oznaczmy poszukiwaną sumę $n$​ jedynek przez $S(n)$​ (czyli $S(n) = 1 + 1 + \cdots + 1$​, gdzie liczba jedynek w sumie wynosi $n$​).  Mamy udowodnić, że jeżeli $S(n) = n$, to $S(n+1) = n + 1$. Załóżmy więc, zgodnie z założeniem indukcyjnym, że suma $n$ jedynek wynosi $n$, czyli że $S(n) = n$. W takim razie suma $n+1$ jedynek równa jest sumie $n$ jedynek  oraz jednej jedynki, czyli $S(n + 1) = S(n) +1$. Skoro jednak na mocy założenia indukcyjnego $S(N) = n$, to $S(n+1) = S(n) + 1 = n+1$, czyli udowodniliśmy prawdziwość zdania $ T(n+1)$, co kończy dowód, że $S(n) = n$​ dla każdego n. 
+Rozpatrzmy dość nieoczywisty, choć w sumie prosty przykład, w którym zdanie $T(n)$ oznacza "Liczba postaci $4^n - 30n - 1$ dzieli się przez 9". Aby udowodnić, że $T(n)$ jest prawdziwe dla każdej liczby naturalnej $n$, najpierw sprawdzamy prawdziwość $T(1)$: "Liczba $4^1 - 30\times1 -1$ dzieli się przez 9" jest zdaniem prawdziwym, bo   $4^1 - 30\times1 -1 = -27 = -3\times9$. Załóżmy więc, że ""Liczba postaci $4^n - 30n - 1$ jest podzielna przez 9" dla pewnego $n\ge1$. Oznaczmy $a_n = 4^n - 30n - 1$. Jak łatwo zauważyć, 
+$$
+a_{n} = 4a_{n-1} +9(10n - 13)
+$$
+Jeżeli więc $a_n$ jest podzielne przez 9, to $a_{n+1}$ również. Co kończy dowód.   
 
-Mogłoby się wydawać, że powyższy przykład jest bezsensownie prosty. Spójrzmy jednak na kod poniższej funkcji wyznaczającej sumę $n$ jedynek:
+Spójrzmy na przykład kodu funkcji wyznaczającej wartość $a_n$ wg powyższego związku rekurencyjnego:
 
 ```c++     
 // zakładamy, że n >= 1
-int suma_jedynek(int n) 
+int fun(int n) 
 {
     if (n == 1)
-        return 1;
-    return suma_jedynek(n - 1) + 1;
-}
+        return -27;
+    return fun(n - 1) + 90*n - 117;
 ```
 
-Trudno nie zauważyć, że zapis tej funkcji dokładnie odpowiada powyżej opisanej metodzie indukcji matematycznej! Najpierw wyznaczamy wartość funkcji dla wartości minimalnej (tu: 1) i kończymy. Dla każdej innej wartości zakładamy, że napisaliśmy już funkcję rozwiązującą nasz problem dla $n-1$ i korzystamy z niej, by rozwiązać problem dla kolejnej wartości argumentu, czyli w tym przypadku dla $n$. Tak więc o ile w indukcji matematycznej dowodzimy, że coś jest prawdziwe, to w programowaniu problemów metodą rekurencyjną, rozwiązujemy problem dla wartości minimalnej, a następnie rozwiązujemy go dla wartości $n$ przy założeniu, że znamy już metodę rozwiązania problemu dla $n-1$, przy czym jest to właśnie ta "metoda", której kod właśnie tworzymy.  
+Trudno nie zauważyć, że zapis tej funkcji dokładnie odpowiada powyżej opisanej metodzie indukcji matematycznej! Najpierw wyznaczamy wartość funkcji dla wartości minimalnej (tu: 1) i kończymy. Dla każdej innej wartości zakładamy, że napisaliśmy już funkcję rozwiązującą nasz problem dla $n-1$, po czym  korzystamy z niej, by rozwiązać problem dla kolejnej wartości argumentu, czyli w tym przypadku dla $n$. Jedyna chyba różnica polega na tym, że w indukcji matematycznej idziemy od wartości minimalnej w stronę nieskończoności, a w programowaniu problemów metodą rekurencyjną idziemy od pewnego $n$ w stronę wartości minimalnej (ogólnie: znanej wartości brzegowej). 
 
 Jeszcze jeden, nieco bardziej złożony przykład. Funkcja wyznaczająca wartość symbolu Newtona, czyli $N \choose k$. Jak pamiętamy,
 
-1. ${N \choose 0} = 1$ 
-2. ${N \choose k} = {N \choose k - 1} + {N \choose k}$  dla k = 1,2,...,N   
+1. ${N \choose 0} = 1$ oraz ${N \choose N} = 0$
+2. ${N \choose k} = {{N-1} \choose k - 1} + {{N-1} \choose k}$  dla k = 1,2,...,N   
 
 Przekształćmy tę definicję rekurencyjną w rekurencyjną implementację w C++:
 
 ```c++
 int newton(int N, int k)
 {
-    if (k == 0)
+    if (k == 0 || k == N)
         return 1;
-    return newton(N, k - 1) + newton(N, k);
+    return newton(N - 1, k - 1) + newton(N - 1, k);
 }
 ```
 
-Prawda, że to bardzo proste? Rekurencyjne definicje funkcji idealnie nadają się do tworzenia na ich podstawie kodu odpowiadających im funkcji rekurencyjnych. Tak, wiem, że powyższa implementacja jest nieefektywna, ale jak sobie z tym poradzić, nie rezygnując z rekurencji, to już osobny temat.
+Prawda, że to bardzo proste? Rekurencyjne definicje funkcji idealnie nadają się do tworzenia na ich podstawie kodu odpowiadających im funkcji rekurencyjnych. Tak, wiem, że powyższa implementacja jest nieefektywna, ale jak sobie z tym poradzić, nie rezygnując z rekurencji, to już osobny temat. Warto przy tym zauważyć, 
 
 #### Jak działa rekurencja?
 
@@ -160,7 +163,7 @@ Spójrzmy teraz, jak kompilator traktuje zmienne alokowane na stercie operatorem
 
 Widzimy, że obsługa zmiennych automatycznych, jak `k` i `p`, zawsze realizowana jest poprzez adresowanie względne względem bieżącej wartości ramki stosu (tu: stanu rejestru `rbp`). Ponadto użycie tych zmiennych nie wymaga jakiejś osobnej "alokacji" pamięci dla nich. Tymczasem obsługa zmiennych umieszczonych na stercie wymaga dość kosztownej alokacji (funkcją `operator new`, której wywołania kompilator nie optymalizuje nawet w trybie *Release*), natomiast samo ich użycie wymaga znajomości ich bezpośredniego adresu.
 
-#### Dalsza lektura nieobowiązkowa
+#### Dalsza lektura bardzo nieobowiązkowa
 
 - [Call stack](https://en.wikipedia.org/wiki/Call_stack) (lub bardzo skromna wersja tej strony w polskiej Wikipedii: [Stos procesora](https://pl.wikipedia.org/wiki/Stos_(informatyka)#Stos_procesora))
 - [Przepełnienie stosu](https://pl.wikipedia.org/wiki/Przepe%C5%82nienie_stosu) 
