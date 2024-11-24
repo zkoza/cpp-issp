@@ -1,6 +1,6 @@
 ### Binarne drzewo poszukiwań 
 
-Binarne drzewo poszukiwań (ang. *Binary Search Tree*, BST) to dynamiczna struktura danych, w której każdy element, zwany w tym kontekście węzłem, posiada trzy wskaźniki, zwyczajowo zwane lewym i prawym potomkiem oraz rodzicem, a także co najmniej jedną składową przechowującą dane zwaną kluczem:
+Binarne drzewo poszukiwań (ang. *Binary Search Tree*, BST) to dynamiczna struktura danych, w której każdy element, zwany w tym kontekście węzłem, posiada trzy wskaźniki, zwyczajowo zwane lewym i prawym potomkiem oraz rodzicem, a także co najmniej jedną składową przechowującą dane, zwaną kluczem (ang. *key*):
 
 ```c++
 struct Node
@@ -20,7 +20,7 @@ Dwa z trzech wskaźników zawartych w każdym węźle BST, `left` i `right`, poz
 
 W każdym drzewie binarnym jeden węzeł jest wyróżniony: nie ma on rodzica. Nazywamy go korzeniem drzewa. Odpowiadającej mu składowej `parent` przypisujemy w C++ wartość `nullptr`. 
 
-Większość funkcji związanych z drzewami BST najwygodniej pisze się za pomocą rekurencji. Tak może napisana w ten sposób funkcja `insert`:
+Większość funkcji związanych z drzewami BST najwygodniej pisze się za pomocą rekurencji. Tak może wyglądać napisana w ten sposób funkcja `insert`:
 
 ```c++
 Node* insert(Node*& root, int n)
@@ -37,13 +37,10 @@ Node* insert(Node*& root, int n)
             root->left->parent = root;
         return root->left;
     }
-    else
-    {
-        auto tmp = insert(root->right, n);
-        if (tmp == root->right)
-            root->right->parent = root;
-        return root->right;
-    }
+    auto tmp = insert(root->right, n);
+    if (tmp == root->right)
+        root->right->parent = root;
+    return root->right;    
 }
 ```
 
@@ -102,7 +99,7 @@ Dygresja. Operatory `&&` i `||` w języku C++ posiadają pewną ważną własno�
 if (root->left != nullptr && root->left->parent != root)
 ```
 
-jeżeli `root->left != nullptr` ma wartość `false`, to cały warunek ma wartość `false`, a więc program nie sprawdza, czy ` root->left->parent != root`. Ma to duże znaczenie, bo przecież jeżeli    `root->left != nullptr` ma wartość `false`,  to `root->left == nullpr`, a w tym przypadku próba wyznaczenia wartości wyrażenia `root->left->parent` musi zakończyć się padem programu. Oznacza to też, że zasadniczo operatory `&&` i `||` nie są przemienne i zamiana kolejności ich argumentów zmienia sens programu. Na przykład zamiana powyższego warunku na 
+jeżeli `root->left != nullptr` ma wartość `false`, to cały warunek ma wartość `false`, a więc program nie sprawdza, czy ` root->left->parent != root`. Ma to duże znaczenie, bo przecież jeżeli  wyrażenie `root->left != nullptr` ma wartość `false`,  to `root->left == nullpr`, a w tym przypadku próba wyznaczenia wartości wyrażenia `root->left->parent` musi zakończyć się padem programu. Oznacza to też, że zasadniczo operatory `&&` i `||` nie są przemienne i zamiana kolejności ich argumentów zmienia sens programu. Na przykład zamiana powyższego warunku na 
 
 ```c++ 
 if (root->left->parent != root && root->left != nullptr)
@@ -170,8 +167,8 @@ void print_pre_order(const Node* root)
     if (root == nullptr)
         return;
     std::cout << root->key << " ";
-    print_in_order(root->left);
-    print_in_order(root->right);
+    print_pre_order(root->left);
+    print_pre_order(root->right);
 }
 ```
 
@@ -195,8 +192,8 @@ void print_post_order(const Node* root)
 {
     if (root == nullptr)
         return;
-    print_in_order(root->left);
-    print_in_order(root->right);
+    print_post_order(root->left);
+    print_post_order(root->right);
     std::cout << root->key << " ";
 }
 ```

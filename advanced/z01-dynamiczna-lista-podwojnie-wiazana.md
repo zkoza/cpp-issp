@@ -17,7 +17,7 @@ Graficznie listę podwójnie wiązaną można przedstawić [następująco](https
 
 ![`](./img/z01/doubly-linked-1.png)
 
-Jak widać, mamy teraz nie tylko dwa wskaźniki w każdym elemencie listy, ale i dwa uchwyty do całej listy: wskaźnik na element pierwszy (`head`) oraz wskaźnik na element ostatni (`tail`). Nieco komplikuje to pisanie funkcji obsługujących taką listę. Jako, że nie różnią się one jednak jakoś pryncypialnie od funkcji obsługujących listę pojedynczo wiązaną, tu przedstawię tylko kilka przykładów. Żeby nie musieć przekazywać do takich funkcji obu uchwytów definiujących listę podwójnie wiązaną, umieszczę je w strukturze:
+Jak widać, mamy teraz nie tylko dwa wskaźniki w każdym elemencie listy, ale i dwa uchwyty do całej listy: wskaźnik na element pierwszy (`head`) oraz wskaźnik na element ostatni (`tail`). Nieco komplikuje to pisanie funkcji obsługujących taką listę. Jako że nie różnią się one jednak jakoś pryncypialnie od funkcji obsługujących listę pojedynczo wiązaną, tu przedstawię tylko kilka przykładów. Żeby nie musieć przekazywać do takich funkcji obu uchwytów definiujących listę podwójnie wiązaną, umieszczę je w strukturze:
 
 ```c++ 
 struct List
@@ -138,4 +138,4 @@ void reverse(List& list)
 
 #### Zadania
 
-Można spróbować zrobić te same zadania co dla listy pojedynczo wiązanej
+Można spróbować zrobić te same zadania co dla listy pojedynczo wiązanej, ale dla listy wiązanej podwójnie. 

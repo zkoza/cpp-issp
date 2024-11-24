@@ -290,16 +290,16 @@ Dlatego dynamiczne struktury danych w C++ implementuje się w klasach (jeszcze l
 
 ### Problemy
 
-- Zaprojektuj i zaimplementuj funkcję `empty`, która zwracać będzie `true`, jeżeli lista jest pusta, lub `false`, jeżeli zawiera choć jeden element. 
-- Zaprojektuj i zaimplementuj funkcję `erase_second`, która usuwa dokładnie drugi element listy, o ile lista zawiera co najmniej 2 elementy. 
-- Zaprojektuj i zaimplementuj funkcję `size`, która zwraca liczbę elementów listy. Napisz wersję rekurencyjną i z pętlą. 
-- Zaprojektuj i zaimplementuj funkcję `print`, która wyświetla na konsoli wszystkie elementy listy. Napisz wersję rekurencyjną i z pętlą. 
-- Zaprojektuj i zaimplementuj funkcję `iota`, która wypełni istniejącą listę kolejnymi liczbami naturalnymi począwszy od 1. Czyli jeżeli mamy listę {2 -> 5 -> 78 -> -1}, to po wywołaniu funkcji `iota` na tej liście, zostanie ona zamieniona na listę {1 -> 2 -> 3 -> 4}. Napisz wersję rekurencyjną i z pętlą. 
-- Zaprojektuj i zaimplementuj funkcję `sum_even`, która wyznaczy sumę parzystych elementów listy. Czyli dla listy  {2 -> 5 -> 78 -> -1} powinniśmy otrzymać wynik 2 + 78, czyli 80. Napisz wersję rekurencyjną i z pętlą. 
-- Zaprojektuj i zaimplementuj funkcję `erase_last`, która będzie usuwać ostatni element listy, o ile lista nie jest pusta.
-- Zaprojektuj i zaimplementuj funkcję `join`, która łączy ze sobą dwie listy.
-- Zaprojektuj i zaimplementuj funkcję `remove_even`, która usuwa z listy wszystkie elementy parzyste. Na przykład dla listy {2 -> 5 -> 78 -> -1}  powinniśmy otrzymać listę {5 -> -1}. Napisz wersję rekurencyjną i z pętlą.
-- (dość trudne) Bez zaglądania do rozwiązań w internecie zaprojektuj i zaimplementuj funkcję `reverse`, która odwraca kolejność elementów listy. Na przykład dla listy {2 -> 5 -> 78 -> -1}  powinniśmy otrzymać listę {-1 -> 78 -> -> 5 ->  2}. Implementacja nie może przemieszczać elementów listy, wszystkie operacje należy wykonać wyłącznie na wskaźnikach.
+1. Zaprojektuj i zaimplementuj funkcję `empty`, która zwracać będzie `true`, jeżeli lista jest pusta, lub `false`, jeżeli zawiera choć jeden element. 
+1. Zaprojektuj i zaimplementuj funkcję `erase_second`, która usuwa dokładnie drugi element listy, o ile lista zawiera co najmniej 2 elementy. 
+1. Zaprojektuj i zaimplementuj funkcję `size`, która zwraca liczbę elementów listy. Napisz wersję rekurencyjną i z pętlą. 
+1. Zaprojektuj i zaimplementuj funkcję `print`, która wyświetla na konsoli wszystkie elementy listy. Napisz wersję rekurencyjną i z pętlą. 
+1. Zaprojektuj i zaimplementuj funkcję `iota`, która wypełni istniejącą listę kolejnymi liczbami naturalnymi począwszy od 1. Czyli jeżeli mamy listę {2 -> 5 -> 78 -> -1}, to po wywołaniu funkcji `iota` na tej liście, zostanie ona zamieniona na listę {1 -> 2 -> 3 -> 4}. Napisz wersję rekurencyjną i z pętlą. 
+1. Zaprojektuj i zaimplementuj funkcję `sum_even`, która wyznaczy sumę parzystych elementów listy. Czyli dla listy  {2 -> 5 -> 78 -> -1} powinniśmy otrzymać wynik 2 + 78, czyli 80. Napisz wersję rekurencyjną i z pętlą. 
+1. Zaprojektuj i zaimplementuj funkcję `erase_last`, która będzie usuwać ostatni element listy, o ile lista nie jest pusta.
+1. Zaprojektuj i zaimplementuj funkcję `join`, która łączy ze sobą dwie listy.
+1. Zaprojektuj i zaimplementuj funkcję `remove_even`, która usuwa z listy wszystkie elementy parzyste. Na przykład dla listy {2 -> 5 -> 78 -> -1}  powinniśmy otrzymać listę {5 -> -1}. Napisz wersję rekurencyjną i z pętlą.
+1. (dość trudne) Bez zaglądania do rozwiązań w internecie zaprojektuj i zaimplementuj funkcję `reverse`, która odwraca kolejność elementów listy. Na przykład dla listy {2 -> 5 -> 78 -> -1}  powinniśmy otrzymać listę {-1 -> 78 -> -> 5 ->  2}. Implementacja nie może przemieszczać elementów listy, wszystkie operacje należy wykonać wyłącznie na wskaźnikach.
 
 Jeżeli potrafisz rozwiązać powyższe problemy, to ani wskaźniki, ani lista pojedynczo wiązana, ani nawet rekurencja nie są ci straszne. Zauważ, że nie napisałem, że należy wszystkie te problemy rozwiązać, tylko że należy umieć je rozwiązać.
 
