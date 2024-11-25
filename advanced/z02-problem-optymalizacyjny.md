@@ -140,14 +140,13 @@ Jeżeli żaden z tych warunków nie jest spełniony, przystępujemy do rozwiąza
 
 2. Liczby Catalana zdefiniowane są zależnością rekurencyjną
 
-   $$
-   C_0 = 1 \quad \text{oraz} \quad C_{n}=\sum_{i=1}^{n}C_{i-1}C_{n-i}\quad\mbox{ dla }n > 0
-   $$
+   $\displaystyle  C_0 = 1 \quad \text{oraz} \quad C_{n}=\sum_{i=1}^{n}C_{i-1}C_{n-i}\quad\mbox{ dla } n > 0 \qquad$
+
    Czyli 
 
    - $C_1 = C_0C_0 = 1$,  
    - $C_2 = C_0C_1 + C_1C_0 = 2$, 
-   - $C_3 = C_0C_2 + C_1C_1 + C_2C_0 = 6$ itd.    
+   - $C_3 = C_0C_2 + C_1C_1 + C_2C_0 = 5$ itd.    
 
    Napisz klasę `Catalan` ze składową rekurencyjną `operator()(int n)` wykorzystującą spamiętywanie (*memoization*) do wyznaczenia *n*-tej liczby Catalana, $n \ge 0
 
