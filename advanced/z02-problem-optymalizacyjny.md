@@ -138,10 +138,18 @@ Jeżeli żaden z tych warunków nie jest spełniony, przystępujemy do rozwiąza
 
 1. Przedstawiony powyżej problem "Szewczyka Dratewki" jest równoważny pewnemu znanemu problemowi z programowania dynamicznego, mającemu w chwili pisania tych słów swoją stronę w Wikipedii w 10 językach. O jaki znany problem tu chodzi? 
 
-3. Liczby Catalana zdefiniowane są zależnością rekurencyjną
+2. Liczby Catalana zdefiniowane są zależnością rekurencyjną
 
-   $\displaystyle C_0 = 1 \quad \text{oraz} \quad C_{n}=\sum_{i=1}^{n}C_{i-1}C_{n-i}\quad\text{for }n > 0$
-   Napisz klasę `Catalan` ze składową rekurencyjną `operator()(int n)` wykorzystującą spamiętywanie (*memoization*) do wyznaczenia *n*-tej liczby Catalana, $n \ge 0$.  
+   $$
+   C_0 = 1 \quad \text{oraz} \quad C_{n}=\sum_{i=1}^{n}C_{i-1}C_{n-i}\quad\mbox{ dla }n > 0
+   $$
+   Czyli 
+
+   - $C_1 = C_0C_0 = 1$,  
+   - $C_2 = C_0C_1 + C_1C_0 = 2$, 
+   - $C_3 = C_0C_2 + C_1C_1 + C_2C_0 = 6$ itd.    
+
+   Napisz klasę `Catalan` ze składową rekurencyjną `operator()(int n)` wykorzystującą spamiętywanie (*memoization*) do wyznaczenia *n*-tej liczby Catalana, $n \ge 0
 
 4. Napisz program wyznaczający liczbę różnych drzew BST z `n` węzłami o wartościach $1, 2,\ldots,n$ . W tym celu napisz równanie rekurencyjne sprowadzające problem $n$-węzłowy do problemów o mniejszej liczbie węzłów, a następnie zaimplementuj je (klasa, rekurencyjna funkcja składowa, spamiętywanie). 
 
