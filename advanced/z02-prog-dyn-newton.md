@@ -23,7 +23,7 @@ W tym miejscu warto przytoczyć uzasadnienie tego wzoru jako rekurencyjnego prze
   - Jeżeli zaś nie należy, to problem redukuje się do liczby wyborów $k$ lampek w zbiorze $N-1$ elementowym. 
 
 
-​	Łącznie otrzymujemy więc ${N \choose k} = {{N -1} \choose {k - 1}} + {{N -1} \choose {k}} $ , c.b.d.o.
+​	Łącznie otrzymujemy więc ${N \choose k} = {{N -1} \choose {k - 1}} + {{N -1} \choose {k}}$, c.b.d.o.
 
 Implementacja powyższego wzoru rekurencyjnego jako funkcji rekurencyjnej w C++ jest prosta:
 
