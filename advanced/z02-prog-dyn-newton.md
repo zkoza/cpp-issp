@@ -54,7 +54,7 @@ Co jest tego przyczyną? Spójrzmy na drzewo wywołań tej funkcji dla przypadku
 
 ![](./img/z02/silnia-tree.png)
 
-Jak widać, funkcja `newton(5,3)` do wyznaczenia swojej wartości wywołuje się (z różnymi argumentami) 19 razy, a np. `newton(4, 2)` - 11 razy. Pozostawiam Czytelnikowi udowodnienie, że w ogólnym przypadku zdefiniowana powyżej funkcja `silnia` wywołana z argumentami `n, k` wywołuje się dokładnie $2{n \choose k} -1 $   razy. Najłatwiejszy dowód tego faktu można przeprowadzić metodą indukcji matematycznej.
+Jak widać, funkcja `newton(5,3)` do wyznaczenia swojej wartości wywołuje się (z różnymi argumentami) 19 razy, a np. `newton(4, 2)` - 11 razy. Pozostawiam Czytelnikowi udowodnienie, że w ogólnym przypadku zdefiniowana powyżej funkcja `silnia` wywołana z argumentami `n, k` wywołuje się dokładnie $2{n \choose k} - 1$ razy. Najłatwiejszy dowód tego faktu można przeprowadzić metodą indukcji matematycznej.
 
 Z powyższego rysunku można jeszcze wywnioskować dwie interesujące cechy funkcji `newton(n, k)`. Po pierwsze, drzewo jej wywołań przypomina drzewo binarne o wysokości *n* i na tej podstawie możemy spodziewać się, że liczba jej wywołań dla elementów centralnych w trójkącie Pasala (czyli argumentów postaci (`2*k, k`) odpowiadających symbolowi Newtona ${2k \choose k}$ ) będzie rzędu $2^n$, gdzie $n=2k$. Bardziej dokładne obliczenia pokazują, że wartość ta jest rzędu $2^{n}/\sqrt{n}$. Już dla n = 100, czyli dla próby wyznaczenia wartości ${100 \choose 50}$, oczywiście przy zastosowaniu arytmetyki o dostatecznie dużej precyzji, funkcja ta wywoływałaby się ok. $10^{29}$ razy. Nawet gdyby jedno wywołanie zajmowało tylko 10 ns, czas na wyznaczenie wartości ${100 \choose 50}$ tą metodą przekraczałby wiek Wszechświata. 
 
@@ -62,11 +62,11 @@ Drugą cechą powyższego grafu wywołań jest to, że część wywołań się p
 
 Zanim ją omówię, spójrzmy na spodziewaną postać drzewa wywołań po zastosowaniu tej techniki.   
 
-![](/home/zkoza/Pulpit/Dydaktyka/aaa_ProgCPP/github/cpp-issp/advanced/img/z02/silnia-tree-pruned.png)
+![](./img/z02/silnia-tree-pruned.png)
 
 Drzewo to utworzyłem, po prostu usuwając z oryginalnego drzewa powtarzające się węzły wraz z ich poddrzewami.
 
-Węzłów jest teraz 11. Niby niewiele mniej niż 19 w przypadku pominięcia spamiętywania, łatwo jednak wykazać, że liczba wywołań funkcji `silnia` ze spamiętywaniem nie może przekroczyć liczby elementów trójkąta Pascala w wierszach od 0 do $n-1$. Ponieważ jest ich $n(n+1)/2$, to złożoność takiego algorytmu  będzie co najwyżej kwadratowa, $O(n^2$). To jest gigantyczny postęp w porównaniu do wykładniczego $2^n$. Na przykład dla $n=100$ mamy ze spamiętywaniem nie więcej niż 5050 zamiast $10^{29}$ wywołań.
+Węzłów jest teraz 11. Niby niewiele mniej niż 19 w przypadku pominięcia spamiętywania, łatwo jednak wykazać, że liczba wywołań funkcji `silnia` ze spamiętywaniem nie może przekroczyć liczby elementów trójkąta Pascala w wierszach od 0 do $n-1$. Ponieważ jest ich $1 + 2 + \ldots + n = n(n+1)/2$, to złożoność takiego algorytmu  będzie co najwyżej kwadratowa, $O(n^2$). To jest gigantyczny postęp w porównaniu do wykładniczego $O(2^n)$. Na przykład dla $n=100$ mamy ze spamiętywaniem nie więcej niż 5050 zamiast $10^{29}$ wywołań.
 
 ## Spamiętywanie (memoization)
 
@@ -92,11 +92,8 @@ class Newton
 Klasa ta ma 
 
 - w części publicznej ("w interfejsie"):
-
   - konstruktor domyślny dostarczony przez kompilator (`Newton() = default;`)
-
   - operator wywołania funkcji służący jako wygodny interfejs dla obiektów klasy `Newton`. To ten operator służy do wyznaczania wartości symbolu Newtona.
-
   - funkcję `memoized_elements`, która zwraca liczbę elementów spamiętanych w danym obiekcie. Umieściłem ją tu z czystej ciekawości, choć i w poważnej implementacji miałaby swoje uzasadnienie. 
 
 - w części prywatnej ("w implementacji"):
@@ -131,7 +128,7 @@ int Newton::operator()(int n, int k)
 
 Jak widzimy, najpierw testujemy warunek zakończenia rekurencji (`k == 0 || k == n`). Postępujemy tak **zawsze**. 
 
-Następnie sprawdzamy, czy dla danego zestawu argumentów, `n, k`,  wartość  $n \choose k$ nie została wcześniej zapisana w  obiekcie `mapa` (wyrażenie`if (it == mapa.end())`). W tym przypadku ustalamy wartość $n \choose k$​ na podstawie dwóch wywołań rekurencyjnych funkcji `operator()(int, int)`, a następnie umieszczamy ją w mapie. W przeciwnym wypadku odczytujemy gotową wartość z obiektu `mapa` za pomocą uzyskanego wcześniej iteratora `it`. Na marginesie, atrybut `[[likely]]` po słowie kluczowym `else` jest wskazówką dla kompilatora, że testowany w instrukcji `if` warunek zwykle nie będzie spełniony, co pozwala wygenerować nieco szybszy kod.
+Następnie sprawdzamy, czy dla danego zestawu argumentów, `n, k`,  wartość  $n \choose k$ nie została wcześniej zapisana w  obiekcie `mapa` (wyrażenie`if (it == mapa.end())`). Jeżeli faktycznie jej nie mamy, to wartość $n \choose k$​ obliczmy na podstawie wyników dwóch wywołań rekurencyjnych funkcji `operator()(int, int)`, a następnie umieszczamy ją w mapie. W przeciwnym wypadku odczytujemy gotową wartość z obiektu `mapa` za pomocą uzyskanego wcześniej iteratora `it`. Na marginesie, atrybut `[[likely]]` po słowie kluczowym `else` jest wskazówką dla kompilatora, że testowany w instrukcji `if` warunek zwykle nie będzie spełniony, co pozwala wygenerować nieco szybszy kod.
 
 #### Użycie klasy 
 
@@ -179,7 +176,7 @@ class Newton
 };
 ```
 
-Deklaracja te w niewielkim stopniu różni się od wersji ze `std::map`.  Uwagę zwracać może funkcja `invalid_value() const`, w której typ wyniku uzupełniony jest modyfikatorem `constexpr`. To może dość okrężny, za to skuteczny sposób zdefiniowania stałej (tu: `-1`) jako nazwanej stałej czasu kompilacji. Warto też wrócić uwagę na to, że składowa `tab` to wektor wektorów, czyli tablica dwuwymiarowa. Umieścimy w niej kolejne wiersze trójkąta Pascala.  
+Deklaracja te w niewielkim stopniu różni się od wersji ze `std::map`.  Uwagę zwracać może funkcja `invalid_value() const`, w której typ wyniku uzupełniony jest modyfikatorem `constexpr`. To może dość okrężny, za to skuteczny sposób zdefiniowania stałej (tu: `-1`) jako nazwanej stałej czasu kompilacji. Warto też wrócić uwagę na to, że składowa `tab` to wektor wektorów, czyli tablica dwuwymiarowa. Umieszczamy w niej kolejne wiersze trójkąta Pascala.  
 
 #### Implementacja klasy
 
@@ -211,8 +208,8 @@ int Newton::operator()(int n, int k)
 }
 ```
 
-Powyższa definicja funkcji `operator()(int , int);` dość znacznie różni się od wersji opartej na `std::map`.  Przede wszystkim zakładam tu, że wartość `n` jest a priori nie znana, więc wektor `tab` początkowo jest pusty (podobnie było z `std::map`). Wynika to z... braku jawnego konstruktora, co wymusza na kompilatorze zainicjowanie składowej `tab` jej konstruktorem domyślnym, ten zaś konstruuje wektor pusty. Następnie przy każdym wywołaniu funkcji `operator()(int n, int k)` i sprawdzeniu, że nie możemy od razu wyznaczyć wartości tej funkcji (gdy `k == 0 || k == n`) , musimy sprawdzić, że wektor `tab` ma co najmniej `n + 1` elementów tak, by można było go indeksować . Jeżeli ich nie ma, to zwiększamy rozmiar tablicy do `n + 1`. Ponieważ elementami tablicy `tab` są tablice liczb, musimy rozszerzyć je do pożądanego rozmiaru, pamiętając, że n-ty wiersz trójkąta Pascala ma `n + 1` elementów i numery wiersza (`n`) liczymy od zera. Wszystkie nowe elementy inicjalizujemy wartością `-1` (zapisaną jako `invalid_value()`), która nie występuje w trójkącie Pascala. Za każdym razem, gdy będziemy potrzebować wartości $n \choose k$, a wartość odczytana z `tab[n][k]` będzie ujemna, stanowić to będzie dla nas sygnał, że właśnie po raz pierwszy wywołujemy funkcję ``operator()`  z tą konkretną parą argumentów `(n, k)`, dlatego musimy tę wartość wygenerować i zapisać w `tab[n, k]`.  Dzięki temu funkcja zawsze zwraca `tab[n, k]`. Taki rodzaj **inicjalizacji na błąd** jest typowym trickiem stosowanym w spamiętywaniu. Alternatywą byłoby użycie osobnej tablicy wartości typu `bool` przechowujących informację, czy element tablicy `tab[n. k]` zawiera poprawną wartość.
+Powyższa definicja funkcji `operator()(int , int);` dość znacznie różni się od wersji opartej na `std::map`. Przede wszystkim zakładam tu, że wartość `n` jest a priori nieznana, więc wektor `tab` początkowo jest pusty (podobnie było z `std::map`). Wynika to z... braku jawnego konstruktora, co wymusza na kompilatorze zainicjowanie składowej `tab` jej konstruktorem domyślnym, ten zaś konstruuje wektor pusty. Następnie przy każdym wywołaniu funkcji `operator()(int n, int k)` i sprawdzeniu, czy  możemy od razu wyznaczyć wartości tej funkcji (gdy `k == 0 || k == n`) , musimy sprawdzić, czy wektor `tab` ma co najmniej `n + 1` elementów tak, by można było go indeksować . Jeżeli ich nie ma, to zwiększamy rozmiar tablicy do `n + 1`. Ponieważ elementami tablicy `tab` są tablice liczb, musimy rozszerzyć je do pożądanego rozmiaru, pamiętając, że n-ty wiersz trójkąta Pascala ma `n + 1` elementów i numery wiersza (`n`) liczymy od zera. Wszystkie nowe elementy inicjalizujemy wartością `-1` (zapisaną jako `invalid_value()`), która nie występuje w trójkącie Pascala. Za każdym razem, gdy będziemy potrzebować wartości $n \choose k$, a wartość odczytana z `tab[n][k]` będzie ujemna, stanowić to będzie dla nas sygnał, że właśnie po raz pierwszy wywołujemy funkcję `operator()` z tą konkretną parą argumentów `(n, k)`, dlatego musimy tę wartość wygenerować i zapisać w `tab[n, k]`.  Dzięki temu funkcja zawsze zwraca `tab[n, k]`. Taki rodzaj **inicjalizacji na błąd** jest typowym trickiem stosowanym w spamiętywaniu. Alternatywą byłoby użycie osobnej tablicy wartości typu `bool` przechowujących informację, czy element tablicy `tab[n. k]` zawiera poprawną wartość.
 
 Warto jeszcze zauważyć, że aby rekurencyjnie wywołać przeciążony `operator()`, trzeba lekkiej ekwilibrystyki za składnią języka. Możemy napisać, jak powyżej, `operator()(n - 1, k - 1)`. Można by tu także użyć wyrażenia `(*this)(n - 1, k - 1)` lub nawet `this->operator()(n - 1, k - 1)`. 
 
-Reasumując, wersja ze spamiętywaniem w kontenerze typu mapa (`std::map`) jest prostsza, gdyż łatwo sprawdzić, czy dany element jest w niej przechowywany, łatwo go z niej odczytać i łatwo do niej wstawić nową informację. Ceną za elegancję i bezpieczeństwo jest dość słaba wydajność (tj. szybkość działania). Wersja z `std::vector` prawdopodobnie działać będzie szybciej, ale może potrzebować więcej pamięci, a jej implementacja wymaga pilnowania, by przypadkiem nie sięgnąć poza rozmiar tablicy.
+Reasumując, wersja ze spamiętywaniem w kontenerze typu mapa (`std::map`) jest prostsza, gdyż łatwo sprawdzić, czy dany element jest w niej przechowywany, łatwo go z niej odczytać i łatwo do niej wstawić nową informację. Ceną za elegancję i bezpieczeństwo jest dość słaba wydajność (tj. szybkość działania). Wersja z `std::vector` prawdopodobnie działać będzie szybciej, ale może potrzebować więcej pamięci, a jej implementacja wymaga uważnego pilnowania, by przypadkiem nie sięgnąć poza rozmiar tablicy.
