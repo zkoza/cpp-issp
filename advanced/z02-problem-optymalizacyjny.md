@@ -144,11 +144,12 @@ Jeżeli żaden z tych warunków nie jest spełniony, przystępujemy do rozwiąza
 
    Czyli 
 
+   - $C_0 =1$
    - $C_1 = C_0C_0 = 1$,  
    - $C_2 = C_0C_1 + C_1C_0 = 2$, 
-   - $C_3 = C_0C_2 + C_1C_1 + C_2C_0 = 5$ itd.    
+   - $C_3 = C_0C_2 + C_1C_1 + C_2C_0 = 5$ itd. (por. [Sequence A000108](https://oeis.org/A000108)).    
 
-   Napisz klasę `Catalan` ze składową rekurencyjną `operator()(int n)` wykorzystującą spamiętywanie (*memoization*) do wyznaczenia *n*-tej liczby Catalana, $n \ge 0
+   Napisz klasę `Catalan` ze składową rekurencyjną `operator()(int n)` wykorzystującą spamiętywanie (*memoization*) do wyznaczenia *n*-tej liczby Catalana, $n \ge 0$. 
 
 4. Napisz program wyznaczający liczbę różnych drzew BST z `n` węzłami o wartościach $1, 2,\ldots,n$ . W tym celu napisz równanie rekurencyjne sprowadzające problem $n$-węzłowy do problemów o mniejszej liczbie węzłów, a następnie zaimplementuj je (klasa, rekurencyjna funkcja składowa, spamiętywanie). 
 

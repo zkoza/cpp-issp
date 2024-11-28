@@ -1,11 +1,16 @@
 # Liczba kombinacji, czyli symbol Newtona
 
-Naszym celem jest napisanie funkcji, która w sposób rekurencyjny wyznaczać będzie wartość symbolu Newtona $N \choose  k$, czyli liczby $k$​-elementowych podzbiorów zbioru $N$-elementowego. Symbol ten posiada znaną ze szkoły definicję rekurencyjną:
+Naszym celem jest napisanie funkcji, która w sposób rekurencyjny wyznaczać będzie wartość symbolu Newtona $N \choose  k$​, czyli liczby $k$​​-elementowych podzbiorów zbioru $N$​-elementowego. Symbol ten posiada znaną ze szkoły definicję rekurencyjną:
 
 $$
-{{n \choose k}={\begin{cases}1&{\mbox{dla }}k=0{\mbox{ lub }}k=n\\{n-1 \choose k-1}+{n-1 \choose k}&{\mbox{dla }}0<k<n\end{cases}}}
+{n \choose k}=
+\begin{cases} 
+1,                                           & \text{dla $k=0$ lub $k=n$} \\
+{{n-1} \choose {k-1}} + {{n-1} \choose {k}}, & \text{dla $0 < k < n$}
+\end{cases}
 $$
-W tym miejscu warto przytoczyć uzasadnienie tego wzoru rekurencyjnego na liczbę  $k$-elementowych podzbiorów zbioru $N$-elementowego w wersji, która przyda się w uzasadnieniu poprawności wzoru rekurencyjnego dla problemu plecakowego. 
+
+W tym miejscu warto przytoczyć uzasadnienie tego wzoru jako rekurencyjnego przepisu na liczbę  $k$-elementowych podzbiorów zbioru $N$-elementowego w wersji, która przyda się w uzasadnieniu poprawności wzoru rekurencyjnego dla problemu plecakowego. 
 
 - Otóż, po pierwsze, jasne jest, że w powyższym wzorze $N$ i $k$ są nieujemnymi liczbami całkowitymi, przy czym $0 \le k \le N$.   
 
