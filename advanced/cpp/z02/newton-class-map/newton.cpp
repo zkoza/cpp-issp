@@ -12,7 +12,7 @@ int Newton::operator()(int n, int k)
         result = operator()(n - 1, k - 1) + operator()(n - 1, k);
         mapa.insert({{n, k}, result});
     }
-    else
+    else [[likely]]
     {
         result = it->second;
     }
