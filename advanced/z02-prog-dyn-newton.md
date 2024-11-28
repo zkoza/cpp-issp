@@ -14,16 +14,16 @@ W tym miejscu warto przytoczyć uzasadnienie tego wzoru jako rekurencyjnego prze
 
 - Otóż, po pierwsze, jasne jest, że w powyższym wzorze $N$ i $k$ są nieujemnymi liczbami całkowitymi, przy czym $0 \le k \le N$.   
 
-- Po drugie, jeśli mamy $N$ różnych lampek i pytamy na ile sposobów możemy zapalić 0 z nich, to odpowiedź jest jasna: na jeden, po prostu nie zapalamy żadnej lampki. Podobnie jeżeli pytamy, na ile sposobów można wybrać do zapalenia $N$ lampek spośród $N$ lampek, to wynik ponownie wynosi 1 - po prostu musimy zapalić wszystkie $N$ lampek. Stąd ${N \choose k} = 1$ dla $k=0$ lub $k=N$.  
+- Po drugie, jeśli mamy $N$ różnych lampek i pytamy, na ile sposobów możemy zapalić 0 z nich, to odpowiedź jest jasna: na jeden, po prostu nie zapalamy żadnej lampki. Podobnie jeżeli pytamy, na ile sposobów można wybrać do zapalenia $N$ lampek spośród $N$ lampek, to wynik ponownie wynosi 1: po prostu musimy zapalić wszystkie $N$ lampek. Stąd ${N \choose k} = 1$ dla $k=0$ lub $k=N$.  
 
-- Po trzecie, jeżeli pytamy, na ile sposobów można zapalić $k$ spośród $N$ lampek, przy czym $k >0$, to wybieramy jakąś konkretną lampkę i stwierdzamy, że albo należy ona do zbioru zapalonych lampek, albo nie należy. 
+- Po trzecie, jeżeli pytamy, na ile sposobów można zapalić $k$ spośród $N$ lampek, przy czym $0 < k < N$, to wybieramy jakąś konkretną lampkę i stwierdzamy, że albo należy ona do zbioru zapalonych lampek, albo nie należy. 
 
   - Jeżeli należy, to problem redukuje się nam do kwestii liczby wyborów $k-1$ lampek, które muszą być wybrane do zapalenia ze zbioru $N-1$ elementowego. 
 
   - Jeżeli zaś nie należy, to problem redukuje się do liczby wyborów $k$ lampek w zbiorze $N-1$ elementowym. 
 
 
-​	Łącznie mamy więc ${N \choose k} = {N -1 \choose k - 1} + {N -1 \choose {k}} $ , c.b.d.o.
+​	Łącznie otrzymujemy więc ${N \choose k} = {{N -1} \choose {k - 1}} + {{N -1} \choose {k}} $ , c.b.d.o.
 
 Implementacja powyższego wzoru rekurencyjnego jako funkcji rekurencyjnej w C++ jest prosta:
 
