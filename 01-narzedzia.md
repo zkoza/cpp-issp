@@ -1,6 +1,6 @@
 ## Narzędzia
 
-Łatwość użytkowania nigdy nie była naczelnym celem projektu Języka C++. Wydaje się, że zawsze była ona wtórna wobec innych jego cech, a zwłaszcza łatwości kompilacji napisanych w nim programów do efektywnego kodu wykonywalnego. Z założenia C++ jest bowiem językiem "dla profesjonalistów", dlatego programowanie w C++ charakteryzuje się stosunkowo stromą *learning curve*. Oznacza to, że potrzeba stosunkowo dużo informacji, by móc się nim efektywnie posługiwać, i całkiem sporo pracy, by posługiwanie się nim zaczęło sprawiać przyjemność.
+Łatwość użytkowania nigdy nie była naczelnym celem projektu Języka C++. Wydaje się, że zawsze była ona wtórna wobec innych jego cech, a zwłaszcza łatwości kompilacji napisanych w nim programów do efektywnego kodu wykonywalnego. Z założenia C++ jest bowiem językiem "dla profesjonalistów", dlatego programowanie w C++ charakteryzuje się stosunkowo stromą krzywą uczenia. Oznacza to, że potrzeba stosunkowo dużo informacji, by móc się nim efektywnie posługiwać, i całkiem sporo pracy, by posługiwanie się nim zaczęło sprawiać przyjemność.
 
 Żeby ułatwić sobie życie i skrócić czas nauki, należy koniecznie wraz z samym językiem uczyć się sposobów posługiwania się nim. Jednym z elementów "ekosystemu" C++ są narzędzia, czyli programy zaprojektowane przez programistów dla programistów, których celem jest ułatwienie pisania efektywnego i poprawnego kodu w C++.
 
@@ -8,7 +8,7 @@ Aby posługiwać się C++ na elementarnym poziomie, potrzebujesz (poza systemem 
 - kompilator C++
 - edytor tekstu
 
-Jeżeli na tym poprzestaniesz, to będziesz pracować narzędziami na poziomie lat 70. ubiegłego wieku. To mniej więcej tak, jak by wzorem średniowiecznej szlachty kąpać się co najwyżej raz w roku. Można, ale po co.
+Jeżeli na tym poprzestaniesz, to będziesz pracować narzędziami na poziomie lat 70. ubiegłego wieku. Można, ale po co.
 
 Jeżeli chcesz, by praca z C++ była w miarę komfortowa, potrzebujesz przede wszystkim tego:
 - zintegrowane środowisko programistyczne (ang. IDE)
@@ -37,7 +37,7 @@ A tak wygląda okno programu CLion (podczas edycji):
 
 ![Oraz CLion](./img/01/clion.png)
 
-Każdy z tych programów to "kombajn" z dziesiątkami, jeśli nie setkami opcji. Większość z nich przeznaczona jest dla zaawansowanych użytkowników, nie musisz ich od razu wszystkich znać, żeby pisać ciekawe aplikacje w C++. Oba programy są intuicyjne w obsłudze, posiadają znakomitą dokumentację (np.: https://www.jetbrains.com/clion/learn/). QTCreator jest bardziej zorientowany na pisanie programów w Qt, ale doskonale sprawdza się w każdym innym projekcie języka C++, z kolei CLion jest w dużym stopniu zgodny z wieloma innymi popularnymi produktami firmy Jetbrains, np. Android Studio (aplikacje pod system Android) czy PyCharm (python), więc przy mianie technologi / języka programowania nie trzeba się wszystkiego uczyć od nowa. 
+Każdy z tych programów to "kombajn" z dziesiątkami, jeśli nie setkami opcji. Większość z nich przeznaczona jest dla zaawansowanych użytkowników, nie musisz ich od razu wszystkich znać, żeby pisać ciekawe aplikacje w C++. Oba programy są intuicyjne w obsłudze, posiadają znakomitą dokumentację (np.: https://www.jetbrains.com/clion/learn/). QTCreator jest bardziej zorientowany na pisanie programów w Qt, ale doskonale sprawdza się w każdym innym projekcie języka C++, z kolei CLion jest w dużym stopniu zgodny z wieloma innymi popularnymi produktami firmy Jetbrains, np. Android Studio (aplikacje pod system Android) czy PyCharm (python), więc przy przejściu na nową technologię / język programowania, nie trzeba się wszystkiego uczyć od nowa. 
 
 Kolejny problem polega na tym, że zintegrowane środowiska programistyczne to zaawansowane edytory tekstu połączone wieloma narzędziami zewnętrznymi. To oznacza, że zwykle wymagają konfiguracji. Innymi słowy, użytkownik może się zdziwić, że tuż po instalacji program nie działa, albo działa w sposób ograniczony. Dzieje się tak w sytuacji, gdy nie zainstalowaliśmy tych dodatkowych narzędzi (czasami instalowanymi jako programy zewnętrzne, czasami jako "wtyczki").
 

@@ -55,3 +55,9 @@
 - [Nieco teorii](z02-prog-dyn-intro.md)
 - [Symbol Newtona](./z02-prog-dyn-newton.md)
 - [Problem optymalizacyjny](z02-problem-optymalizacyjny.md)
+
+---
+
+## Prezentacje do wykładu 
+
+- 

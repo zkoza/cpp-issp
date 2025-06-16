@@ -2,13 +2,21 @@
 
 ## Spis treści
 
+
+
 ### Preliminaria
+
+#### 1. Narzędzia. Prosty program w C++.
 
 - [Wstęp](./00-wstep.md)
 - [Narzędzia](./01-narzedzia.md)
   - [bitbucket, github, gitlab](./01a-githubs.md) 
   - [git](./01b-git.md)
   - [Instalacja i konfiguracja programu QtCreator](./01c-qtcreator.md)
+
+------
+
+
 
 ### Nieobiektowe jądro języka
 

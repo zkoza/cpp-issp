@@ -29,7 +29,7 @@ auto p2 = &k;  // p2 także wskazuje na k
 double x = 1.0;
 auto p = &x;
 auto pp = &p;    // pp wskazuje na p (który w tej chwili wskazuje na x)
-auto ppp = &pp;  // ppp wskazuje na pp (którry w tej chwili wskazuje na p, który w tej chwili wskazuje na x)
+auto ppp = &pp;  // ppp wskazuje na pp (ktry w tej chwili wskazuje na p, który w tej chwili wskazuje na x)
 ```
 
 ### Jawna deklaracja typu wskaźnika
@@ -40,7 +40,7 @@ W języku C++ każda zmienna, każdy obiekt musi mieć dobrze zdefiniowany typ. 
 double x = 1.0;
 double* p = &x;       // p wskazuje na x 
 double** pp = &p;     // pp wskazuje na p (który w tej chwili wskazuje na x)
-double*** ppp = &pp;  // ppp wskazuje na pp (którry w tej chwili wskazuje na p, który w tej chwili wskazuje na x)
+double*** ppp = &pp;  // ppp wskazuje na pp (który w tej chwili wskazuje na p, który w tej chwili wskazuje na x)
 ```
 
 Typem wskaźnika na `double` jest więc `double*`, podobnie typ wskaźnika na `char` oznaczamy jako `char*`. Typem wskaźnika na wskaźnik na `double` jest więc wskaźnik na `double*`, czyli coś w rodzaju `(double*)*`, jednak nawiasów tu nie używamy, stąd typ ten to po prostu `double**`. Skoro w deklaracji `double** pp = &p;` zapisano dwie gwiazdki, to znaczy, że mamy podwójne adresowanie pośrednie: w filmie sensacyjnym `pp` odpowiadałoby kluczykowi do skrytki na stacji kolejowej, w której znajduje się kolejny kluczyk (tu: `p`), i dopiero on otwiera drzwi do tajnej kryjówki (tu: `x`).
@@ -354,8 +354,6 @@ Proszę zwrócić uwagę na to, że jeżeli na stercie zarezerwowaliśmy miejsce
 
 Gdyby wrócić do metafory wskaźnika jako klucza do mieszkania, to dynamiczną alokację pamięci można porównać do zaczarowanego ołówka ze znanej kreskówki. Gdy potrzebujemy trochę pamięci, to ją sobie "rysujemy" operatorem `new` lub `new[]`.  Główna różnica polega na tym, że nasze zasoby nie są nieograniczone, dlatego musimy zadbać o zwalnianie niepotrzebnej pamięć operatorem `delete` lub `delete[]`.
 
-![https://img-ovh-cloud.zszywka.pl/1/0638/4604-zaczarowany-olowek.jpg](https://img-ovh-cloud.zszywka.pl/1/0638/4604-zaczarowany-olowek.jpg)
-
 ### Wskaźniki na funkcje
 
 Jak dotąd, widzieliśmy wskaźniki do danych - czyli do zmiennych, tablic lub struktur danych. Jednak w pamięci komputera przechowywane są nie tylko dane, ale i kod programu, który z kolei składa się z kodu poszczególnych funkcji. Skoro funkcje posiadają swój adres, to istnieje też możliwość definiowania i używania wskaźników na funkcje. 
@@ -372,14 +370,14 @@ int main()
 {
     int n;
     std::cin >> n;
-    if (square != 0)
+    if (square != 0)  // !???
     {
         // rób coś
     }
 }
 ```
 
-Powyższy kod zawiera ewidentny błąd (programista zapewne miał na myśli coś w rodzaju `if (square(n) != 0)`), niemniej, z punktu widzenia definicji języka C++ jest całkowicie poprawny. Kompilator wyrażenie (`square != 0`) zinterpretuje po prostu jak test, czy adres funkcji `square` jest różny od zera (skądinąd wiadomo, że jest, gdyż żaden obiekt i żadna funkcja naszego programu nie  zajmuje bajtu o adresie 0). 
+Powyższy kod zawiera ewidentny błąd (programista zapewne miał na myśli coś w rodzaju `if (square(n) != 0)`), niemniej, z punktu widzenia definicji języka C++ jest całkowicie poprawny. Kompilator wyrażenie (`square != 0`) zinterpretuje po prostu jak test, czy adres funkcji `square` jest różny od zera (skądinąd wiadomo, że jest, gdyż żaden obiekt i żadna funkcja naszego programu nie zajmuje bajtu o adresie 0). 
 
 Rozpatrzmy nieco bardziej realistyczny przykład:
 
@@ -513,7 +511,7 @@ Gdy  już opanujemy wskaźniki, operator `new` i operator `delete` , to staramy 
 
 ### Podsumowanie
 
-Wskaźniki są przez jednych uważane za największe nieszczęście języka C++, inni je uwielbiają. Programując w C++, unikamy "nagich" wskaźników, musimy mieć jednak choćby elementarną znajomość tej problematyki. Dla przypomnienia, w tej chwili powinieneś / powinnaś kojarzyć takie tematy, jak:
+Wskaźniki są przez jednych uważane za największe nieszczęście języka C++, inni je uwielbiają. Programując w C++, unikamy "nagich" wskaźników, musimy mieć jednak choćby elementarną znajomość tej problematyki. Dla przypomnienia, w tej chwili powinieneś/powinnaś kojarzyć takie tematy, jak:
 
 - operator pobrania adresu, `&`
 - operatory wyłuskania danych, `*` i `->`

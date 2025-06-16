@@ -155,7 +155,7 @@ int main()
 }
 ```
 
-W funkcji `main` tworzymy obiekt `newton` klasy `Newton`. Następnie używamy go jak nazwy funkcji, np. w wyrażeniu `auto result = newton(n, k);`. Kod jest przejrzysty i chyba nie wymaga dalszego tłumaczenia, może poza wykorzystaniem `std::format`, za pomocą którego C++ usiłuje dostarczyć wygodnego  sposobu formatowania napisów, choć do Pythona jeszcze mu pod tym względem daleko. Ale akurat `std::format` to temat na inną opowieść.  Można nie wiedzieć, jak on działa, a i tak domyślić się bezbłędnie, o co chodzi w wyrażeniu, w którym `std::format` zostało użyte.  
+W funkcji `main` tworzymy obiekt `newton` klasy `Newton`. Następnie używamy go jak nazwy funkcji, np. w wyrażeniu `auto result = newton(n, k);`. Kod jest przejrzysty i chyba nie wymaga dalszego tłumaczenia, może poza wykorzystaniem `std::format`, za pomocą którego C++ usiłuje dostarczyć wygodnego  sposobu formatowania napisów, choć do Pythona jeszcze mu pod tym względem daleko. Ale akurat `std::format` to temat na inną opowieść.  Można nie wiedzieć, jak ona działa, a i tak domyślić się bezbłędnie, o co chodzi w wyrażeniu, w którym `std::format` zostało użyte.  
 
 ### Wersja z `std::vector`
 
