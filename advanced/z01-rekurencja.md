@@ -8,7 +8,7 @@ Rekurencja w  programowaniu to oczywiście wywoływanie funkcji przez samą sieb
 >
 >  to tym samym udowodnimy prawdziwość $T(n)$ dla każdego $n \ge 1$.   
 
-Rozpatrzmy dość nieoczywisty, choć w sumie prosty przykład, w którym zdanie $T(n)$ oznacza "Liczba postaci $4^n - 30n - 1$ dzieli się przez 9". Aby udowodnić, że $T(n)$ jest prawdziwe dla każdej liczby naturalnej $n$, najpierw sprawdzamy prawdziwość $T(1)$: "Liczba $4^1 - 30\times1 -1$ dzieli się przez 9" jest zdaniem prawdziwym, bo   $4^1 - 30\times1 -1 = -27 = -3\times9$. Załóżmy więc, że ""Liczba postaci $4^n - 30n - 1$ jest podzielna przez 9" dla pewnego $n\ge1$. Oznaczmy $a_n = 4^n - 30n - 1$. Jak łatwo zauważyć, 
+Rozpatrzmy dość nieoczywisty, choć w sumie prosty przykład, w którym zdanie $T(n)$ oznacza "Liczba postaci $4^n - 30n - 1$ dzieli się przez 9". Aby udowodnić, że $T(n)$ jest prawdziwe dla każdej liczby naturalnej $n$, najpierw sprawdzamy prawdziwość $T(1)$: "Liczba $4^1 - 30\times1 -1$ dzieli się przez 9" jest zdaniem prawdziwym, bo   $4^1 - 30\times1 -1 = -27 = -3\times9$. Załóżmy więc, że "Liczba postaci $4^n - 30n - 1$ jest podzielna przez 9" dla pewnego $n\ge1$. Oznaczmy $a_n = 4^n - 30n - 1$. Jak łatwo zauważyć, 
 $$
 a_{n} = 4a_{n-1} +9(10n - 13)
 $$
@@ -43,7 +43,7 @@ int newton(int N, int k)
 }
 ```
 
-Prawda, że to bardzo proste? Rekurencyjne definicje funkcji idealnie nadają się do tworzenia na ich podstawie kodu odpowiadających im funkcji rekurencyjnych. Tak, wiem, że powyższa implementacja jest nieefektywna, ale jak sobie z tym poradzić, nie rezygnując z rekurencji, to już osobny temat. Warto przy tym zauważyć, 
+Prawda, że to bardzo proste? Rekurencyjne definicje funkcji idealnie nadają się do tworzenia na ich podstawie kodu odpowiadających im funkcji rekurencyjnych. Tak, wiem, że powyższa implementacja jest nieefektywna, ale jak sobie z tym poradzić, nie rezygnując z rekurencji, to już osobny temat. 
 
 #### Jak działa rekurencja?
 

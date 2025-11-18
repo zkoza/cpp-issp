@@ -1,4 +1,5 @@
 
+#include <cassert>
 #include <iostream>
 struct Node
 {
@@ -19,15 +20,23 @@ Node* insert(Node*& root, int n)
     {
         auto tmp = insert(root->left, n);
         if (tmp == root->left)
+        {
+            assert(root->left->parent == nullptr);
             root->left->parent = root;
-        return root->left;
+        }
+        assert(tmp->key == n);
+        return tmp;
     }
     else
     {
         auto tmp = insert(root->right, n);
         if (tmp == root->right)
+        {
+            assert(root->right->parent == nullptr);
             root->right->parent = root;
-        return root->right;
+        }
+        assert(tmp->key == n);
+        return tmp;
     }
 }
 
@@ -115,6 +124,8 @@ int main()
     insert(node, 7);
     insert(node, 13);
     insert(node, 1);
+    insert(node, 0);
+
 
     verify(node, true);
     print_in_order(node);

@@ -39,6 +39,17 @@
 - MPI
 - AVX
 
+### Biblioteka *Ranges*
+
+- [Wprowadzenie](./03-ranges-intro.md)
+- [Algorytmy ograniczone (Constrained algorithms)](./03-constrained-algorithms.md)
+- [Zakresy (*ranges*) i ich widoki (*ranges::views*)](./03-widoki.md)
+- [Generatory](./03-generatory.md)
+- [Wartownicy (Sentinels)](./03-sentinels.md)
+- [Projekcje (Projections)](./03-projekcje.md)
+- [Podsumowanie](./03-podsumowanie.md)
+- [Test wiadomości](./03-test-wiadomosci.md)
+
 ### Dynamiczne struktury danych
 
 - [Co to są dynamiczne struktury danych?](./z01-co-to-sa-dynamiczne-struktury-danych.md)

@@ -36,7 +36,7 @@ Nieco na marginesie: składnia inicjalizatora, z nazwami pól struktury po kropk
 
 Do rozwiązania pozostaje ostatni problem. Wiemy, że funkcja ma się nazywać `insert`, łatwo domyślamy się, że powinna w swoich argumentach otrzymywać `root` oraz `n`, ale w jaki sposób? Aby odpowiedzieć na to pytanie, wystarczy zastanowić się, czy funkcja potrzebuje dostępu do oryginału danego argumentu, czy też wystarczy jej kopia.     
 
-Następnie musimy zmienić wartość `root`  ("przestawić wskaźnik") tak, by ten wskaźnik wskazywał nowy element, czyli to samo, na co wskazuje `tmp` . Graficznie chodzi o coś takiego:
+Następnie musimy zmienić wartość `root`  ("przestawić wskaźnik") tak, by ten wskaźnik wskazywał nowy element, czyli to samo, na co na początku wskazuje `tmp` . Graficznie chodzi o coś takiego:
 
 ![](./img/z01/lista-step2.png)
 
@@ -252,7 +252,7 @@ void zero(Element* root)
 }
 ```
 
-Warto zwrócić uwagę na to, że ponieważ struktura listy nie ulega zmianie, `root` przekazywane jest przez wartość. Skoro jednak ta funkcja ma modyfikować pola `value`, to `root` nie może być wskaźnikiem na `const Element`.
+Warto zwrócić uwagę na to, że ponieważ struktura listy nie ulega zmianie, `root` przekazywane jest przez wartość. Skoro jednak ta funkcja ma modyfikować pola `value`, to `root` nie może być wskaźnikiem na `const Element`; powinna być wskaźnikiem na `Element`. 
 
 ### Testowanie
 

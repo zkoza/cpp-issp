@@ -18,7 +18,7 @@ Dwa z trzech wskaźników zawartych w każdym węźle BST, `left` i `right`, poz
 
 <img src="./img/z01/Binary_search_tree.png" style="zoom:50%;" />
 
-W każdym drzewie binarnym jeden węzeł jest wyróżniony: nie ma on rodzica. Nazywamy go korzeniem drzewa. Odpowiadającej mu składowej `parent` przypisujemy w C++ wartość `nullptr`. 
+W każdym drzewie binarnym jeden węzeł jest wyróżniony: nie ma on rodzica. Nazywamy go korzeniem drzewa. Odpowiadającej mu składowej `parent` przypisujemy w C++ wartość `nullptr`. Składowa `parent` każdego innego węzła drzewa ma wartość różną od `nullptr`. Jeżeli węzeł drzewa binarnego posiada "lewego" potomka, to jego adres ma zapisany w składowej `left`. W przeciwnym wypadku składowa ta ma wartość `nullptr`. Podobnie ze składową `right` dowolnego węzła: albo przechowujemy w niej "prawego" potomka tego węzła, o ile on istnieje, albo wartość `nullptr`.  
 
 Większość funkcji związanych z drzewami BST najwygodniej pisze się za pomocą rekurencji. Tak może wyglądać napisana w ten sposób funkcja `insert`:
 
@@ -35,18 +35,20 @@ Node* insert(Node*& root, int n)
         auto tmp = insert(root->left, n);
         if (tmp == root->left)
             root->left->parent = root;
-        return root->left;
+        return tmp;
     }
     auto tmp = insert(root->right, n);
     if (tmp == root->right)
         root->right->parent = root;
-    return root->right;    
+    return tmp;    
 }
 ```
 
-Funkcja ta zwraca wskaźnik do nowo wstawionego węzła, co często okazuje się bardzo użyteczną informacją. Implementacja składa się z trzech oddzielnych części. 
+Funkcja ta zwraca wskaźnik do nowo wstawionego węzła, co często okazuje się bardzo użyteczną informacją. Co więcej, w razie potrzeby modyfikuje ona wskaźnik `root`, czyli rodzica listy, dzięki czemu mamy pewność, że po wstawieniu nowego węzła lista nie "ucieka", `root` zawsze pokazuje jej korzeń. 
 
-- Pierwsza instrukcja `if` obsługuje przypadek wstawiania nowego węzła do pustego drzewa. 
+Implementacja składa się z trzech oddzielnych części. Aby ją zrozumieć, należy pamiętać o tym, że `insert` nie modyfikuje struktury drzewa w inny sposób niż poprzez dostawianie nowych elementów. Dlatego jeżeli np. po lewej stronie jakiegoś węzła pojawi się potomek, to on tam już pozostanie na zawsze (aż do likwidacji całej listy). 
+
+- Pierwsza instrukcja `if` obsługuje przypadek wstawiania nowego węzła do pustego drzewa. Proszę zwrócić uwagę na to, że zgodnie z oczekiwaniem, jest to jedyna instrukcja, która modyfikuje argument `root`. 
 - Drugi `if` w gałęzi `true` obsługuje sytuację, gdy nowy klucz ma wartość mniejszą od klucza znajdującego się w aktualnym korzeniu (pod)drzewa. Warto bowiem zauważyć, że każde poddrzewo drzewa BST też jest drzewem BST, dlatego argumentem funkcji `insert` może być wskaźnik na dowolny węzeł tego drzewa, nie tylko ten na jego "prawdziwy" korzeń. Funkcja ta umieszcza klucz we właściwym miejscu rekurencyjnie. Dodatkowo, w instrukcji `if`, prawidłowo aktualizuje ona wartość składowej `parent`  nowego węzła. 
 - Gałąź `else` drugiej instrukcji `if` obsługuje przypadek, w którym wstawiany klucz jest większy lub równy kluczowi w bieżącym korzeniu poddrzewa. Implementacja jest lustrzanym odbiciem poprzedniego przypadku.   
 
@@ -85,7 +87,7 @@ void verify(const Node* root, bool root_node)
         throw std::logic_error("Invalid BST tree structure (left key comparison)");
     if (root->right != nullptr && root->right->key < root->key)
         throw std::logic_error("Invalid BST tree structure (right key comparison)");
-
+    
     verify(root->left, false);
     verify(root->right, false);
 }
@@ -218,6 +220,4 @@ Jak widać, są one bardzo podobne do siebie, różnią się tylko chwilą, w kt
    }
    ```
 9. Zaimplementuj funkcję `insert`, dodającą do drzewa BST węzeł o danej wartości `n`.
-9. Zaimplementuj funkcję `remove`, usuwającą z drzewa BST węzeł wskazywany przez wskaźnik (to zadanie może być nieco żmudne, bo trzeba osobno rozpatrzyć kilka wariantów).        
-
- 
+9. Zaimplementuj funkcję `remove`, usuwającą z drzewa BST węzeł wskazywany przez wskaźnik (to zadanie może być nieco żmudne, bo trzeba osobno rozpatrzyć kilka wariantów).
