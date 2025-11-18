@@ -1,16 +1,16 @@
-### Widoki (*ranges::views*)
+### Zakresy (*ranges*) i ich widoki (*ranges::views*)
 
-#### Zakresy i widoki
+#### Zakresy
 
-Przedstawione w poprzednim rozdziale algorytmy ograniczone (*constrained algorithms*) stanowią  ważny krok w rozwoju projektu biblioteki standardowej C++, jednak dla zwykłego użytkownika przełomem nie są. Gdyby ograniczyć się tylko do nich, to można by pisać nieco bardziej zwięzły i łatwiejszy w diagnostyce kod, jednak trudno uznać to za przełom. Sytuację zmieniają kolejne elementy biblioteki *ranges*, w tym widoki.
+Przedstawione w poprzednim rozdziale algorytmy ograniczone (*constrained algorithms*) stanowią  ważny krok w rozwoju projektu biblioteki standardowej C++, jednak dla zwykłego użytkownika przełomem nie są. Gdyby ograniczyć się tylko do nich, to można by pisać nieco bardziej zwięzły i łatwiejszy w diagnostyce kod, jednak trudno uznać to za przełom. Sytuację zmieniają kolejne elementy biblioteki *ranges*, w tym zakresy i widoki zakresów.
 
-Idea widoku jest banalnie prosta. Zastanówmy się nad instrukcją z poprzedniego rozdziału:
+Idea zakresów i widoków jest banalnie prosta. Zastanówmy się nad instrukcją z poprzedniego rozdziału:
 
 ```c++ 
 std::ranges::sort(v);
 ```
 
-Wiemy, że punktem wyjścia dla biblioteki *ranges* jest sytuacja, w której w powyższym wyrażeniu `v` jest kontenerem, czyli strukturą danych, na której zdefiniowano `begin(v)` i `end(v)` jako iteratory do pierwszego elementu kontenera i do miejsca "tuż za" ostatnim elementem `v`, odpowiednio. No dobrze, ale czy musimy ograniczać się do kontenerów? Jaka jest najbardziej ogólna cecha obiektu `v`, która umożliwia wykonanie powyższej instrukcji. Są nią dwa związane z nim "obiekty", umownie nazwane `begin` i `end`, definiujące początek i koniec zakresu danych. Te dane nie muszą należeć do kontenera - na przykład mogą być generowane z jakiegoś wzoru. Bez trudu można przecież napisać klasę dla obiektu `v` tak, by np. pętla 
+Wiemy, że punktem wyjścia dla biblioteki *ranges* jest sytuacja, w której w powyższym wyrażeniu `v` jest kontenerem, czyli strukturą danych, dla której zdefiniowano `begin(v)` i `end(v)` jako iteratory do pierwszego elementu kontenera i do miejsca "tuż za" ostatnim elementem `v`, odpowiednio. No dobrze, ale czy musimy ograniczać się do kontenerów? Jaka jest najbardziej ogólna cecha obiektu `v`, która umożliwia wykonanie powyższej instrukcji? Są nią dwa związane z nim "obiekty", umownie nazwane `begin` i `end`, definiujące początek i koniec zakresu danych. Te dane nie muszą należeć do kontenera - na przykład mogą być generowane z jakiegoś wzoru. Bez trudu można przecież napisać klasę dla obiektu `v` tak, by np. pętla 
 
 ```c++
 for (auto n: v) { rób coś }
@@ -25,9 +25,11 @@ Ostatecznie dochodzimy do wniosku, że **zakres** zdefiniowany jest przez parę 
 - poprawne są wyrażenia `++it`, `*it` i `it == se`
 - wyrażenie `it == se` zwraca `true` wtedy i tylko wtedy, gdy zakres pomiędzy iteratorem `it` i wartownikiem `se` jest pusty. 
 
-Oczywistymi przykładami zakresów są kontenery biblioteki STL. Biblioteka *ranges* rozszerza jednak zbiór standardowych zakresów o widoki (*views*), będące "lekkimi" opakowaniami dla pary `{begin, end}`. Słowo "lekki" oznacza tu, że zajmują mało pamięci (nie przechowują danych, lecz jedynie stowarzyszony z nimi iterator i wartownika), a tworzenie, destrukcja, kopiowanie i modyfikacja widoków jest bardzo tania i niezależna od ilości i rodzaju danych objętych zakresem (w tym sensie są to właśnie "widoki" danych). Co więcej, ich modyfikacje zwykle mogą być wykonywane już podczas kompilacji - w takim przypadku ich użycie nie kosztuje nic.
+#### Widoki
 
-#### Przykładowy widok
+Oczywistymi przykładami zakresów są kontenery biblioteki STL. Biblioteka *ranges* rozszerza jednak zbiór standardowych zakresów o **widoki** (*views*), będące "lekkimi" opakowaniami dla pary `{begin, end}`. Słowo "lekki" oznacza tu, że zajmują mało pamięci (nie przechowują danych, lecz jedynie stowarzyszony z nimi iterator i wartownika), a tworzenie, destrukcja, kopiowanie i modyfikacja widoków jest bardzo tania i niezależna od ilości i rodzaju danych objętych zakresem (w tym sensie są to właśnie "widoki" danych). Co więcej, ich modyfikacje zwykle mogą być wykonywane już podczas kompilacji dzięki optymalizacjom w rodzaju funkcji `constexpr` - w takim przypadku ich użycie nie kosztuje nic.
+
+##### Przykładowy widok
 
 Oto prosty przykład użycia widoku zakresu (*range view*) :
 

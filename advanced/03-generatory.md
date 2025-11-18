@@ -89,7 +89,7 @@ for (auto n : iota(0, 10) | transform(fibo))
     std::print("{} ", n); // 1 1 2 3 5 8 13 21 34 55
 ```
 
-Warto w tym miejscu przypomnieć, że w powyższej definicji lambdy `prev` i `next` nie są jej argumentami, lecz składowymi, dlatego ich wartości są przechowywane między kolejnymi wywołaniami lambdy.   Deklarator `mutable` jest niezbędny do tego, by lambda mogła zmieniać wartości tych  składowych. Z kolei wykorzystany tu wzór rekurencyjny na n-tą liczbę Fibonacciego, $f_n = f_{n-1} + f_{n-2}$, nie zależy od $n$, dlatego argument lambdy nie ma nazwy (`(int)`) - nie jest ona do niczego potrzebna. Z tego powodu nie ma też znaczenia, czy użyjemy wyrażenia `iota(0, 10)` czy np. `iota(100, 110)`, czy nawet `iota(0) | transform(fibo) | take(10)`.
+Warto w tym miejscu przypomnieć, że w powyższej definicji lambdy `prev` i `next` nie są jej argumentami, lecz składowymi, dlatego ich wartości są przechowywane między kolejnymi wywołaniami lambdy.   Modyfikator `mutable` jest niezbędny do tego, by lambda mogła zmieniać wartości tych  składowych. Z kolei wykorzystany tu wzór rekurencyjny na n-tą liczbę Fibonacciego, $f_n = f_{n-1} + f_{n-2}$, nie zależy od $n$, dlatego argument lambdy nie ma nazwy (`(int)`) - nie jest ona do niczego potrzebna. Z tego powodu nie ma też znaczenia, czy użyjemy wyrażenia `iota(0, 10)` czy np. `iota(100, 110)`, czy nawet `iota(0) | transform(fibo) | take(10)`.
 
 ##### Generator liczb pierwszych
 
@@ -101,7 +101,7 @@ Generator liczb pierwszych można zbudować w następujący sposób:
 
 auto is_prime = [](int number) -> bool
 {
-  if (number <= 1) return false;      // 0 i 1 nie są pierwsze
+  if (number <= 1) return false;      // nie są pierwsze
   if (number <= 3) return true;       // 2 i 3 są liczbami pierwszymi
   if (number % 2 == 0) return false;   // wielokrotności 2 nie są pierwsze
   if (number % 3 == 0) return false;   // wielokrotności 3 nie są pierwsze
@@ -112,7 +112,7 @@ auto is_prime = [](int number) -> bool
     if (number % (factor - 1) == 0) return false;
     if (number % (factor + 1) == 0) return false;
   }
-  return true;  // nie znaleziono dzielnika - liczba 'number' jest pierwsza 
+  return true; // nie znaleziono dzielnika, więc liczba 'number' jest pierwsza 
 };
 
 int main()
@@ -122,12 +122,12 @@ int main()
                 std::views::take(20)
       )
   {
-    std::print ("{} ", n);
+    std::print("{} ", n);
   }
 }
 ```
 
-Program wyświetla ciąg 20 kolejnych liczb pierwszych od 2:
+Program wyświetla ciąg 20 kolejnych liczb pierwszych od 2 do 71:
 
 ```txt
 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71
