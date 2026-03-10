@@ -58,7 +58,7 @@ a także typy o ściśle określonej liczbie bitów (ich użycie wymaga włącze
 
 - `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`.
 
-Odwzorowanie reprezentacji liczbowej tych typów na liczby jest proste: używamy po prostu układu dwójkowego. Na przykład 8-bitowa liczba o reprezentacji bitowej  `11000011` odpowiada liczbie `1*(128) + 1*64 + 0*32 + 0*16 + 0*8 + 0*4 + 1*2 + 1*1`, czyli 195.
+Odwzorowanie reprezentacji liczbowej tych typów na liczby jest proste: używamy po prostu układu dwójkowego. Na przykład 8-bitowa liczba o reprezentacji bitowej  `11000011` odpowiada liczbie `1*128 + 1*64 + 0*32 + 0*16 + 0*8 + 0*4 + 1*2 + 1*1`, czyli 195.
 $$
 11000011_{unsigned} = 2^7 + 2^6 + 2^1 + 2^0 = 195.
 $$
@@ -78,7 +78,7 @@ Wewnętrzna reprezentacja liczb zmiennopozycyjnych (nazwa, powiedzmy, historyczn
 $$
 x = z \cdot m \cdot b^w, \quad b = 2
 $$
-Baza (*b*) nie jest nigdzie zapisywana. Znak (*z*) zapisany jest w najbardziej znaczącym bicie, któremu przypisujemy wartość `+1` lub `-1`: `+1` oznacza liczbę nieujemną, a `-1` - ujemną. Oznacza to, że w reprezentacji zmiennopozycyjnej liczba 0 (zero) może być reprezentowana jako liczba nieujemna lub ujemna (sic!) i nie ma to nic wspólnego z C++. Z kolei wykładnik i mantysę najłatwiej zrozumieć przez porównanie do zapisu liczb w reprezentacji inżynierskiej.  Na przykład liczbę `3,14` można zapisać jako `314E-2` lub $314 \cdot 10^{-2}$, gdzie za bazę przyjęliśmy liczbę 10 a nie 2. W tym przypadku znak $z = 1$ (bo liczba jest dodatnia), mantysa $m = 314$, a wykładnik $w = -2$ (i dodatkowo baza $b = 10$).
+Baza (*b*) nie jest nigdzie zapisywana: współczesne procesory projektowane są z założeniem, że *b* = 2. Znak (*z*) zapisany jest w najbardziej znaczącym bicie, któremu przypisujemy wartość `+1` lub `-1`: `+1` oznacza liczbę nieujemną, a `-1` - ujemną. Oznacza to, że w reprezentacji zmiennopozycyjnej liczba 0 (zero) może być reprezentowana jako liczba nieujemna lub ujemna (sic!) i nie ma to nic wspólnego z C++. Z kolei wykładnik i mantysę najłatwiej zrozumieć przez porównanie do zapisu liczb w reprezentacji inżynierskiej.  Na przykład liczbę `3,14` można zapisać jako `314E-2` lub $314 \cdot 10^{-2}$, gdzie za bazę przyjęliśmy liczbę 10 a nie 2. W tym przypadku znak $z = 1$ (bo liczba jest dodatnia), mantysa $m = 314$, a wykładnik $w = -2$ (i dodatkowo baza $b = 10$).
 
 Graficznie znak, wykładnik i mantysę dla liczb 64-bitowych (czyli double) można przedstawić następująco:
 
@@ -108,7 +108,7 @@ Liczby zmiennopozycyjne obejmują 3 specjalne kombinacje bitów, które nie odpo
 
 NAN to np. wartość zwracana przez `sqrt(-1.0)`. Wartością każdej operacji na NaN jest NaN.
 
-Właściwości zmiennych typu `long double` zależą od platformy sprzętowej i kompilatora. W komputerach z procesorami klasy x86 kompilator gcc używa tu reprezentacji 80-bitowej, ale samą liczbę przechowuje na 128 bitach, natomiast MSVC używa reprezentacji 64-bitowej.
+Właściwości zmiennych typu `long double` zależą od platformy sprzętowej i kompilatora. W komputerach z procesorami klasy x86 kompilator gcc używa tu reprezentacji 80-bitowej, ale samą liczbę przechowuje na 128 bitach (48 bity są więc nieużywane), natomiast MSVC, w chwili pisania tego tekstu, wykorzystuje reprezentację 64-bitową.
 
 Na koniec uwaga o tym, skąd nazwa "liczba zmiennopozycyjna". Na pewno każdy widział kalkulator dla księgowych, w którym wszystkie obliczenia zaokrąglane są do 2 miejsc po przecinku. Mamy więc wyświetlacz, powiedzmy, 10-cyfrowy, z czego 8 cyfr to część całkowita ("złotówki") i dwie to część dziesiętna ("grosze"). To jest reprezentacja stałoprzecinkowa. Z kolei reprezentacja zmiennopozycyjna to taka, w której pozycja przecinka dziesiętnego nie jest ustalona (jest "zmienna"). Kalkulator z dwiema cyframi po przecinku wykorzystuje ten sam wzór, co kalkulator z reprezentacją zmiennopozycyjną
 
@@ -124,7 +124,7 @@ Istnieje tylko jeden typ logiczny: `bool` o wartości `true` lub `false`. Standa
 
 ### Typ void
 
-Słowo kluczowe `void` definiuje  bardzo specyficzny typem będący tzw.  typem niepełnym. Nie wolno tworzyć zmiennych tego typu, nie istnieją też referencje do typu `void`.  Mogą istnieć funkcje zwracające `void`, co oznacza, że nie zwracają one żadnej wartości. Mogą istnieć wskaźniki do typu `void`; używa się ich do ominięcia systemu kontroli typów języka C++. 
+Słowo kluczowe `void` (ang. *pusty*) definiuje  bardzo specyficzny typ będący tzw.  typem niepełnym. Nie wolno tworzyć zmiennych tego typu, nie istnieją też referencje do typu `void`.  Mogą istnieć funkcje zwracające `void`, co oznacza, że nie zwracają one żadnej wartości. Mogą istnieć wskaźniki do typu `void`; używa się ich do ominięcia systemu kontroli typów języka C++. 
 
 ### Wskaźniki
 
@@ -138,10 +138,10 @@ Literały to wyrażenia, których wartości są znane wprost z tekstu programu i
 auto i = 1;     // i jest typu int
 auto j = 5'000'000'000; // j jest typu int64_t, bo 5 miliardów nie mieści się na 32 bitach 
 auto u = 1u;            // u jest typu unsigned int
-auto v = 5'000'000'000; // v jest typu uint64_t, bo 5 miliardów nie mieści się na 32 bitowej zmiennej typu unsigned int
+auto v = 5'000'000'000u; // v jest typu uint64_t, bo 5 miliardów nie mieści się na 32 bitowej zmiennej typu unsigned int
 auto c = 'c';   // c jest typu char
 auto m = 1L;    // m jest typu long int
-auto n = 1ULL;  // n jest typu unsigned long long
+auto n = 1ULL;  // n jest typu unsigned long long int
 auto d = 1.0;   // d jest typu double
 auto f = 1.0f;  // f jest typu float
 auto x = 1.0L;  // x jest typu long double
@@ -153,7 +153,7 @@ Dodatkowo liczby całkowite można zapisywać w systemie dziesiętnym, dwójkowy
 ```c++
 int i = 10; // liczba w zapisie dziesiętnym
 int j = 012; // liczba 10 zapisana w systemie ósemkowym - zapis zaczyna się o 0, po którym następuje cyfra ósemkowa (0,1,...,7)
-int k = 0xa; // liczba 10 zapisana w systemie szesnastkowym - zapis zaczyna się od 0x, cyfry 0..9,a,..e
+int k = 0xa; // liczba 10 zapisana w systemie szesnastkowym - zapis zaczyna się od 0x, a cyfry to 0..9,a,..e
 int m = 0b1010; // liczba 10 zapisana w systemie dwójkowym - zapis zaczyna się od 0b, cyfry 0, 1
 ```
 

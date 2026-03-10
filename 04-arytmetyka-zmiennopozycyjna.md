@@ -58,7 +58,7 @@ Spróbujmy wyznaczyć wartość ilorazu po prawej stronie tej zależności dla j
 
 - wartość 0.39 zostanie zaokrąglona do `0.38999998569488525390625` ,
 - wartość 0.000002 będzie zaokrąglona do `0.000001999999994950485415756702423095703125`,
-- ich suma (czyli $f(x + h)$) zostanie zaokrąglona do `0.3900019824504852294921875`, 
+- ich suma (czyli $f(x + h)= x + h$) zostanie zaokrąglona do `0.3900019824504852294921875`, 
 - różnica $f(x + h) - f(x)$ zostanie zaokrąglona do `0.0000019967555999755859`,
 - Iloraz $(f(x + h) - f(x))/h$ zostanie zaokrąglony do `0.99837791919708251953125`.
 
@@ -154,7 +154,7 @@ Dlatego unikamy pisania funkcji z efektami ubocznymi. W powyższym przykładzie 
 
 #### (Nie-)łączność dodawania
 
-Dodawanie liczb zmiennopozycyjnych nie jest łączne: wartość sumy więcej niż 2 składników zależy od kolejności, w jakiej wykonujemy tę operację. Prosty przykład: wartość sumy 1.0 + (-1.0) + 1.0e-20 zależy od tego, czy dodawanie wykonujemy w kolejności od lewej do prawej, czy od prawej do lewej.
+Dodawanie liczb zmiennopozycyjnych nie jest łączne: wartość sumy więcej niż 2 składników zależy od kolejności, w jakiej wykonujemy tę operację. Prosty przykład: wartość sumy `1.0 + (-1.0) + 1.0e-20` zależy od tego, czy dodawanie wykonujemy w kolejności od lewej do prawej, czy od prawej do lewej.
 
 - od lewej do prawej: `(1.0 + (-1.0)) + 1.0e-20   ==   0 + 1e-20     ==   1e-20`
 - od lewej do prawej:   `1.0 + ((-1.0) + 1.0e-20)  ==   1.0 + (-1.0)  ==   0.0` 
